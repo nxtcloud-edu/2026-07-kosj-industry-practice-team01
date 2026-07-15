@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>초기 아이디어 노트 — AI 기반 시민 민원 통합 응대 플랫폼 (1팀)</title>
+<style>
+  :root{
+    --accent:#1f6f8b;      /* 신뢰형 청록 */
+    --accent-2:#12495c;
+    --accent-soft:#e8f2f5;
+    --ink:#1a2330;
+    --muted:#5b6773;
+    --line:#e2e7ec;
+    --bg:#f5f7f9;
+    --card:#ffffff;
+    --ok:#1f8b5f;
+    --warn:#b5761f;
+    --chip:#eef2f6;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.65;
+    font-size:16px;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:28px 22px 80px}
+
+  /* Header */
+  .doc-head{
+    background:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 100%);
+    color:#fff;border-radius:16px;padding:30px 30px 26px;margin-bottom:22px;
+    box-shadow:0 6px 22px rgba(18,73,92,.18);
+  }
+  .doc-head .kicker{font-size:13px;letter-spacing:.06em;opacity:.85;text-transform:uppercase;margin:0 0 8px}
+  .doc-head h1{margin:0 0 14px;font-size:26px;line-height:1.3;font-weight:800}
+  .meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 26px;font-size:14px}
+  .meta div{display:flex;gap:8px;border-top:1px solid rgba(255,255,255,.18);padding-top:8px}
+  .meta b{font-weight:700;opacity:.8;min-width:66px}
+
+  /* TOC */
+  nav.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:26px}
+  nav.toc p{margin:0 0 10px;font-weight:700;font-size:14px;color:var(--muted)}
+  nav.toc ol{margin:0;padding-left:0;list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:6px 20px}
+  nav.toc a{color:var(--accent-2);text-decoration:none;font-size:14.5px}
+  nav.toc a:hover{text-decoration:underline}
+
+  /* Sections */
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 28px;margin-bottom:20px}
+  h2{display:flex;align-items:center;gap:12px;margin:0 0 16px;font-size:20px;font-weight:800;color:var(--accent-2)}
+  h2 .num{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;
+    display:grid;place-items:center;font-size:15px;font-weight:700}
+  h3{margin:22px 0 10px;font-size:15.5px;font-weight:700;color:var(--ink)}
+  h3:first-of-type{margin-top:4px}
+  p{margin:0 0 12px}
+  ul{margin:0 0 12px;padding-left:20px}
+  li{margin:4px 0}
+  .lead{color:var(--muted);font-size:15px}
+
+  /* Tables */
+  .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:10px 0 6px;border:1px solid var(--line);border-radius:10px}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--accent-soft);color:var(--accent-2);font-weight:700;white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  td.c,th.c{text-align:center;white-space:nowrap}
+
+  /* Badges / chips */
+  .id{display:inline-block;font-size:12px;font-weight:700;background:var(--accent-soft);color:var(--accent-2);
+    border:1px solid #cfe2e8;border-radius:6px;padding:1px 7px;margin:1px 2px 1px 0;white-space:nowrap}
+  .yes{color:var(--ok);font-weight:700}
+  .no{color:var(--muted);font-weight:700}
+  .tag{display:inline-block;font-size:11.5px;font-weight:700;border-radius:20px;padding:2px 10px}
+  .tag.mvp{background:#e6f4ee;color:var(--ok);border:1px solid #bfe3d1}
+  .tag.road{background:#f4ede1;color:var(--warn);border:1px solid #e6d3b3}
+
+  /* Callouts */
+  .callout{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;
+    padding:14px 16px;margin:14px 0;font-size:14.5px}
+  .callout.hyp{border-color:#7a5cc2;background:#f1ecfa}
+  .callout b{color:var(--accent-2)}
+  .callout.hyp b{color:#5a3ea8}
+
+  /* Cards grid */
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:12px 0}
+  .card{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfd}
+  .card h4{margin:0 0 6px;font-size:14.5px;color:var(--accent-2)}
+  .card p{margin:0;font-size:13.5px;color:var(--muted)}
+
+  /* Flow diagram */
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0;font-size:13.5px}
+  .flow .step{background:var(--accent-soft);border:1px solid #cfe2e8;color:var(--accent-2);border-radius:8px;padding:8px 12px;font-weight:600}
+  .flow .arrow{color:var(--accent);font-weight:700}
+  .flow .fallback{background:#fdeede;border-color:#e6d3b3;color:var(--warn)}
+
+  /* Roadmap */
+  .roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+  .phase{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .phase header{padding:9px 12px;font-weight:700;font-size:13.5px;color:#fff}
+  .phase.p1 header{background:var(--accent)}
+  .phase.p2 header{background:#4b7f93}
+  .phase.p3 header{background:#7f9aa6}
+  .phase ul{padding:12px 12px 12px 26px;margin:0;font-size:13px}
+  .phase li{margin:5px 0}
+
+  footer.note{color:var(--muted);font-size:12.5px;text-align:center;margin-top:26px;line-height:1.6}
+
+  .toolbar{display:flex;justify-content:flex-end;margin-bottom:10px}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13.5px;
+    font-weight:600;cursor:pointer;font-family:inherit}
+  .btn:hover{background:var(--accent-2)}
+
+  @media (max-width:640px){
+    .meta,nav.toc ol,.cards,.roadmap{grid-template-columns:1fr}
+    .doc-head{padding:24px 20px}
+    .doc-head h1{font-size:22px}
+    section{padding:20px 18px}
+  }
+  @page{margin:10mm}
+  @media print{
+    body{background:#fff;font-size:10.5px;line-height:1.4}
+    .wrap{max-width:none;padding:0}
+    .no-print{display:none!important}
+    /* 헤더 압축 */
+    .doc-head{box-shadow:none;padding:14px 16px;border-radius:10px;margin-bottom:10px}
+    .doc-head .kicker{margin-bottom:4px}
+    .doc-head h1{font-size:18px;margin-bottom:8px}
+    .meta{gap:3px 18px;font-size:10.5px}
+    .meta div{padding-top:4px}
+    nav.toc{padding:10px 14px;margin-bottom:10px;break-inside:avoid}
+    nav.toc p{margin-bottom:6px}
+    /* 섹션: 통째 넘기지 않고 이어지게 + 여백 축소 */
+    section{box-shadow:none;border:1px solid #d5dbe0;border-radius:10px;padding:10px 14px;margin-bottom:9px;break-inside:auto}
+    h2{font-size:15px;margin-bottom:9px}
+    h2 .num{width:24px;height:24px;font-size:13px}
+    h3{margin:11px 0 6px;font-size:13px}
+    h2,h3{break-after:avoid;page-break-after:avoid}
+    p{margin-bottom:6px}
+    ul{margin-bottom:6px}
+    li{margin:2px 0}
+    /* 표 압축 */
+    .tw{overflow:visible;margin:6px 0 4px}
+    table{break-inside:auto;font-size:10.5px}
+    th,td{padding:5px 8px}
+    thead{display:table-header-group}
+    /* 작은 단위만 쪼개짐 방지 */
+    tr,.card,.callout,.phase,.flow{break-inside:avoid;page-break-inside:avoid}
+    .cards{gap:8px;margin:8px 0}.card{padding:9px 12px}
+    .roadmap{gap:8px;margin:8px 0}
+    .callout{margin:8px 0;padding:10px 12px}
+    .flow{gap:6px;margin:8px 0}
+    .doc-head,thead th,.tag,.id,.callout,.phase header,.flow .step,.roadmap header{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="toolbar no-print">
+    <button class="btn" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+  </div>
+
+  <header class="doc-head">
+    <p class="kicker">초기 아이디어 노트 · 제출물 1</p>
+    <h1>AI 기반 시민 민원 통합 응대 플랫폼 구축</h1>
+    <div class="meta">
+      <div><b>공고번호</b><span>2026-세종-0001</span></div>
+      <div><b>발주기관</b><span>세종특별자치시 디지털행정혁신단 <em>(가상)</em></span></div>
+      <div><b>제안팀</b><span>2026 고대세종 기업인턴십 1팀</span></div>
+      <div><b>팀원</b><span>손한주 · 박재현 · 최윤수 · 김현수</span></div>
+      <div><b>작성일</b><span>2026-07-10</span></div>
+      <div><b>사업기간</b><span>2026-07-06 ~ 2026-07-31</span></div>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <p>목차 (공고문 6. 제안서 작성요령 권장 목차 준수)</p>
+    <ol>
+      <li><a href="#s1">① 사업 이해</a></li>
+      <li><a href="#s2">② 문제 정의</a></li>
+      <li><a href="#s3">③ 해결 방안 (주요 기능)</a></li>
+      <li><a href="#s4">④ 데이터·기술 구성</a></li>
+      <li><a href="#s5">⑤ 추진 계획·일정</a></li>
+      <li><a href="#s6">⑥ 기대 효과·확장 로드맵</a></li>
+    </ol>
+  </nav>
+
+  <!-- ① 사업 이해 -->
+  <section id="s1">
+    <h2><span class="num">1</span> 사업 이해</h2>
+    <p class="lead">시민이 일상 언어로 민원을 질문하면 AI가 <b>24시간</b> 행정 정보에 <b>근거</b>하여 정확히 안내하고,
+      필요한 <b>서류·절차·담당 부서</b>까지 연결하여 <b>행정 효율</b>과 <b>시민 접근성</b>을 높이는 통합 응대 플랫폼을 구축한다.</p>
+
+    <h3>사업 범위</h3>
+    <ul>
+      <li>자연어 민원 질의응답 및 절차·서류 안내</li>
+      <li>위치 기반 담당 기관·부서 연결</li>
+      <li>행정 지식베이스 구축 및 답변 근거(출처) 관리 — 자동 응대가 어려운 민원은 담당 부서로 안전 연결(폴백)</li>
+      <li>(선택) 신청 상태 조회, 다국어·음성 지원</li>
+    </ul>
+
+    <h3>요구사항 체계 이해 (과업 내용 3장)</h3>
+    <p class="lead">본 노트는 공고문 요구사항을 <b>ID와 연결</b>하여 기술한다. 전체 요구사항 22건의 분류는 아래와 같다.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>분류</th><th class="c">건수</th><th>주요 내용</th></tr></thead>
+        <tbody>
+          <tr><td><b>SFR</b> 기능</td><td class="c">8</td><td>자연어 질의응답, 의도 분류, 절차·서류 안내, 기관 연결, 후속질문, 폴백, 상태조회·다국어(선택)</td></tr>
+          <tr><td><b>DAR</b> 데이터</td><td class="c">3</td><td>행정 지식베이스, 기관 정보, 대화 로그(비식별)</td></tr>
+          <tr><td><b>SIR</b> 연계</td><td class="c">2</td><td>공공데이터 API, 지도·위치 API</td></tr>
+          <tr><td><b>PER</b> 성능</td><td class="c">2</td><td>응답 3초 이내, 동시 100명</td></tr>
+          <tr><td><b>SER</b> 보안</td><td class="c">3</td><td>개인정보 최소수집, 비식별화, 환각 방지·출처 표기</td></tr>
+          <tr><td><b>QUR</b> 품질</td><td class="c">2</td><td>접근성, 정확성 점검</td></tr>
+          <tr><td><b>COR</b> 제약</td><td class="c">2</td><td>근거 기반, 모바일 우선</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ② 문제 정의 -->
+  <section id="s2">
+    <h2><span class="num">2</span> 문제 정의</h2>
+
+    <h3>현황 분석</h3>
+    <ul>
+      <li><b>민원 집중</b> — 전화(콜센터)·주민센터 방문에 민원이 집중</li>
+      <li><b>단순·반복 문의 다수</b> — 전입신고 절차, 필요 서류, 처리 기간, 담당 부서 등</li>
+      <li><b>응대 시간 제한</b> — 평일 근무시간에 한정 → 야간·주말 응대 공백</li>
+      <li><b>안내 기준 불일치</b> — 부서·창구마다 기준이 달라 시민이 다른 답을 들음</li>
+    </ul>
+
+    <h3>문제점 도출</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>구분</th><th>문제점</th><th>영향</th></tr></thead>
+        <tbody>
+          <tr><td>행정 효율</td><td>단순·반복 문의에 인력 소모</td><td>고난도 민원 대응 여력 감소</td></tr>
+          <tr><td>시민 접근성</td><td>야간·주말·휴일 응대 불가</td><td>즉시 안내 불가, 시민 불편</td></tr>
+          <tr><td>정보 정확성</td><td>안내 기준 산재</td><td>부정확·불일치 안내 발생</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>시장 분석 — 기존 서비스의 한계 (차별화 근거)</h3>
+    <p class="lead">유사 서비스가 이미 존재하므로, 우리는 "기능 신설"이 아니라 <b>기존 서비스가 실패한 지점</b>을 공략한다.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>서비스</th><th>특징</th><th>한계 / 시사점</th></tr></thead>
+        <tbody>
+          <tr><td>서울톡(서울시)</td><td>카톡 기반 24시간, 현장민원 접수, 생성형 AI 도입</td><td>규모·연동은 강함 → 우리는 규모로 경쟁하지 않음</td></tr>
+          <tr><td>국민비서 구삐</td><td>맞춤 알림, 24시간 채팅, 음성 안내</td><td>일반인 대상 → 취약계층 특화 여지</td></tr>
+          <tr><td>챗경북(경북)</td><td>지자체 최초 LLM 챗봇(2023)</td><td><b>데이터 부실 → 이용률 붕괴</b>(첫달 대비 3%대)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:10px">공개 연구에서도 RAG 적용 AI가 <b>17~34% 오답</b>을 내며, 고령층은 기존 음성비서의 방언·긴 문장 이해 실패로 디지털 격차를 겪는 것으로 확인된다. 즉 공공 민원 봇의 성패는 <b>기능 수가 아니라 정확도·신뢰·접근성</b>이 좌우한다.</p>
+
+    <div class="callout hyp">
+      <b>핵심 가설</b>
+      <ul style="margin:8px 0 0">
+        <li><b>H1.</b> 세종시 단순·반복 민원(전입 등)의 상당 부분은 <b>근거 기반 자동응대</b>로 대체 가능하다.</li>
+        <li><b>H2.</b> 이용률의 관건은 기능 수가 아니라 <b>정확도·출처 신뢰·폴백</b>이다. (챗경북 붕괴·RAG 환각 근거)</li>
+        <li><b>H3.</b> <b>취약계층(고령층) 접근성</b>을 확보해야 실제 이용으로 이어진다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ③ 해결 방안 -->
+  <section id="s3">
+    <h2><span class="num">3</span> 해결 방안 (주요 기능)</h2>
+
+    <h3>핵심 처리 흐름</h3>
+    <div class="flow">
+      <span class="step">자연어 질문</span><span class="arrow">→</span>
+      <span class="step">의도 분류</span><span class="arrow">→</span>
+      <span class="step">지식베이스 검색(RAG)</span><span class="arrow">→</span>
+      <span class="step">근거 기반 답변 + 출처</span>
+    </div>
+    <div class="flow">
+      <span class="arrow" style="margin-left:2px">↳ 신뢰도 낮음</span><span class="arrow">→</span>
+      <span class="step fallback">폴백 — 담당 부서 안전 연결</span>
+    </div>
+
+    <h3>기능별 대응 방안 <span style="font-weight:400;color:var(--muted);font-size:13px">(요구사항 ID 연결)</span></h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>요구사항</th><th>제안 방안</th><th class="c">MVP</th></tr></thead>
+        <tbody>
+          <tr><td><span class="id" title="자연어 질의응답 — 시민의 자연어 질문을 이해하고 FAQ·조례·고시 등 행정 정보에 근거하여 답변을 생성하며, 근거 출처를 함께 표기한다.">SFR-001</span> 자연어 질의응답</td><td>RAG 기반 LLM으로 FAQ·조례에서 근거 검색 후 답변 생성, <b>답변에 출처·원문 스니펫 표기</b></td><td class="c"><span class="tag mvp">포함</span></td></tr>
+          <tr><td><span class="id" title="민원 의도 분류 — 질의를 민원 유형(전입·세금·복지·인허가 등)으로 자동 분류하여 적합한 답변 흐름으로 연결한다.">SFR-002</span> 민원 의도 분류</td><td>LLM 프롬프트 내 라우팅으로 전입·세금·복지 등 유형 분류(별도 모델 불요)</td><td class="c"><span class="tag mvp">포함</span></td></tr>
+          <tr><td><span class="id" title="절차·서류 안내 — 민원별 필요 서류, 신청 방법(방문·온라인), 처리 기간, 수수료를 단계별로 안내한다.">SFR-003</span> 절차·서류 안내</td><td>필요 서류·신청 방법·처리 기간·수수료를 <b>단계별 카드 UI</b>로 시각화</td><td class="c"><span class="tag mvp">포함</span></td></tr>
+          <tr><td><span class="id" title="기관·담당 연결 — 사용자 위치를 기반으로 가까운 주민센터·담당 부서·연락처를 안내한다.">SFR-004</span> 기관·담당 연결</td><td>담당 부서·연락처 안내(지도 연동은 로드맵)</td><td class="c"><span class="tag road">로드맵</span></td></tr>
+          <tr><td><span class="id" title="대화형 후속질문 — 정보가 부족하면 후속 질문으로 조건을 좁혀 정확한 답을 제공한다.">SFR-005</span> 대화형 후속질문</td><td>정보 부족 시 조건을 좁히는 후속 질문</td><td class="c"><span class="tag road">로드맵</span></td></tr>
+          <tr><td><span class="id" title="폴백 처리 — 신뢰도가 낮거나 답변이 어려우면 담당 부서 안내로 연결한다.">SFR-006</span> 폴백 처리</td><td>신뢰도 임계값 미만 시 담당 부서 연결 + <b>대화 맥락 요약 전달</b></td><td class="c"><span class="tag mvp">포함</span></td></tr>
+          <tr><td><span class="id" title="신청 상태 조회(선택) — 접수번호로 처리 진행 상태를 조회한다.">SFR-007</span> 신청 상태 조회 <em>(선택)</em></td><td>접수번호 기반 진행 상태 조회</td><td class="c"><span class="tag road">로드맵</span></td></tr>
+          <tr><td><span class="id" title="다국어·음성(선택) — 외국인·고령자를 위한 다국어 및 음성 입출력을 지원한다.">SFR-008</span> 다국어·음성 <em>(선택)</em></td><td>다국어 번역 / STT·TTS 음성 입출력</td><td class="c"><span class="tag road">로드맵</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>차별화 포인트 — 시장 빈틈 공략 4選</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>① 근거·출처 신뢰 UX <span class="id" title="자연어 질의응답 — 시민의 자연어 질문을 이해하고 FAQ·조례·고시 등 행정 정보에 근거하여 답변을 생성하며, 근거 출처를 함께 표기한다.">SFR-001</span><span class="id" title="환각 방지 — 근거 없는 답변(환각)을 금지하고 출처를 항상 표기한다.">SER-003</span><span class="id" title="근거 기반 — 모든 답변은 행정 정보에 근거하며, 불확실 시 폴백한다.">COR-001</span></h4>
+        <p>답변 문장별 근거 하이라이트, <b>원문 스니펫 펼쳐보기</b>, "○○조례 3조 근거" 시각화, 신뢰도 배지 → 시민이 신뢰할 수 있는 답변 경험.</p>
+      </div>
+      <div class="card">
+        <h4>② 정확도 검증 체계 <span class="id" title="정확성 점검 — 표본 질의에 대한 답변 정확도를 점검할 방법을 제시한다.">QUR-002</span></h4>
+        <p><b>골든 QA 평가셋</b> 구축 + 자동 정확도 측정 + 점수 대시보드 → 공공 발주처가 중시하는 "검증 가능성".</p>
+      </div>
+      <div class="card">
+        <h4>③ 취약계층 접근성 <span class="id" title="접근성 — 고령자·저시력자를 위한 쉬운 말·큰 글씨·고대비를 지원한다(웹접근성 고려).">QUR-001</span></h4>
+        <p>행정용어→<b>쉬운말 자동 변환</b>, 큰 버튼 카드 UI, 고대비 토글, 음성 연계 → 접근성을 주인공으로.</p>
+      </div>
+      <div class="card">
+        <h4>④ 매끄러운 폴백 <span class="id" title="폴백 처리 — 신뢰도가 낮거나 답변이 어려우면 담당 부서 안내로 연결한다.">SFR-006</span></h4>
+        <p>못 하면 버리지 않고, 대화 맥락 요약을 담당자에게 전달·부서 정확 매칭 → "안전하게 넘김".</p>
+      </div>
+    </div>
+
+    <h3>MVP 구현 범위 — 핵심 절반 "5"</h3>
+    <p class="lead">공고문 8항에 따라 완성형("10")의 <b>핵심 절반("5")</b>을 동작 MVP로 구현하고, 나머지는 로드맵으로 제시한다.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>구분</th><th>범위</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag mvp">MVP 포함</span></td><td>
+            <span class="id" title="자연어 질의응답 — 시민의 자연어 질문을 이해하고 FAQ·조례·고시 등 행정 정보에 근거하여 답변을 생성하며, 근거 출처를 함께 표기한다.">SFR-001</span><span class="id" title="민원 의도 분류 — 질의를 민원 유형(전입·세금·복지·인허가 등)으로 자동 분류하여 적합한 답변 흐름으로 연결한다.">SFR-002</span><span class="id" title="절차·서류 안내 — 민원별 필요 서류, 신청 방법(방문·온라인), 처리 기간, 수수료를 단계별로 안내한다.">SFR-003</span><span class="id" title="폴백 처리 — 신뢰도가 낮거나 답변이 어려우면 담당 부서 안내로 연결한다.">SFR-006</span>
+            <span class="id" title="행정 지식베이스 — FAQ·조례·고시·업무 매뉴얼을 수집·정제하여 답변 근거 지식베이스를 구축한다.">DAR-001</span><span class="id" title="기관 정보 — 주민센터·부서·연락처·위치 데이터를 관리한다.">DAR-002</span><span class="id" title="대화 로그 — 질의·응답 로그를 비식별 형태로 저장하여 품질 개선에 활용한다.">DAR-003</span>
+            <span class="id" title="개인정보 최소수집 — 답변에 불필요한 개인정보는 수집·저장하지 않는다.">SER-001</span><span class="id" title="비식별화 — 대화 로그는 비식별 처리 후 보관한다.">SER-002</span><span class="id" title="환각 방지 — 근거 없는 답변(환각)을 금지하고 출처를 항상 표기한다.">SER-003</span>
+            <span class="id" title="접근성 — 고령자·저시력자를 위한 쉬운 말·큰 글씨·고대비를 지원한다(웹접근성 고려).">QUR-001</span><span class="id" title="정확성 점검 — 표본 질의에 대한 답변 정확도를 점검할 방법을 제시한다.">QUR-002</span><span class="id" title="근거 기반 — 모든 답변은 행정 정보에 근거하며, 불확실 시 폴백한다.">COR-001</span><span class="id" title="모바일 우선 — 모바일 환경을 우선 고려한 반응형으로 구현한다.">COR-002</span>
+            <br/><span style="font-size:12px;color:var(--muted)">※ DAR-002(기관 정보)는 폴백 시 담당 부서 연락처 제공용으로 MVP에 포함 — 위치 기반 지도 연동(SFR-004)은 로드맵</span>
+          </td></tr>
+          <tr><td><span class="tag road">로드맵</span></td><td>
+            <span class="id" title="기관·담당 연결 — 사용자 위치를 기반으로 가까운 주민센터·담당 부서·연락처를 안내한다.">SFR-004</span><span class="id" title="대화형 후속질문 — 정보가 부족하면 후속 질문으로 조건을 좁혀 정확한 답을 제공한다.">SFR-005</span><span class="id" title="신청 상태 조회(선택) — 접수번호로 처리 진행 상태를 조회한다.">SFR-007</span><span class="id" title="다국어·음성(선택) — 외국인·고령자를 위한 다국어 및 음성 입출력을 지원한다.">SFR-008</span>
+            <span class="id" title="공공데이터 연계 — 정부24·지자체 공개 API와 연계한다(가상).">SIR-001</span><span class="id" title="지도·위치 API — 위치 기반 기관 안내를 위해 지도 API와 연계한다.">SIR-002</span><span class="id" title="응답시간 — 일반 질의 응답을 평균 3초 이내 제공한다.">PER-001</span><span class="id" title="동시처리 — 동시 사용자 100명 이상을 안정적으로 처리한다(가상 기준).">PER-002</span>
+          </td></tr>
+          <tr><td><b>도메인 범위</b></td><td><b>전입신고</b> 1개 도메인을 깊게 완성 → "정확히 동작하는" 데모 (좁고 깊게 전략)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ④ 데이터·기술 구성 -->
+  <section id="s4">
+    <h2><span class="num">4</span> 데이터·기술 구성</h2>
+
+    <h3>시스템 아키텍처</h3>
+    <div class="flow" style="gap:6px">
+      <span class="step">모바일 우선 반응형 Frontend</span><span class="arrow">→</span>
+      <span class="step">Backend API</span><span class="arrow">→</span>
+      <span class="step">LLM 답변 생성</span>
+      <span class="arrow">+</span>
+      <span class="step">Vector DB 지식베이스</span>
+      <span class="arrow">+</span>
+      <span class="step">기관 정보 DB</span>
+    </div>
+
+    <h3>기술 스택 제안</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>계층</th><th>기술(후보)</th><th>선정 사유</th></tr></thead>
+        <tbody>
+          <tr><td>개발 도구</td><td><b>Kiro AI</b></td><td>멘토측 제공</td></tr>
+          <tr><td>Frontend</td><td>React</td><td>모바일 우선 반응형, 접근성 컴포넌트</td></tr>
+          <tr><td>Backend</td><td>Python(FastAPI)</td><td>AI 라이브러리 호환, 비동기 처리</td></tr>
+          <tr><td>LLM</td><td><b>Upstage Solar</b> (국산 LLM)</td><td>한국어·행정 언어 강점, 공공 부문 국산 LLM 선호, 근거 기반 답변 생성</td></tr>
+          <tr><td>Vector DB / RAG</td><td>Chroma + LangChain</td><td>소규모 코퍼스에 적합, 유사도 검색</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>데이터 구성 <span style="font-weight:400;color:var(--muted);font-size:13px">(Demo 데이터 기반)</span></h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>요구사항</th><th>구축 방안</th></tr></thead>
+        <tbody>
+          <tr><td><span class="id" title="행정 지식베이스 — FAQ·조례·고시·업무 매뉴얼을 수집·정제하여 답변 근거 지식베이스를 구축한다.">DAR-001</span> 행정 지식베이스</td><td>전입신고 도메인 FAQ·조례를 <b>Demo 데이터</b>로 구성 → 청킹·벡터화 → Vector DB 저장 (실데이터 미사용, 보고서 명시)</td></tr>
+          <tr><td><span class="id" title="기관 정보 — 주민센터·부서·연락처·위치 데이터를 관리한다.">DAR-002</span> 기관 정보</td><td>주민센터·담당 부서·연락처 샘플 데이터(폴백 연결용)</td></tr>
+          <tr><td><span class="id" title="대화 로그 — 질의·응답 로그를 비식별 형태로 저장하여 품질 개선에 활용한다.">DAR-003</span> 대화 로그</td><td>질의·응답 로그를 <b>비식별</b> 형태로 저장 → 품질 개선 활용</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>보안·품질 준수</h3>
+    <ul>
+      <li><span class="id" title="개인정보 최소수집 — 답변에 불필요한 개인정보는 수집·저장하지 않는다.">SER-001</span><span class="id" title="비식별화 — 대화 로그는 비식별 처리 후 보관한다.">SER-002</span> 개인정보 최소수집 및 로그 비식별화 설계</li>
+      <li><span class="id" title="환각 방지 — 근거 없는 답변(환각)을 금지하고 출처를 항상 표기한다.">SER-003</span><span class="id" title="근거 기반 — 모든 답변은 행정 정보에 근거하며, 불확실 시 폴백한다.">COR-001</span> 근거 없는 답변 금지, <b>출처 항상 표기</b>, 불확실 시 폴백</li>
+      <li><span class="id" title="정확성 점검 — 표본 질의에 대한 답변 정확도를 점검할 방법을 제시한다.">QUR-002</span> 골든 QA 표본 질의로 정확도 점검 · <span class="id" title="모바일 우선 — 모바일 환경을 우선 고려한 반응형으로 구현한다.">COR-002</span> 모바일 우선 반응형</li>
+    </ul>
+  </section>
+
+  <!-- ⑤ 추진 계획·일정 -->
+  <section id="s5">
+    <h2><span class="num">5</span> 추진 계획·일정</h2>
+
+    <h3>4주 추진 일정</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>단계</th><th>기간</th><th>주요 내용</th><th>산출물</th></tr></thead>
+        <tbody>
+          <tr><td>1주차</td><td>7/6~7/10</td><td>과제 분석 · 팀빌딩 · 문제 정의 · 차별화·MVP 범위 확정</td><td>초기 아이디어 노트(HTML)</td></tr>
+          <tr><td>2주차</td><td>7/13~7/17</td><td>멘토 피드백 반영 · 아키텍처 설계 · 제안 구체화</td><td>입찰 제안서</td></tr>
+          <tr><td>3주차</td><td>7/20~7/24</td><td>핵심 MVP 개발(RAG·근거 UX·폴백·골든 QA) · 통합 테스트</td><td>동작 MVP(GitHub)</td></tr>
+          <tr><td>4주차</td><td>7/27~7/31</td><td>MVP 안정화 · 발표자료 · 발표 영상</td><td>최종 발표 영상</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>팀 역할 분담</h3>
+    <p class="lead">팀원 4인(손한주·박재현·최윤수·김현수). 세부 배정은 멘토 제시 <b>AI-workflow 코스</b> 기준으로 협의 확정 예정.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>역할</th><th>주요 업무</th></tr></thead>
+        <tbody>
+          <tr><td>PM</td><td>일정·의사결정·발표, 요구사항 매핑 관리</td></tr>
+          <tr><td>Frontend</td><td>모바일 UI/UX, 접근성(쉬운말·큰 버튼·고대비), 근거 표기 UX</td></tr>
+          <tr><td>Backend</td><td>API, 폴백 로직, 로그 비식별 처리</td></tr>
+          <tr><td>AI/LLM</td><td>RAG 파이프라인, 프롬프트, 의도 분류</td></tr>
+          <tr><td>데이터·QA</td><td>Demo 지식베이스 구축, 골든 QA 평가셋·정확도 측정</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ⑥ 기대 효과·확장 로드맵 -->
+  <section id="s6">
+    <h2><span class="num">6</span> 기대 효과·확장 로드맵</h2>
+
+    <h3>기대 효과</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>구분</th><th>효과</th><th>지표(목표)</th></tr></thead>
+        <tbody>
+          <tr><td>행정 효율</td><td>단순 민원 자동 처리로 인력 절감</td><td>단순 민원 50% 이상 자동 응대</td></tr>
+          <tr><td>시민 접근성</td><td>24시간·취약계층 응대</td><td>야간·주말 응대율 100%</td></tr>
+          <tr><td>정보 정확성</td><td>근거 기반 일관 안내</td><td>골든 QA 정확도 90% 목표<br/><span style="font-size:12px;color:var(--muted)">※ 전입 단일 도메인 집중 + 근거 검증·폴백 설계로 일반 RAG(오답 17~34%) 대비 상향 목표</span></td></tr>
+          <tr><td>데이터 활용</td><td>비식별 로그로 민원 트렌드 파악</td><td>민원 유형 리포트</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>확장 로드맵 ("5" → "10")</h3>
+    <div class="roadmap">
+      <div class="phase p1">
+        <header>Phase 1 · MVP (2026.07)</header>
+        <ul>
+          <li>전입 도메인 질의응답</li>
+          <li>근거·출처 신뢰 UX</li>
+          <li>폴백 · 골든 QA 검증</li>
+          <li>접근성 기본</li>
+        </ul>
+      </div>
+      <div class="phase p2">
+        <header>Phase 2 · 확장</header>
+        <ul>
+          <li>세금·복지·인허가 도메인</li>
+          <li>위치 기반 기관·지도 연결</li>
+          <li>신청 상태 조회 · 음성</li>
+        </ul>
+      </div>
+      <div class="phase p3">
+        <header>Phase 3 · 고도화</header>
+        <ul>
+          <li>다국어(외국인) 지원</li>
+          <li>공공데이터 실연계</li>
+          <li>타 지자체 확산</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="note">
+    본 문서는 고려대 세종 계절학기 산업체 실습 프로젝트 학습용 가상 공고(2026-세종-0001)에 대한 <b>초기 아이디어 노트</b>입니다.<br/>
+    2026 고대세종 기업인턴십 1팀 · 2026-07-10
+  </footer>
+
+</div>
+</body>
+</html>

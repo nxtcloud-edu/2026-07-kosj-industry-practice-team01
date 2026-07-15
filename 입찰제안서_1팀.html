@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>입찰 제안서 — AI 기반 시민 민원 통합 응대 플랫폼 (1팀)</title>
+<style>
+  :root{
+    --accent:#1f6f8b;
+    --accent-2:#12495c;
+    --accent-soft:#e8f2f5;
+    --ink:#1a2330;
+    --muted:#5b6773;
+    --line:#e2e7ec;
+    --bg:#f5f7f9;
+    --card:#ffffff;
+    --ok:#1f8b5f;
+    --warn:#b5761f;
+    --danger:#b03a2e;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.65;font-size:16px}
+  .wrap{max-width:960px;margin:0 auto;padding:28px 22px 80px}
+
+  .doc-head{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 100%);
+    color:#fff;border-radius:16px;padding:30px 30px 26px;margin-bottom:22px;
+    box-shadow:0 6px 22px rgba(18,73,92,.18)}
+  .doc-head .kicker{font-size:13px;letter-spacing:.06em;opacity:.85;margin:0 0 8px}
+  .doc-head h1{margin:0 0 14px;font-size:26px;line-height:1.3;font-weight:800}
+  .meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 26px;font-size:14px}
+  .meta div{display:flex;gap:8px;border-top:1px solid rgba(255,255,255,.18);padding-top:8px}
+  .meta b{font-weight:700;opacity:.8;min-width:66px}
+
+  .slogan{background:#fff;border:2px solid var(--accent);border-radius:14px;
+    padding:18px 22px;margin:0 0 22px;text-align:center}
+  .slogan .label{font-size:12.5px;font-weight:700;color:var(--accent);letter-spacing:.08em;margin-bottom:6px}
+  .slogan .line{font-size:20px;font-weight:800;color:var(--accent-2);line-height:1.45}
+
+  nav.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:26px}
+  nav.toc p{margin:0 0 10px;font-weight:700;font-size:14px;color:var(--muted)}
+  nav.toc ol{margin:0;padding-left:0;list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:6px 20px}
+  nav.toc a{color:var(--accent-2);text-decoration:none;font-size:14.5px}
+  nav.toc a:hover{text-decoration:underline}
+
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 28px;margin-bottom:20px}
+  h2{display:flex;align-items:center;gap:12px;margin:0 0 16px;font-size:20px;font-weight:800;color:var(--accent-2)}
+  h2 .num{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;
+    display:grid;place-items:center;font-size:15px;font-weight:700}
+  h3{margin:22px 0 10px;font-size:15.5px;font-weight:700;color:var(--ink)}
+  h3:first-of-type{margin-top:4px}
+  h4{margin:14px 0 8px;font-size:14px;font-weight:700;color:var(--accent-2)}
+  p{margin:0 0 12px}
+  ul{margin:0 0 12px;padding-left:20px}
+  li{margin:4px 0}
+  .lead{color:var(--muted);font-size:15px}
+  .small{font-size:12.5px;color:var(--muted)}
+
+  .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:10px 0 6px;border:1px solid var(--line);border-radius:10px}
+  table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--accent-soft);color:var(--accent-2);font-weight:700;white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  td.c,th.c{text-align:center;white-space:nowrap}
+
+  .id{display:inline-block;font-size:12px;font-weight:700;background:var(--accent-soft);color:var(--accent-2);
+    border:1px solid #cfe2e8;border-radius:6px;padding:1px 7px;margin:1px 2px 1px 0;white-space:nowrap}
+  .tag{display:inline-block;font-size:11.5px;font-weight:700;border-radius:20px;padding:2px 10px;white-space:nowrap}
+  .tag.run{background:#e6f4ee;color:var(--ok);border:1px solid #bfe3d1}
+  .tag.mock{background:#eef; color:#4a4aa8;border:1px solid #ccd0ee}
+  .tag.road{background:#f4ede1;color:var(--warn);border:1px solid #e6d3b3}
+
+  .callout{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;
+    padding:14px 16px;margin:14px 0;font-size:14.5px}
+  .callout b{color:var(--accent-2)}
+  .callout.warn{border-color:var(--warn);background:#fdf6ea}
+  .callout.warn b{color:var(--warn)}
+
+  /* Persona */
+  .persona{display:flex;gap:18px;border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fbfcfd;margin:12px 0}
+  .persona .avatar{flex:0 0 auto;width:56px;height:56px;border-radius:50%;background:var(--accent-soft);
+    display:grid;place-items:center;font-size:28px}
+  .persona h4{margin:0 0 4px}
+  .persona p{margin:0 0 6px;font-size:13.5px;color:var(--muted)}
+
+  /* Scenario flows */
+  .scenario{border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden}
+  .scenario > header{padding:10px 16px;font-weight:700;font-size:14px;color:#fff;background:var(--accent)}
+  .scenario.s2 > header{background:#4b7f93}
+  .scenario.s3 > header{background:var(--warn)}
+  .scenario .body{display:grid;grid-template-columns:280px 1fr;gap:16px;padding:16px}
+  .steps{font-size:13px}
+  .steps ol{margin:0;padding-left:18px}
+  .steps li{margin:6px 0}
+  .steps .stage{font-weight:700;color:var(--accent-2)}
+
+  /* Phone wireframe */
+  .phone{width:100%;max-width:280px;border:2px solid #c8d2da;border-radius:18px;background:#fff;padding:12px 10px;font-size:12.5px}
+  .phone .bar{height:5px;width:44px;background:#dfe6ec;border-radius:3px;margin:0 auto 10px}
+  .bubble{border-radius:12px;padding:8px 11px;margin:6px 0;max-width:92%;line-height:1.5}
+  .bubble.user{background:var(--accent);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+  .bubble.bot{background:#f0f4f7;border-bottom-left-radius:4px}
+  .bubble.bot .src{display:inline-block;margin-top:6px;font-size:10.5px;font-weight:700;color:var(--accent-2);
+    background:var(--accent-soft);border:1px solid #cfe2e8;border-radius:5px;padding:1px 6px}
+  .snippet{border-left:3px solid var(--accent);background:#fbfdfe;font-size:11px;color:var(--muted);
+    padding:6px 9px;margin:4px 0 2px;border-radius:0 6px 6px 0}
+  .chips{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0}
+  .chip{font-size:11px;border:1px solid var(--accent);color:var(--accent-2);border-radius:14px;padding:2px 9px;background:#fff}
+  .fallback-card{border:1.5px solid var(--warn);background:#fdf6ea;border-radius:10px;padding:8px 10px;margin:6px 0;font-size:11.5px}
+  .fallback-card b{color:var(--warn)}
+  .conf{display:inline-block;font-size:10px;font-weight:700;border-radius:10px;padding:1px 7px;margin-left:4px}
+  .conf.hi{background:#e6f4ee;color:var(--ok)}
+  .conf.lo{background:#fdeaea;color:var(--danger)}
+
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:12px 0}
+  .card{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfd}
+  .card h4{margin:0 0 6px}
+  .card p{margin:0;font-size:13.5px;color:var(--muted)}
+
+  .roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+  .phase{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .phase header{padding:9px 12px;font-weight:700;font-size:13.5px;color:#fff}
+  .phase.p1 header{background:var(--accent)}
+  .phase.p2 header{background:#4b7f93}
+  .phase.p3 header{background:#7f9aa6}
+  .phase ul{padding:12px 12px 12px 26px;margin:0;font-size:13px}
+  .phase li{margin:5px 0}
+
+  footer.note{color:var(--muted);font-size:12.5px;text-align:center;margin-top:26px;line-height:1.6}
+  .toolbar{display:flex;justify-content:flex-end;margin-bottom:10px}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13.5px;
+    font-weight:600;cursor:pointer;font-family:inherit}
+  .btn:hover{background:var(--accent-2)}
+
+  @media (max-width:700px){
+    .meta,nav.toc ol,.cards,.roadmap{grid-template-columns:1fr}
+    .scenario .body{grid-template-columns:1fr}
+    .doc-head{padding:24px 20px}
+    .doc-head h1{font-size:22px}
+    section{padding:20px 18px}
+  }
+  @page{margin:10mm}
+  @media print{
+    body{background:#fff;font-size:10.5px;line-height:1.4}
+    .wrap{max-width:none;padding:0}
+    .no-print{display:none!important}
+    .doc-head{box-shadow:none;padding:14px 16px;border-radius:10px;margin-bottom:10px}
+    .doc-head h1{font-size:18px;margin-bottom:8px}
+    .meta{gap:3px 18px;font-size:10.5px}
+    .meta div{padding-top:4px}
+    .slogan{padding:12px 16px;margin-bottom:10px}
+    .slogan .line{font-size:15px}
+    nav.toc{padding:10px 14px;margin-bottom:10px;break-inside:avoid}
+    section{box-shadow:none;border:1px solid #d5dbe0;border-radius:10px;padding:10px 14px;margin-bottom:9px;break-inside:auto}
+    h2{font-size:15px;margin-bottom:9px}
+    h2 .num{width:24px;height:24px;font-size:13px}
+    h3{margin:11px 0 6px;font-size:13px}
+    h2,h3,h4{break-after:avoid;page-break-after:avoid}
+    p{margin-bottom:6px} ul{margin-bottom:6px} li{margin:2px 0}
+    .tw{overflow:visible;margin:6px 0 4px}
+    table{break-inside:auto;font-size:9.8px}
+    th,td{padding:4px 7px}
+    thead{display:table-header-group}
+    tr,.card,.callout,.phase,.persona,.scenario,.phone{break-inside:avoid;page-break-inside:avoid}
+    .scenario .body{grid-template-columns:250px 1fr;padding:10px;gap:10px}
+    .cards{gap:8px;margin:8px 0}.card{padding:9px 12px}
+    .roadmap{gap:8px;margin:8px 0}
+    .callout{margin:8px 0;padding:10px 12px}
+    .doc-head,thead th,.tag,.id,.callout,.phase header,.scenario>header,.bubble.user,.conf,.slogan
+      {-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="toolbar no-print">
+    <button class="btn" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+  </div>
+
+  <header class="doc-head">
+    <p class="kicker">입찰 제안서 · 제출물 2</p>
+    <h1>AI 기반 시민 민원 통합 응대 플랫폼 구축</h1>
+    <div class="meta">
+      <div><b>공고번호</b><span>2026-세종-0001</span></div>
+      <div><b>발주기관</b><span>세종특별자치시 디지털행정혁신단 <em>(가상)</em></span></div>
+      <div><b>제안팀</b><span>2026 고대세종 기업인턴십 1팀</span></div>
+      <div><b>팀원</b><span>손한주 · 박재현 · 최윤수 · 김현수</span></div>
+      <div><b>제안일자</b><span>2026-07-17</span></div>
+      <div><b>사업기간</b><span>2026-07-06 ~ 2026-07-31</span></div>
+    </div>
+  </header>
+
+  <div class="slogan">
+    <div class="label">우리 팀의 한 문장</div>
+    <div class="line">"근거를 확인할 수 있고, 불확실하면 안전하게 넘기는<br/>전입신고 안내"</div>
+  </div>
+
+  <nav class="toc">
+    <p>목차</p>
+    <ol>
+      <li><a href="#s1">1. 사업 이해</a></li>
+      <li><a href="#s2">2. 문제 정의와 사용자</a></li>
+      <li><a href="#s3">3. 해결 방안 — 대표 사용자 흐름</a></li>
+      <li><a href="#s4">4. MVP 범위와 제외 범위</a></li>
+      <li><a href="#s5">5. 데이터와 AI의 근거</a></li>
+      <li><a href="#s6">6. RFP 요구사항 대응표</a></li>
+      <li><a href="#s7">7. 구현·검증 계획</a></li>
+      <li><a href="#s8">8. 기대 효과 · 수익모델 · 로드맵</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1. 사업 이해 -->
+  <section id="s1">
+    <h2><span class="num">1</span> 사업 이해</h2>
+    <p class="lead">본 사업은 시민이 일상 언어로 민원을 질문하면 AI가 24시간 행정 정보에 <b>근거</b>하여 안내하고,
+      필요한 서류·절차·담당 부서까지 연결하는 통합 응대 플랫폼을 구축하는 것이다.</p>
+    <p>공공 AI 응대의 성패는 기능의 개수가 아니라 <b>답변을 믿을 수 있는가</b>에 달려 있다.
+      우리는 요구사항 전체를 얕게 펼치는 대신, 시민 생활에서 가장 빈번한 민원인 <b>전입신고</b> 도메인에서
+      아래 한 문장을 실제로 동작하는 수준까지 완성하는 것을 제안한다.</p>
+    <div class="callout">
+      <b>제안 핵심</b> — ① 모든 답변에 근거 문서의 <b>출처와 원문 스니펫</b>을 표기하고(확인 가능),
+      ② 신뢰도가 낮으면 무리하게 답변을 생성하지 않고 <b>담당 부서로 안전하게 연결</b>하며(폴백),
+      ③ 그 품질을 <b>골든 QA 15문항 채점</b>으로 검증해 증명한다.
+      본 제안서의 모든 장은 이 한 장면을 3주차 MVP에서 실제로 보여주기 위한 계획이다.
+    </div>
+  </section>
+
+  <!-- 2. 문제 정의와 사용자 -->
+  <section id="s2">
+    <h2><span class="num">2</span> 문제 정의와 사용자</h2>
+
+    <h3>대표 사용자</h3>
+    <div class="persona">
+      <div class="avatar">🧑‍💼</div>
+      <div>
+        <h4>김세종 (가명) · 34세 · 직장인</h4>
+        <p>대전에서 세종으로 이직하며 이사. 평일 09~19시 근무로 주민센터 방문이 어렵다.</p>
+        <p><b>문제 상황</b> — 이사 당일 밤 10시, "전입신고 뭐 필요하지?"를 검색한다. 블로그마다 필요 서류가 다르게 적혀 있고,
+          시청 콜센터는 이미 문을 닫았다. 어떤 정보가 맞는지 확인할 방법이 없어 결국 다음 날 회사에 양해를 구하고 주민센터에 전화를 건다.</p>
+        <p><b>필요한 것</b> — ① 밤에도 즉시(24시간) ② 믿을 수 있는 근거와 함께(출처 확인) ③ 해결이 안 되면 어디로 가야 하는지(안전한 연결)</p>
+      </div>
+    </div>
+
+    <h3>문제 정의</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>구분</th><th>문제점</th><th>김세종에게 생기는 일</th></tr></thead>
+        <tbody>
+          <tr><td>시민 접근성</td><td>평일 근무시간에만 응대 → 야간·주말 공백</td><td>밤 10시에 물어볼 곳이 없다</td></tr>
+          <tr><td>정보 정확성</td><td>안내 기준 산재, 출처 불명 정보 혼재</td><td>블로그마다 다른 답 — 무엇이 맞는지 모른다</td></tr>
+          <tr><td>행정 효율</td><td>단순·반복 문의에 콜센터 인력 소모</td><td>다음 날 전화 — 상담원도, 김세종도 시간 낭비</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>시장 분석 — 기존 서비스가 못 채운 것</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>서비스</th><th>특징</th><th>한계 / 시사점</th></tr></thead>
+        <tbody>
+          <tr><td>서울톡(서울시)</td><td>카톡 기반 24시간, 현장민원 접수, 생성형 AI 도입</td><td>규모·연동 강점 → 규모로는 경쟁하지 않는다</td></tr>
+          <tr><td>국민비서 구삐</td><td>맞춤 알림, 24시간 채팅, 음성 안내</td><td>범정부 공통 서비스 → 지자체 절차·조례 특화 안내 여지</td></tr>
+          <tr><td>챗경북(경북)</td><td>지자체 최초 LLM 챗봇(2023)</td><td><b>데이터 부실 → 이용률 붕괴</b>(첫달 대비 3%대). 신뢰를 잃으면 끝</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:10px">공개 연구에서도 RAG 적용 AI가 <b>17~34% 오답</b>을 내는 것으로 보고된다.
+      즉 관건은 "챗봇이 있느냐"가 아니라 <b>"답을 믿을 수 있고, 틀릴 때 안전한가"</b>이다.
+      우리는 이 신뢰 문제를 설계의 중심에 둔다.</p>
+  </section>
+
+  <!-- 3. 해결 방안 -->
+  <section id="s3">
+    <h2><span class="num">3</span> 해결 방안 — 대표 사용자 흐름 3종</h2>
+    <p class="lead">김세종의 대표 질문 3가지로 <b>입력 → AI 처리 → 결과 → 실패/검수</b> 전 과정을 보여준다.
+      아래 화면은 MVP에서 실제로 동작할 화면의 와이어프레임이다.</p>
+
+    <!-- 시나리오 1 -->
+    <div class="scenario">
+      <header>시나리오 ① 정상 질문 — 근거를 확인할 수 있는 답변</header>
+      <div class="body">
+        <div class="steps">
+          <ol>
+            <li><span class="stage">입력</span> — "전입신고 하려면 뭐가 필요한가요?"</li>
+            <li><span class="stage">AI 처리</span> — 의도 분류(전입) → 지식베이스에서 근거 문서 검색(RAG) → 근거 기반 답변 생성 → 근거-답변 일치 검증</li>
+            <li><span class="stage">결과</span> — 필요 서류·방법·기한·수수료를 단계 카드로 안내. <b>출처 배지 + 원문 스니펫 펼쳐보기</b>, 신뢰도 표시</li>
+            <li><span class="stage">검수</span> — 골든 QA ①답변 정확성 ②출처 적합성 축으로 채점(5장)</li>
+          </ol>
+        </div>
+        <div class="phone">
+          <div class="bar"></div>
+          <div class="bubble user">전입신고 하려면 뭐가 필요한가요?</div>
+          <div class="bubble bot">
+            <b>전입신고 안내</b> <span class="conf hi">근거 확인됨</span><br/>
+            ① 준비물: 본인 신분증<br/>
+            ② 방법: 주민센터 방문 또는 정부24 온라인<br/>
+            ③ 기한: 이사한 날부터 14일 이내<br/>
+            ④ 수수료: 없음<br/>
+            <span class="src">📄 출처: 전입신고 안내 FAQ 3항 (샘플)</span>
+            <div class="snippet">"전입신고는 새로운 거주지로 이사한 날부터 14일 이내에 신고하여야 하며, 수수료는 부과하지 아니한다…" <u>원문 더보기</u></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 시나리오 2 -->
+    <div class="scenario s2">
+      <header>시나리오 ② 모호한 질문 — 후속 질문으로 좁히기</header>
+      <div class="body">
+        <div class="steps">
+          <ol>
+            <li><span class="stage">입력</span> — "이사했는데 뭐 해야 하나요?" (의도가 여러 개로 해석됨)</li>
+            <li><span class="stage">AI 처리</span> — 의도 분류 결과가 복수(전입신고/확정일자/기타) → 단정하지 않고 <b>후속 질문 생성</b></li>
+            <li><span class="stage">결과</span> — 선택지 버튼으로 조건을 좁힌 뒤, 좁혀진 의도에 대해 시나리오 ①과 동일한 근거 기반 답변</li>
+            <li><span class="stage">검수</span> — 골든 QA 모호 문항: 섣부른 단정 답변이 없는지 채점</li>
+          </ol>
+        </div>
+        <div class="phone">
+          <div class="bar"></div>
+          <div class="bubble user">이사했는데 뭐 해야 하나요?</div>
+          <div class="bubble bot">
+            몇 가지 절차가 있어요. 어떤 것부터 도와드릴까요?
+            <div class="chips">
+              <span class="chip">전입신고 하기</span>
+              <span class="chip">확정일자 받기</span>
+              <span class="chip">자동차 주소 변경</span>
+              <span class="chip">잘 모르겠어요</span>
+            </div>
+          </div>
+          <div class="bubble user">전입신고 하기</div>
+          <div class="bubble bot">전입신고 안내를 시작할게요. 세대주로 신고하시나요? …</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 시나리오 3 -->
+    <div class="scenario s3">
+      <header>시나리오 ③ 폴백 질문 — 불확실하면 안전하게 넘기기</header>
+      <div class="body">
+        <div class="steps">
+          <ol>
+            <li><span class="stage">입력</span> — "외국인 배우자도 같이 전입신고 되나요?" (지식베이스 범위 밖 심화 사례)</li>
+            <li><span class="stage">AI 처리</span> — 검색 결과의 근거 부족 → 신뢰도 임계값 미만 → <b>답변 생성 중단, 폴백 전환</b></li>
+            <li><span class="stage">결과(실패의 안전한 처리)</span> — 추측 답변 대신 담당 부서 연결.
+              <b>행정동 선택 → 샘플 주민센터 매칭</b>(연락처·운영시간) + 지금까지의 <b>대화 요약 카드</b> 제공</li>
+            <li><span class="stage">검수</span> — 골든 QA ③폴백 적절성 축: 추측성 답변 0건 확인</li>
+          </ol>
+        </div>
+        <div class="phone">
+          <div class="bar"></div>
+          <div class="bubble user">외국인 배우자도 같이 전입신고 되나요?</div>
+          <div class="bubble bot">
+            이 질문은 확실한 근거를 찾지 못했어요. <span class="conf lo">근거 부족</span><br/>
+            부정확한 안내 대신 <b>담당 부서</b>를 연결해 드릴게요. 거주하실 지역을 선택해 주세요.
+            <div class="chips"><span class="chip">보람동</span><span class="chip">도담동</span><span class="chip">새롬동 ▾</span></div>
+            <div class="fallback-card">
+              <b>보람동 주민센터 (샘플)</b><br/>
+              ☎ 044-000-0000 · 평일 09:00~18:00<br/>
+              📋 문의 요약 카드: "외국인 배우자 동반 전입 가능 여부" — 통화 시 이 요약을 활용하세요.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>보조 가치 — 접근성</h3>
+    <p>위 모든 화면에 <b>큰 글씨·고대비 토글</b>이 동작으로 제공되며(QUR-001), 행정용어를 쉬운 말로 바꿔 쓰는
+      <b>쉬운말 모드는 목업</b>으로 시연 후 로드맵에서 완성한다. 음성 입출력은 로드맵(SFR-008).</p>
+  </section>
+
+  <!-- 4. MVP 범위 -->
+  <section id="s4">
+    <h2><span class="num">4</span> MVP 범위와 제외 범위</h2>
+    <p class="lead">공고문 8항의 "핵심 절반(5) 동작 MVP + 10까지의 로드맵" 기준에 따라,
+      4주 내 <b>반드시 동작</b> / <b>샘플·목업</b> / <b>로드맵</b> 3단계로 구분한다.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th class="c">구분</th><th>범위</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="c"><span class="tag run">동작</span></td>
+            <td>
+              <b>전입신고 도메인</b>에서 end-to-end 동작:<br/>
+              <span class="id">SFR-001</span> 근거 기반 질의응답 + 출처·원문 스니펫 표기 ·
+              <span class="id">SFR-002</span> 의도 분류(LLM 라우팅) ·
+              <span class="id">SFR-003</span> 절차·서류 단계 카드 ·
+              <span class="id">SFR-005</span> 모호 질문 후속질문(선택지 버튼) ·
+              <span class="id">SFR-006</span> 폴백 + 대화 요약 카드 ·
+              <span class="id">SFR-004</span> <b>위치 선택 + 샘플 주민센터 매칭</b>(간이 구현) ·
+              <span class="id">DAR-001</span><span class="id">DAR-002</span><span class="id">DAR-003</span> 샘플 지식베이스·기관 데이터·비식별 로그 ·
+              <span class="id">SER-001</span><span class="id">SER-002</span><span class="id">SER-003</span> ·
+              <span class="id">QUR-001</span>(큰 글씨·고대비 토글) ·
+              <span class="id">QUR-002</span> 골든 QA 채점 ·
+              <span class="id">COR-001</span><span class="id">COR-002</span> ·
+              <span class="id">PER-001</span> 응답시간 측정·보고
+            </td>
+          </tr>
+          <tr>
+            <td class="c"><span class="tag mock">샘플·목업</span></td>
+            <td>쉬운말 자동 변환 모드(화면 목업) · 골든 QA 점수 대시보드(채점은 실제 수행, 대시보드 UI는 목업) · 지도 시각화(정적 화면 예시)</td>
+          </tr>
+          <tr>
+            <td class="c"><span class="tag road">로드맵</span></td>
+            <td>
+              <span class="id">SFR-007</span> 신청 상태 조회(선택) ·
+              <span class="id">SFR-008</span> 다국어·음성(선택) ·
+              <span class="id">SIR-001</span> 공공데이터 실연계(RFP상 가상) ·
+              <span class="id">SIR-002</span> 실지도 API(간이 매칭으로 요구 목적 충족 후 고도화) ·
+              <span class="id">PER-002</span> 동시 100명 부하 검증(가상 기준 — 확장 아키텍처안으로 대체) ·
+              타 도메인 확장(세금·복지·인허가)
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">
+      <b>필수 요구 처리 원칙</b> — 필수 요구사항은 로드맵으로만 미루지 않는다.
+      SFR-004는 실지도 대신 <b>위치 선택+샘플 매칭</b>으로 MVP에서 동작시키고,
+      PER-001은 골든 QA 실행 시 <b>실측</b>하여 보고한다. 로드맵으로 분류한 항목은 모두 사유를 6장 대응표에 명시했다.
+    </div>
+  </section>
+
+  <!-- 5. 데이터와 AI의 근거 -->
+  <section id="s5">
+    <h2><span class="num">5</span> 데이터와 AI의 근거</h2>
+
+    <h3>데이터 분류표</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>데이터</th><th class="c">구분</th><th>출처</th><th class="c">기준일</th><th>한계</th></tr></thead>
+        <tbody>
+          <tr><td>전입신고 FAQ·절차 문서 (지식베이스)</td><td class="c"><b>샘플</b></td><td>정부24·세종시 공개 안내를 참고해 팀이 재구성한 Demo 문서</td><td class="c">2026-07</td><td>실제 조례·고시 원문이 아님. 실서비스 시 원문 검수·현행화 필요</td></tr>
+          <tr><td>주민센터 기관 정보</td><td class="c"><b>샘플</b></td><td>세종시 행정동 명칭 참고, 연락처는 가상</td><td class="c">2026-07</td><td>실제 연락처 아님 — 데모 표기 명시</td></tr>
+          <tr><td>참고 원출처(공개)</td><td class="c"><b>공개</b></td><td>정부24 전입신고 안내 페이지, 세종시 홈페이지</td><td class="c">2026-07</td><td>학습·재구성 참고용. 실시간 연동 아님</td></tr>
+          <tr><td>대화 로그</td><td class="c"><b>AI 생성·수집</b></td><td>개발·테스트 중 생성되는 질의·응답</td><td class="c">수시</td><td>비식별 저장(SER-002). 품질 개선 용도로만 사용</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small">※ 실제 개인·행정 원본 데이터는 본 실습 범위에서 사용하지 않는다. 실서비스 전환 시 원문 데이터 검수·현행화 계획을 로드맵(Phase 2)에 포함한다.</p>
+
+    <h3>AI 결과의 근거·불확실성·검수 방법</h3>
+    <ul>
+      <li><b>근거</b> — 모든 답변은 지식베이스 검색 결과(RAG)에서 생성하며, 출처 문서명과 원문 스니펫을 함께 표기한다(SER-003·COR-001).</li>
+      <li><b>불확실성</b> — 검색 근거가 부족하거나 신뢰도가 임계값 미만이면 답변을 생성하지 않고 폴백한다(시나리오 ③). LLM 응답은 오답 가능성이 있음을 화면에 고지한다.</li>
+      <li><b>사람의 검수</b> — 골든 QA 15문항을 팀이 직접 3축 채점하고, 지식베이스 문서는 원출처 대조로 검수한 뒤 탑재한다.</li>
+    </ul>
+    <div class="callout">
+      <b>수치 사용 원칙</b> — "자동 응대 ○%", "정확도 ○%" 같은 수치는 <b>측정 결과가 있을 때만</b> 사용한다.
+      본 제안서는 목표 수치 대신 아래의 <b>측정 방법</b>을 제시하고, 3주차 MVP에서 실측값을 보고한다.
+    </div>
+
+    <h3>골든 QA 평가셋 — 15문항</h3>
+    <p class="lead">전입신고 도메인 질문 15개(정상 8 · 모호 4 · 폴백 3)를 고정 평가셋으로 두고, 모든 빌드에서 동일하게 채점한다.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th class="c">#</th><th class="c">유형</th><th>질문</th><th>기대 동작 (골든 기준)</th></tr></thead>
+        <tbody>
+          <tr><td class="c">1</td><td class="c">정상</td><td>전입신고 하려면 뭐가 필요한가요?</td><td>신분증 등 필요 서류를 출처와 함께 안내</td></tr>
+          <tr><td class="c">2</td><td class="c">정상</td><td>전입신고 온라인으로 할 수 있나요?</td><td>정부24 온라인 신고 가능 + 조건 안내</td></tr>
+          <tr><td class="c">3</td><td class="c">정상</td><td>이사하고 언제까지 신고해야 하나요?</td><td>14일 이내 기한 안내</td></tr>
+          <tr><td class="c">4</td><td class="c">정상</td><td>전입신고 수수료 있나요?</td><td>수수료 없음 안내</td></tr>
+          <tr><td class="c">5</td><td class="c">정상</td><td>전입신고 안 하면 어떻게 되나요?</td><td>기한 경과 시 과태료 안내(샘플 기준)</td></tr>
+          <tr><td class="c">6</td><td class="c">정상</td><td>세대주가 아닌데 제가 신고할 수 있나요?</td><td>신고 자격·세대주 확인 절차 안내</td></tr>
+          <tr><td class="c">7</td><td class="c">정상</td><td>전입신고 처리는 얼마나 걸리나요?</td><td>처리 기간 안내</td></tr>
+          <tr><td class="c">8</td><td class="c">정상</td><td>주말에도 전입신고 할 수 있나요?</td><td>온라인 24시간/방문 평일 구분 안내</td></tr>
+          <tr><td class="c">9</td><td class="c">모호</td><td>이사했는데 뭐 해야 하나요?</td><td>단정하지 않고 후속 질문(선택지)으로 좁힘</td></tr>
+          <tr><td class="c">10</td><td class="c">모호</td><td>신고하러 가려는데 뭘 챙겨야 해요?</td><td>어떤 신고인지 확인하는 후속 질문</td></tr>
+          <tr><td class="c">11</td><td class="c">모호</td><td>가족이 다 같이 이사 왔어요</td><td>세대 구성 확인 후 맞는 절차로 연결</td></tr>
+          <tr><td class="c">12</td><td class="c">모호</td><td>회사 때문에 세종 왔는데 뭐부터 하죠?</td><td>전입신고 여부 확인 질문 후 안내</td></tr>
+          <tr><td class="c">13</td><td class="c">폴백</td><td>외국인 배우자도 같이 전입신고 되나요?</td><td>추측 금지 — 담당 부서 연결 + 요약 카드</td></tr>
+          <tr><td class="c">14</td><td class="c">폴백</td><td>옆집이 위장전입 같은데 신고하고 싶어요</td><td>범위 밖 — 담당 기관 안내로 폴백</td></tr>
+          <tr><td class="c">15</td><td class="c">폴백</td><td>전입 지원금은 언제 들어오나요?</td><td>지식베이스 밖 — 담당 부서 연결로 폴백</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>채점 기준 — 3축</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>축</th><th>통과 기준</th><th>실패 예</th></tr></thead>
+        <tbody>
+          <tr><td><b>① 답변 정확성</b></td><td>골든 기준의 핵심 사실(서류·기한·수수료 등)과 일치, 누락·오류 없음</td><td>"7일 이내"로 잘못 안내, 필요 서류 누락</td></tr>
+          <tr><td><b>② 출처 적합성</b></td><td>표기한 출처가 실제 근거 문서와 일치하고, 스니펫이 답변 내용을 지지함</td><td>답과 무관한 문서 인용, 출처 없는 단정</td></tr>
+          <tr><td><b>③ 폴백 적절성</b></td><td>폴백해야 할 질문에서 추측성 답변 없이 폴백 / 정상 질문에서 과잉 폴백 없음</td><td>#13에 추측성 답변, #1에 불필요한 폴백</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small">※ 각 문항은 해당되는 축을 모두 통과해야 "통과"로 판정. 채점 결과는 문항×축 매트릭스로 기록해 빌드마다 비교한다.</p>
+  </section>
+
+  <!-- 6. RFP 요구사항 대응표 -->
+  <section id="s6">
+    <h2><span class="num">6</span> RFP 요구사항 대응표</h2>
+    <p class="lead">요구사항 ID별 제안 기능 · 구현 구분(<span class="tag run">동작</span> <span class="tag mock">목업</span> <span class="tag road">로드맵</span>) · 검증 방법.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>ID</th><th>제안 기능</th><th class="c">구현</th><th>검증 방법</th></tr></thead>
+        <tbody>
+          <tr><td><span class="id">SFR-001</span></td><td>RAG 질의응답 + 출처·원문 스니펫</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA 정상 8문항(①②축) + 시나리오① 시연</td></tr>
+          <tr><td><span class="id">SFR-002</span></td><td>의도 분류(LLM 라우팅)</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA 전 문항의 분류 결과 확인</td></tr>
+          <tr><td><span class="id">SFR-003</span></td><td>절차·서류 단계 카드 UI</td><td class="c"><span class="tag run">동작</span></td><td>시나리오① 카드 렌더링 시연</td></tr>
+          <tr><td><span class="id">SFR-004</span></td><td>위치 선택 + 샘플 주민센터 매칭(간이)</td><td class="c"><span class="tag run">동작</span></td><td>시나리오③ 행정동 선택→매칭 시연</td></tr>
+          <tr><td><span class="id">SFR-005</span></td><td>모호 질문 후속질문(선택지 버튼)</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA 모호 4문항 + 시나리오② 시연</td></tr>
+          <tr><td><span class="id">SFR-006</span></td><td>신뢰도 기반 폴백 + 대화 요약 카드</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA 폴백 3문항(③축) + 시나리오③ 시연</td></tr>
+          <tr><td><span class="id">SFR-007</span></td><td>신청 상태 조회 <em>(선택 요구)</em></td><td class="c"><span class="tag road">로드맵</span></td><td>— (선택 요구, Phase 2 설계안 제시)</td></tr>
+          <tr><td><span class="id">SFR-008</span></td><td>다국어·음성 <em>(선택 요구)</em></td><td class="c"><span class="tag road">로드맵</span></td><td>— (선택 요구, 접근성 로드맵과 연계)</td></tr>
+          <tr><td><span class="id">DAR-001</span></td><td>전입 도메인 샘플 지식베이스</td><td class="c"><span class="tag run">동작</span></td><td>문서 목록·출처 대조표 제출(5장)</td></tr>
+          <tr><td><span class="id">DAR-002</span></td><td>샘플 주민센터·부서 데이터</td><td class="c"><span class="tag run">동작</span></td><td>폴백 매칭 조회 시연</td></tr>
+          <tr><td><span class="id">DAR-003</span></td><td>비식별 대화 로그 저장</td><td class="c"><span class="tag run">동작</span></td><td>저장 로그의 비식별 필드 검사</td></tr>
+          <tr><td><span class="id">SIR-001</span></td><td>공공데이터 API 연계</td><td class="c"><span class="tag road">로드맵</span></td><td>— (RFP상 가상 연계. 샘플 데이터로 대체, Phase 3 연동안 제시)</td></tr>
+          <tr><td><span class="id">SIR-002</span></td><td>지도 API 연계</td><td class="c"><span class="tag road">로드맵</span></td><td>— (SFR-004 간이 매칭으로 목적 충족, Phase 2 고도화)</td></tr>
+          <tr><td><span class="id">PER-001</span></td><td>응답시간</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA 실행 시 평균 응답시간 실측·보고</td></tr>
+          <tr><td><span class="id">PER-002</span></td><td>동시 100명 처리</td><td class="c"><span class="tag road">로드맵</span></td><td>— (가상 기준. 확장 아키텍처안으로 대응, 부하시험은 Phase 2)</td></tr>
+          <tr><td><span class="id">SER-001</span></td><td>개인정보 최소수집</td><td class="c"><span class="tag run">동작</span></td><td>입력 단계에 개인정보 요구 없음 — 화면·코드 검토</td></tr>
+          <tr><td><span class="id">SER-002</span></td><td>로그 비식별화</td><td class="c"><span class="tag run">동작</span></td><td>저장 필드 정의서 + 로그 샘플 검사</td></tr>
+          <tr><td><span class="id">SER-003</span></td><td>환각 방지·출처 표기</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA ②축 — 출처 없는 단정 답변 0건 확인</td></tr>
+          <tr><td><span class="id">QUR-001</span></td><td>접근성 — 큰 글씨·고대비 토글(동작), 쉬운말 모드(목업)</td><td class="c"><span class="tag run">동작</span>+<span class="tag mock">목업</span></td><td>토글 시연 + 쉬운말 목업 화면 제시</td></tr>
+          <tr><td><span class="id">QUR-002</span></td><td>정확성 점검 — 골든 QA 15문항 3축 채점</td><td class="c"><span class="tag run">동작</span></td><td>채점 매트릭스 리포트 제출</td></tr>
+          <tr><td><span class="id">COR-001</span></td><td>근거 기반·불확실 시 폴백</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA ②③축 통과</td></tr>
+          <tr><td><span class="id">COR-002</span></td><td>모바일 우선 반응형</td><td class="c"><span class="tag run">동작</span></td><td>모바일 뷰포트 시연</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small">※ 필수 요구 중 로드맵 처리는 SIR-001(RFP상 가상)·SIR-002(간이 매칭으로 목적 충족)·PER-002(가상 기준) 3건이며, 각각 대체 방안과 사유를 명시했다.</p>
+  </section>
+
+  <!-- 7. 구현·검증 계획 -->
+  <section id="s7">
+    <h2><span class="num">7</span> 구현 · 검증 계획</h2>
+
+    <h3>팀 구성</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>역할</th><th>담당</th><th>주요 업무</th></tr></thead>
+        <tbody>
+          <tr><td>PM · 발표</td><td><b>손한주</b></td><td>일정·의사결정, 요구사항 매핑 관리, 발표</td></tr>
+          <tr><td>Frontend</td><td><b>손한주</b></td><td>채팅 UI, 출처·스니펫 UX, 접근성 토글, 반응형</td></tr>
+          <tr><td>Backend</td><td><b>최윤수</b></td><td>API, 폴백 로직, 위치 매칭, 로그 비식별 저장</td></tr>
+          <tr><td>AI/LLM</td><td><b>김현수</b></td><td>RAG 파이프라인, 프롬프트(의도 분류·후속질문), 신뢰도 임계값</td></tr>
+          <tr><td>데이터·QA</td><td><b>박재현</b></td><td>샘플 지식베이스 구축·검수, 골든 QA 채점 운영</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>기술 스택</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>계층</th><th>기술</th><th>선정 사유</th></tr></thead>
+        <tbody>
+          <tr><td>개발 도구</td><td><b>Kiro AI</b></td><td>멘토측 제공</td></tr>
+          <tr><td>Frontend</td><td>React</td><td>모바일 우선 반응형, 접근성 컴포넌트</td></tr>
+          <tr><td>Backend</td><td>Python (FastAPI)</td><td>AI 라이브러리 호환, 비동기 처리</td></tr>
+          <tr><td>LLM</td><td><b>Upstage Solar</b> (국산 LLM)</td><td>한국어·행정 언어 강점, 공공 부문 국산 LLM 선호, 근거 기반 답변 생성</td></tr>
+          <tr><td>Vector DB / RAG</td><td>Chroma + LangChain</td><td>소규모 코퍼스에 적합, 유사도 검색</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>주차별 일정</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th class="c">주차</th><th>기간</th><th>작업</th><th>산출물</th></tr></thead>
+        <tbody>
+          <tr><td class="c">2주차</td><td>7/13~7/17</td><td>제안 확정 · 골든 QA 평가셋 확정 · 와이어프레임 → 7/15 멘토링 검토</td><td>입찰 제안서(PDF)</td></tr>
+          <tr><td class="c" rowspan="5">3주차</td><td>7/20(월)</td><td>개발 환경 구성, 샘플 지식베이스 구축·검수</td><td rowspan="5">동작 MVP<br/>(GitHub)</td></tr>
+          <tr><td>7/21(화)</td><td>RAG 파이프라인 + 의도 분류</td></tr>
+          <tr><td>7/22(수)</td><td>근거 UX(출처 배지·스니펫) + 절차 카드</td></tr>
+          <tr><td>7/23(목)</td><td>폴백 + 위치 매칭 + 후속질문</td></tr>
+          <tr><td>7/24(금)</td><td>골든 QA 15문항 채점 + 통합 테스트</td></tr>
+          <tr><td class="c">4주차</td><td>7/27~7/31</td><td>안정화 · 재채점 · 발표자료(Canva) · 발표 영상(10~15분)</td><td>최종 발표 영상</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>테스트 방법과 성공/실패 판정</h3>
+    <ul>
+      <li><b>자동 채점</b> — 골든 QA 15문항 일괄 실행 스크립트 → 문항×3축 매트릭스 기록, 평균 응답시간 동시 측정</li>
+      <li><b>수동 시연</b> — 대표 시나리오 3종(정상·모호·폴백)을 모바일 뷰포트에서 end-to-end 시연</li>
+      <li><b>데이터 검수</b> — 지식베이스 전 문서의 원출처 대조표 작성</li>
+    </ul>
+    <div class="tw">
+      <table>
+        <thead><tr><th>지표</th><th>성공 기준</th><th>실패 시 조치</th></tr></thead>
+        <tbody>
+          <tr><td>골든 QA 통과율</td><td><b>15문항 중 13문항 이상</b> 3축 모두 통과</td><td>실패 문항의 축별 원인 분석 → 지식베이스 보강 또는 임계값 조정 후 재채점</td></tr>
+          <tr><td>출처 없는 단정 답변</td><td><b>0건</b></td><td>해당 케이스 폴백 전환, 프롬프트 수정</td></tr>
+          <tr><td>시나리오 3종 시연</td><td>중단 없이 end-to-end 완주</td><td>결함 수정 후 재시연</td></tr>
+          <tr><td>평균 응답시간</td><td>실측값 보고 (목표 3초 이내)</td><td>초과 시 원인·개선안을 결과 보고에 포함</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 8. 기대 효과 · 수익모델 · 로드맵 -->
+  <section id="s8">
+    <h2><span class="num">8</span> 기대 효과 · 수익모델 · 확장 로드맵</h2>
+
+    <h3>기대 효과 <span class="small">(수치는 측정 후 보고 원칙)</span></h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>구분</th><th>효과</th><th>측정 방법</th></tr></thead>
+        <tbody>
+          <tr><td>시민 접근성</td><td>야간·주말에도 즉시, 근거를 확인하며 안내받음</td><td>서비스 가동 시간(24시간) + 시나리오 시연</td></tr>
+          <tr><td>정보 정확성</td><td>출처 확인 가능한 일관된 안내</td><td>골든 QA 3축 채점 실측 결과로 보고</td></tr>
+          <tr><td>행정 효율</td><td>단순·반복 문의의 자동 응대로 인력 부담 완화</td><td>파일럿 대화 로그 분석으로 자동 처리 비율 산출(운영 후)</td></tr>
+          <tr><td>운영 신뢰</td><td>모든 빌드에서 동일 기준(골든 QA) 품질 관리</td><td>빌드별 채점 매트릭스 비교</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>수익모델 (B2G)</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>구분</th><th>내용</th><th>시기</th></tr></thead>
+        <tbody>
+          <tr><td>초기 구축비</td><td>플랫폼 구축 + 도메인 지식베이스 구축·검수 (1회)</td><td>도입 시</td></tr>
+          <tr><td>연간 운영·유지보수</td><td>조례·지침 개정 반영(지식베이스 현행화), 모델·인프라 운영, 정기 골든 QA 품질 리포트</td><td>연 단위</td></tr>
+          <tr><td>확산 라이선스</td><td>검증된 도메인 템플릿(전입→세금·복지)을 타 지자체에 SaaS형 제공</td><td>Phase 3</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small">※ 지식베이스 현행화·품질 리포트가 반복 수익의 핵심 — "근거 기반" 설계가 유지보수 사업성과 직결된다.</p>
+
+    <h3>확장 로드맵 ("5" → "10")</h3>
+    <div class="roadmap">
+      <div class="phase p1">
+        <header>Phase 1 · MVP (2026.07)</header>
+        <ul>
+          <li>전입신고 도메인 완성</li>
+          <li>근거·출처 UX + 폴백</li>
+          <li>골든 QA 검증 체계</li>
+          <li>접근성 토글</li>
+        </ul>
+      </div>
+      <div class="phase p2">
+        <header>Phase 2 · 확장</header>
+        <ul>
+          <li>세금·복지·인허가 도메인</li>
+          <li>실지도 API·기관 연결 고도화</li>
+          <li>쉬운말 모드 완성 · 음성</li>
+          <li>부하 검증(동시 100명)</li>
+        </ul>
+      </div>
+      <div class="phase p3">
+        <header>Phase 3 · 고도화</header>
+        <ul>
+          <li>신청 상태 조회 · 다국어</li>
+          <li>공공데이터 실연계</li>
+          <li>타 지자체 확산(SaaS)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="note">
+    본 문서는 고려대 세종 계절학기 산업체 실습 프로젝트 학습용 가상 공고(2026-세종-0001)에 대한 <b>입찰 제안서</b>입니다.<br/>
+    본문에 표기된 행정 절차·기관 정보는 데모용 샘플 데이터 기준입니다. · 2026 고대세종 기업인턴십 1팀
+  </footer>
+
+</div>
+</body>
+</html>
