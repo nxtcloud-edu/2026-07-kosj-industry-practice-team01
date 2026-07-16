@@ -22,8 +22,8 @@
   html{-webkit-text-size-adjust:100%}
   body{margin:0;background:var(--bg);color:var(--ink);
     font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    line-height:1.65;font-size:16px}
-  .wrap{max-width:960px;margin:0 auto;padding:28px 22px 80px}
+    line-height:1.7;font-size:16px}
+  .wrap{max-width:980px;margin:0 auto;padding:28px 22px 80px}
 
   .doc-head{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 100%);
     color:#fff;border-radius:16px;padding:30px 30px 26px;margin-bottom:22px;
@@ -45,20 +45,21 @@
   nav.toc a{color:var(--accent-2);text-decoration:none;font-size:14.5px}
   nav.toc a:hover{text-decoration:underline}
 
-  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 28px;margin-bottom:20px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 30px;margin-bottom:20px}
   h2{display:flex;align-items:center;gap:12px;margin:0 0 16px;font-size:20px;font-weight:800;color:var(--accent-2)}
   h2 .num{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;
     display:grid;place-items:center;font-size:15px;font-weight:700}
-  h3{margin:22px 0 10px;font-size:15.5px;font-weight:700;color:var(--ink)}
+  h3{margin:26px 0 10px;font-size:16px;font-weight:700;color:var(--ink);
+    padding-left:10px;border-left:3px solid var(--accent)}
   h3:first-of-type{margin-top:4px}
-  h4{margin:14px 0 8px;font-size:14px;font-weight:700;color:var(--accent-2)}
+  h4{margin:16px 0 8px;font-size:14.5px;font-weight:700;color:var(--accent-2)}
   p{margin:0 0 12px}
-  ul{margin:0 0 12px;padding-left:20px}
-  li{margin:4px 0}
+  ul,ol{margin:0 0 12px;padding-left:22px}
+  li{margin:5px 0}
   .lead{color:var(--muted);font-size:15px}
   .small{font-size:12.5px;color:var(--muted)}
 
-  .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:10px 0 6px;border:1px solid var(--line);border-radius:10px}
+  .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:10px 0 8px;border:1px solid var(--line);border-radius:10px}
   table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
   th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
   thead th{background:var(--accent-soft);color:var(--accent-2);font-weight:700;white-space:nowrap}
@@ -69,7 +70,7 @@
     border:1px solid #cfe2e8;border-radius:6px;padding:1px 7px;margin:1px 2px 1px 0;white-space:nowrap}
   .tag{display:inline-block;font-size:11.5px;font-weight:700;border-radius:20px;padding:2px 10px;white-space:nowrap}
   .tag.run{background:#e6f4ee;color:var(--ok);border:1px solid #bfe3d1}
-  .tag.mock{background:#eef; color:#4a4aa8;border:1px solid #ccd0ee}
+  .tag.mock{background:#eef;color:#4a4aa8;border:1px solid #ccd0ee}
   .tag.road{background:#f4ede1;color:var(--warn);border:1px solid #e6d3b3}
 
   .callout{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;
@@ -78,46 +79,76 @@
   .callout.warn{border-color:var(--warn);background:#fdf6ea}
   .callout.warn b{color:var(--warn)}
 
-  /* Persona */
   .persona{display:flex;gap:18px;border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fbfcfd;margin:12px 0}
   .persona .avatar{flex:0 0 auto;width:56px;height:56px;border-radius:50%;background:var(--accent-soft);
     display:grid;place-items:center;font-size:28px}
   .persona h4{margin:0 0 4px}
   .persona p{margin:0 0 6px;font-size:13.5px;color:var(--muted)}
 
-  /* Scenario flows */
-  .scenario{border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden}
+  .timeline{border:1px solid var(--line);border-radius:12px;padding:14px 18px;background:#fbfcfd;margin:12px 0;font-size:13.5px}
+  .timeline .row{display:flex;gap:12px;padding:5px 0;border-bottom:1px dashed var(--line)}
+  .timeline .row:last-child{border-bottom:none}
+  .timeline .t{flex:0 0 56px;font-weight:700;color:var(--accent-2)}
+
+  /* Scenario blocks */
+  .scenario{border:1px solid var(--line);border-radius:12px;margin:16px 0;overflow:hidden}
   .scenario > header{padding:10px 16px;font-weight:700;font-size:14px;color:#fff;background:var(--accent)}
   .scenario.s2 > header{background:#4b7f93}
   .scenario.s3 > header{background:var(--warn)}
-  .scenario .body{display:grid;grid-template-columns:280px 1fr;gap:16px;padding:16px}
-  .steps{font-size:13px}
-  .steps ol{margin:0;padding-left:18px}
-  .steps li{margin:6px 0}
-  .steps .stage{font-weight:700;color:var(--accent-2)}
+  .scenario .inner{padding:16px}
 
-  /* Phone wireframe */
-  .phone{width:100%;max-width:280px;border:2px solid #c8d2da;border-radius:18px;background:#fff;padding:12px 10px;font-size:12.5px}
-  .phone .bar{height:5px;width:44px;background:#dfe6ec;border-radius:3px;margin:0 auto 10px}
-  .bubble{border-radius:12px;padding:8px 11px;margin:6px 0;max-width:92%;line-height:1.5}
+  .shots{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:12px 0}
+  .shot .cap{font-size:12.5px;font-weight:700;color:var(--accent-2);margin:0 0 6px;text-align:center}
+  .shot .cap .st{display:inline-block;background:var(--accent);color:#fff;border-radius:10px;
+    font-size:10.5px;padding:1px 8px;margin-right:5px;vertical-align:1px}
+
+  .phone{width:100%;border:2px solid #c8d2da;border-radius:16px;background:#fff;padding:12px 10px;font-size:12px;min-height:230px}
+  .phone .bar{height:5px;width:40px;background:#dfe6ec;border-radius:3px;margin:0 auto 10px}
+  .bubble{border-radius:12px;padding:8px 10px;margin:6px 0;max-width:94%;line-height:1.5}
   .bubble.user{background:var(--accent);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
   .bubble.bot{background:#f0f4f7;border-bottom-left-radius:4px}
-  .bubble.bot .src{display:inline-block;margin-top:6px;font-size:10.5px;font-weight:700;color:var(--accent-2);
+  .bubble.bot .src{display:inline-block;margin-top:6px;font-size:10px;font-weight:700;color:var(--accent-2);
     background:var(--accent-soft);border:1px solid #cfe2e8;border-radius:5px;padding:1px 6px}
-  .snippet{border-left:3px solid var(--accent);background:#fbfdfe;font-size:11px;color:var(--muted);
-    padding:6px 9px;margin:4px 0 2px;border-radius:0 6px 6px 0}
+  .snippet{border-left:3px solid var(--accent);background:#fbfdfe;font-size:10.5px;color:var(--muted);
+    padding:6px 8px;margin:4px 0 2px;border-radius:0 6px 6px 0}
   .chips{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0}
-  .chip{font-size:11px;border:1px solid var(--accent);color:var(--accent-2);border-radius:14px;padding:2px 9px;background:#fff}
-  .fallback-card{border:1.5px solid var(--warn);background:#fdf6ea;border-radius:10px;padding:8px 10px;margin:6px 0;font-size:11.5px}
+  .chip{font-size:10.5px;border:1px solid var(--accent);color:var(--accent-2);border-radius:14px;padding:2px 8px;background:#fff}
+  .fallback-card{border:1.5px solid var(--warn);background:#fdf6ea;border-radius:10px;padding:8px 10px;margin:6px 0;font-size:11px}
   .fallback-card b{color:var(--warn)}
-  .conf{display:inline-block;font-size:10px;font-weight:700;border-radius:10px;padding:1px 7px;margin-left:4px}
+  .conf{display:inline-block;font-size:9.5px;font-weight:700;border-radius:10px;padding:1px 6px;margin-left:4px}
   .conf.hi{background:#e6f4ee;color:var(--ok)}
   .conf.lo{background:#fdeaea;color:var(--danger)}
+  .inputbar{border:1.5px solid var(--accent);border-radius:20px;padding:6px 12px;color:var(--muted);
+    font-size:11px;margin-top:8px;display:flex;justify-content:space-between;align-items:center}
+  .inputbar .send{color:var(--accent);font-weight:700}
+
+  /* High-contrast phone */
+  .phone.hc{background:#101418;border-color:#000}
+  .phone.hc .bar{background:#3a4652}
+  .phone.hc .bubble.bot{background:#1c2530;color:#ffffff;font-size:14px;line-height:1.6}
+  .phone.hc .bubble.user{background:#ffd43b;color:#101418;font-size:14px;font-weight:700}
+  .phone.hc .bubble.bot .src{background:#0c3b2e;color:#7dffc4;border-color:#1f8b5f;font-size:11px}
+  .phone.hc .snippet{background:#151b22;border-color:#ffd43b;color:#d7dee6;font-size:12px}
+
+  /* Golden QA example boxes */
+  .qa-ex{border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden}
+  .qa-ex header{background:var(--accent-soft);color:var(--accent-2);font-weight:700;font-size:13.5px;padding:8px 14px}
+  .qa-ex .body{padding:12px 16px;font-size:13.5px}
+  .qa-ex .q{font-weight:700;margin-bottom:8px}
+  .qa-ex .field{display:flex;gap:10px;padding:5px 0;border-bottom:1px dashed var(--line)}
+  .qa-ex .field:last-child{border-bottom:none}
+  .qa-ex .k{flex:0 0 110px;font-size:12px;font-weight:700;color:var(--muted);font-family:Consolas,monospace}
+  .qa-ex .v{flex:1}
 
   .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:12px 0}
   .card{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfd}
   .card h4{margin:0 0 6px}
   .card p{margin:0;font-size:13.5px;color:var(--muted)}
+
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0;font-size:13.5px}
+  .flow .step{background:var(--accent-soft);border:1px solid #cfe2e8;color:var(--accent-2);border-radius:8px;padding:8px 12px;font-weight:600}
+  .flow .arrow{color:var(--accent);font-weight:700}
+  .flow .fallback{background:#fdeede;border-color:#e6d3b3;color:var(--warn)}
 
   .roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
   .phase{border:1px solid var(--line);border-radius:12px;overflow:hidden}
@@ -135,40 +166,37 @@
   .btn:hover{background:var(--accent-2)}
 
   @media (max-width:700px){
-    .meta,nav.toc ol,.cards,.roadmap{grid-template-columns:1fr}
-    .scenario .body{grid-template-columns:1fr}
+    .meta,nav.toc ol,.cards,.roadmap,.shots{grid-template-columns:1fr}
     .doc-head{padding:24px 20px}
     .doc-head h1{font-size:22px}
     section{padding:20px 18px}
   }
-  @page{margin:10mm}
+  @page{margin:12mm}
   @media print{
-    body{background:#fff;font-size:10.5px;line-height:1.4}
+    body{background:#fff;font-size:11.5px;line-height:1.55}
     .wrap{max-width:none;padding:0}
     .no-print{display:none!important}
-    .doc-head{box-shadow:none;padding:14px 16px;border-radius:10px;margin-bottom:10px}
-    .doc-head h1{font-size:18px;margin-bottom:8px}
-    .meta{gap:3px 18px;font-size:10.5px}
-    .meta div{padding-top:4px}
-    .slogan{padding:12px 16px;margin-bottom:10px}
-    .slogan .line{font-size:15px}
-    nav.toc{padding:10px 14px;margin-bottom:10px;break-inside:avoid}
-    section{box-shadow:none;border:1px solid #d5dbe0;border-radius:10px;padding:10px 14px;margin-bottom:9px;break-inside:auto}
-    h2{font-size:15px;margin-bottom:9px}
-    h2 .num{width:24px;height:24px;font-size:13px}
-    h3{margin:11px 0 6px;font-size:13px}
+    .doc-head{box-shadow:none;padding:18px 20px;border-radius:10px;margin-bottom:12px}
+    .doc-head h1{font-size:20px}
+    .meta{font-size:11px}
+    .slogan{padding:14px 18px;margin-bottom:12px}
+    .slogan .line{font-size:16px}
+    nav.toc{break-inside:avoid}
+    section{box-shadow:none;border:1px solid #d5dbe0;border-radius:10px;padding:14px 18px;margin-bottom:11px;break-inside:auto}
+    h2{font-size:16px}
+    h3{font-size:13.5px}
     h2,h3,h4{break-after:avoid;page-break-after:avoid}
-    p{margin-bottom:6px} ul{margin-bottom:6px} li{margin:2px 0}
-    .tw{overflow:visible;margin:6px 0 4px}
-    table{break-inside:auto;font-size:9.8px}
-    th,td{padding:4px 7px}
+    .tw{overflow:visible}
+    table{break-inside:auto;font-size:10.5px;min-width:0}
+    th,td{padding:6px 8px}
     thead{display:table-header-group}
-    tr,.card,.callout,.phase,.persona,.scenario,.phone{break-inside:avoid;page-break-inside:avoid}
-    .scenario .body{grid-template-columns:250px 1fr;padding:10px;gap:10px}
-    .cards{gap:8px;margin:8px 0}.card{padding:9px 12px}
-    .roadmap{gap:8px;margin:8px 0}
-    .callout{margin:8px 0;padding:10px 12px}
-    .doc-head,thead th,.tag,.id,.callout,.phase header,.scenario>header,.bubble.user,.conf,.slogan
+    tr,.card,.callout,.phase,.persona,.timeline,.shot,.qa-ex{break-inside:avoid;page-break-inside:avoid}
+    .scenario{break-inside:auto}
+    .scenario > header{break-after:avoid}
+    .shots{grid-template-columns:repeat(3,1fr);gap:8px}
+    .phone{min-height:0;font-size:9.5px}
+    .doc-head,thead th,.tag,.id,.callout,.phase header,.scenario>header,.bubble.user,.bubble.bot,
+    .conf,.slogan,.qa-ex header,.phone.hc,.phone.hc .bubble.bot,.phone.hc .bubble.user,.src,.snippet,.chip
       {-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
 </style>
@@ -212,51 +240,102 @@
     </ol>
   </nav>
 
-  <!-- 1. 사업 이해 -->
+  <!-- ============================================================ 1 -->
   <section id="s1">
     <h2><span class="num">1</span> 사업 이해</h2>
-    <p class="lead">본 사업은 시민이 일상 언어로 민원을 질문하면 AI가 24시간 행정 정보에 <b>근거</b>하여 안내하고,
-      필요한 서류·절차·담당 부서까지 연결하는 통합 응대 플랫폼을 구축하는 것이다.</p>
-    <p>공공 AI 응대의 성패는 기능의 개수가 아니라 <b>답변을 믿을 수 있는가</b>에 달려 있다.
-      우리는 요구사항 전체를 얕게 펼치는 대신, 시민 생활에서 가장 빈번한 민원인 <b>전입신고</b> 도메인에서
-      아래 한 문장을 실제로 동작하는 수준까지 완성하는 것을 제안한다.</p>
+
+    <h3>1.1 사업 개요</h3>
+    <p>본 사업은 세종특별자치시 시민이 일상 언어로 민원을 질문하면, AI가 24시간 언제든 행정 정보에
+      <b>근거</b>하여 정확하게 안내하고, 필요한 서류와 절차, 그리고 담당 부서까지 연결해 주는
+      통합 응대 플랫폼을 구축하는 것이다. 발주기관이 제시한 과업 내용은 기능(SFR) 8건, 데이터(DAR) 3건,
+      연계(SIR) 2건, 성능(PER) 2건, 보안(SER) 3건, 품질(QUR) 2건, 제약(COR) 2건 — 총 22건의
+      요구사항으로 구성되어 있으며, 본 제안서는 모든 서술을 해당 요구사항 ID와 연결하여 기술한다.</p>
+
+    <h3>1.2 발주 배경에 대한 이해</h3>
+    <p>공고문이 진단한 현황은 세 가지로 요약된다. 첫째, 시정 민원의 상당수가 전화와 주민센터 방문에
+      집중되어 있고 그중 다수가 전입신고 절차, 필요 서류, 처리 기간, 담당 부서 같은 단순·반복 문의이다.
+      둘째, 민원 응대가 평일 근무시간에 한정되어 야간·주말에는 안내 공백이 생긴다. 셋째, 부서와 창구마다
+      안내 기준이 달라 시민이 같은 질문에 서로 다른 답을 듣는 일이 발생한다.</p>
+    <p>우리는 이 진단의 핵심을 "챗봇이 없어서 생기는 문제"가 아니라 <b>"믿을 수 있는 안내 채널이 없어서
+      생기는 문제"</b>로 이해했다. 공고문이 근거(COR-001), 출처 표기(SER-003), 정확성 점검(QUR-002),
+      폴백(SFR-006)을 반복해서 요구하는 것도 같은 맥락이다. 따라서 본 제안의 중심은 기능의 개수가 아니라
+      <b>답변의 신뢰</b>에 있다.</p>
+
+    <h3>1.3 우리의 접근 — 한 문장과 세 가지 원칙</h3>
+    <p>우리는 요구사항 전체를 얕게 펼치는 대신, 시민 생활에서 가장 빈번한 민원인 <b>전입신고</b>
+      한 도메인에서 아래 한 문장을 실제로 동작하는 수준까지 완성하는 것을 제안한다.</p>
     <div class="callout">
-      <b>제안 핵심</b> — ① 모든 답변에 근거 문서의 <b>출처와 원문 스니펫</b>을 표기하고(확인 가능),
-      ② 신뢰도가 낮으면 무리하게 답변을 생성하지 않고 <b>담당 부서로 안전하게 연결</b>하며(폴백),
-      ③ 그 품질을 <b>골든 QA 15문항 채점</b>으로 검증해 증명한다.
-      본 제안서의 모든 장은 이 한 장면을 3주차 MVP에서 실제로 보여주기 위한 계획이다.
+      <b>"근거를 확인할 수 있고, 불확실하면 안전하게 넘기는 전입신고 안내"</b>
+    </div>
+    <p>이 한 문장은 다음 세 가지 설계 원칙으로 구체화된다.</p>
+    <ul>
+      <li><b>원칙 1 — 근거 없는 답변은 내보내지 않는다.</b> 모든 답변은 행정 지식베이스 검색 결과에서
+        생성하며, 근거 문서의 출처와 원문 스니펫을 답변과 함께 표기한다. 시민은 답을 "믿어 달라"는 요구를
+        받는 것이 아니라, 근거를 직접 눈으로 확인할 수 있다. (SFR-001 · SER-003 · COR-001)</li>
+      <li><b>원칙 2 — 불확실하면 사람에게 넘긴다.</b> 검색된 근거가 부족하거나 신뢰도가 임계값에 미치지
+        못하면, 시스템은 무리하게 답변을 생성하지 않고 담당 부서 연결로 전환한다. 이때 시민이 처음부터
+        다시 설명하지 않도록 대화 요약 카드를 함께 제공한다. (SFR-006 · SFR-004)</li>
+      <li><b>원칙 3 — 품질은 말이 아니라 측정으로 증명한다.</b> 전입신고 도메인의 골든 QA 15문항을 고정
+        평가셋으로 두고, 답변 정확성·출처 적합성·폴백 적절성의 3축 세부 기준으로 모든 빌드를 동일하게
+        채점한다. (QUR-002)</li>
+    </ul>
+
+    <h3>1.4 제안 요약</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>질문</th><th>우리의 답</th></tr></thead>
+        <tbody>
+          <tr><td>누구의 문제인가</td><td>야간·주말에 정확한 민원 정보를 확인할 수 없는 시민 (대표 사용자: 세종 전입 30대 직장인)</td></tr>
+          <tr><td>무엇을 만드는가</td><td>전입신고 도메인의 근거 기반 질의응답 챗봇 — 출처·원문 확인, 후속 질문, 안전한 폴백까지 end-to-end</td></tr>
+          <tr><td>왜 우리인가</td><td>공공 AI의 실패 원인(부정확·환각·신뢰 상실)을 정면으로 설계하고, 그 품질을 골든 QA로 수치 증명</td></tr>
+          <tr><td>어떻게 증명하는가</td><td>대표 시나리오 3종 시연 + 골든 QA 15문항 3축 채점 리포트 + 요구사항 22건 대응표</td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
-  <!-- 2. 문제 정의와 사용자 -->
+  <!-- ============================================================ 2 -->
   <section id="s2">
     <h2><span class="num">2</span> 문제 정의와 사용자</h2>
 
-    <h3>대표 사용자</h3>
+    <h3>2.1 대표 사용자</h3>
     <div class="persona">
       <div class="avatar">🧑‍💼</div>
       <div>
         <h4>김세종 (가명) · 34세 · 직장인</h4>
         <p>대전에서 세종으로 이직하며 이사. 평일 09~19시 근무로 주민센터 방문이 어렵다.</p>
-        <p><b>문제 상황</b> — 이사 당일 밤 10시, "전입신고 뭐 필요하지?"를 검색한다. 블로그마다 필요 서류가 다르게 적혀 있고,
-          시청 콜센터는 이미 문을 닫았다. 어떤 정보가 맞는지 확인할 방법이 없어 결국 다음 날 회사에 양해를 구하고 주민센터에 전화를 건다.</p>
         <p><b>필요한 것</b> — ① 밤에도 즉시(24시간) ② 믿을 수 있는 근거와 함께(출처 확인) ③ 해결이 안 되면 어디로 가야 하는지(안전한 연결)</p>
       </div>
     </div>
 
-    <h3>문제 정의</h3>
+    <h4>이사 첫날 밤, 김세종의 여정 (현재 AS-IS)</h4>
+    <div class="timeline">
+      <div class="row"><span class="t">21:40</span><span>짐 정리 중 "전입신고 해야 하는데"가 떠오른다. 기한이 있다는 말을 들은 것 같아 불안해진다.</span></div>
+      <div class="row"><span class="t">22:00</span><span>포털에 검색한다. 블로그마다 필요 서류가 다르게 적혀 있다. 작성 시점도 제각각이라 어느 것이 지금 기준인지 알 수 없다.</span></div>
+      <div class="row"><span class="t">22:10</span><span>시청 홈페이지에 들어가 보지만 메뉴가 복잡해 원하는 안내 페이지를 찾지 못한다.</span></div>
+      <div class="row"><span class="t">22:20</span><span>콜센터에 전화를 걸어 보니 운영시간 종료 안내만 나온다.</span></div>
+      <div class="row"><span class="t">다음날</span><span>결국 반차 사용을 고민하며 출근길에 주민센터로 전화를 건다. 상담원과 김세종 모두의 시간이 소모된다.</span></div>
+    </div>
+    <p>우리 서비스가 있다면 이 여정은 <b>21:40의 3분 대화</b>로 끝난다. 김세종은 필요 서류·방법·기한을
+      출처와 함께 확인하고, 궁금한 세부 사항이 안내 범위를 벗어나면 다음 날 통화할 담당 부서와 문의
+      요약까지 받아 둔다.</p>
+
+    <h3>2.2 문제 정의</h3>
+    <p>김세종의 여정에서 드러나는 문제를 발주기관 관점의 세 축으로 정리하면 다음과 같다.</p>
     <div class="tw">
       <table>
-        <thead><tr><th>구분</th><th>문제점</th><th>김세종에게 생기는 일</th></tr></thead>
+        <thead><tr><th>구분</th><th>문제점</th><th>김세종에게 생기는 일</th><th>행정에 생기는 일</th></tr></thead>
         <tbody>
-          <tr><td>시민 접근성</td><td>평일 근무시간에만 응대 → 야간·주말 공백</td><td>밤 10시에 물어볼 곳이 없다</td></tr>
-          <tr><td>정보 정확성</td><td>안내 기준 산재, 출처 불명 정보 혼재</td><td>블로그마다 다른 답 — 무엇이 맞는지 모른다</td></tr>
-          <tr><td>행정 효율</td><td>단순·반복 문의에 콜센터 인력 소모</td><td>다음 날 전화 — 상담원도, 김세종도 시간 낭비</td></tr>
+          <tr><td>시민 접근성</td><td>평일 근무시간에만 응대 → 야간·주말 공백</td><td>밤 10시에 물어볼 곳이 없다</td><td>근무시간 문의 집중, 대기 증가</td></tr>
+          <tr><td>정보 정확성</td><td>안내 기준 산재, 출처 불명 정보 혼재</td><td>블로그마다 다른 답 — 무엇이 맞는지 모른다</td><td>부정확 안내로 재문의·민원 재발생</td></tr>
+          <tr><td>행정 효율</td><td>단순·반복 문의에 콜센터 인력 소모</td><td>다음 날 전화 — 양쪽 모두 시간 낭비</td><td>고난도 민원 대응 여력 감소</td></tr>
         </tbody>
       </table>
     </div>
 
-    <h3>시장 분석 — 기존 서비스가 못 채운 것</h3>
+    <h3>2.3 시장 분석 — 기존 서비스가 못 채운 것</h3>
+    <p>공공 민원 챗봇은 이미 여러 곳에서 운영 중이다. 따라서 우리의 차별화는 "기능 신설"이 아니라
+      기존 서비스가 실패했거나 비워 둔 지점을 공략하는 데서 나온다.</p>
     <div class="tw">
       <table>
         <thead><tr><th>서비스</th><th>특징</th><th>한계 / 시사점</th></tr></thead>
@@ -267,167 +346,323 @@
         </tbody>
       </table>
     </div>
-    <p class="lead" style="margin-top:10px">공개 연구에서도 RAG 적용 AI가 <b>17~34% 오답</b>을 내는 것으로 보고된다.
-      즉 관건은 "챗봇이 있느냐"가 아니라 <b>"답을 믿을 수 있고, 틀릴 때 안전한가"</b>이다.
-      우리는 이 신뢰 문제를 설계의 중심에 둔다.</p>
+    <p>특히 챗경북 사례는 본 제안의 방향을 뒷받침하는 반면교사다. 도입 초기 화제성으로 이용자가 몰렸지만,
+      학습 데이터 부실로 답변 품질이 기대에 미치지 못하자 이용률이 첫 달 대비 3% 수준까지 떨어졌고 예산
+      낭비 비판을 받았다. 공개 연구에서도 RAG(검색증강생성)를 적용한 AI조차 <b>17~34%의 오답</b>을
+      내는 것으로 보고된다. 즉 관건은 "챗봇이 있느냐"가 아니라 <b>"답을 믿을 수 있고, 틀릴 때
+      안전한가"</b>이다. 우리는 이 신뢰 문제를 설계의 중심에 둔다.</p>
+
+    <h3>2.4 핵심 가설</h3>
+    <ul>
+      <li><b>H1.</b> 세종시 단순·반복 민원(전입 등)의 상당 부분은 근거 기반 자동응대로 대체할 수 있다.</li>
+      <li><b>H2.</b> 공공 챗봇 이용률의 관건은 기능 수가 아니라 정확도·출처 신뢰·폴백이다. (챗경북 붕괴, RAG 환각 연구가 근거)</li>
+      <li><b>H3.</b> 신뢰는 "잘 답하는 것"과 "모를 때 안전한 것"이 함께 있어야 완성된다 — 둘 중 하나만으로는 부족하다.</li>
+    </ul>
   </section>
 
-  <!-- 3. 해결 방안 -->
+  <!-- ============================================================ 3 -->
   <section id="s3">
     <h2><span class="num">3</span> 해결 방안 — 대표 사용자 흐름 3종</h2>
-    <p class="lead">김세종의 대표 질문 3가지로 <b>입력 → AI 처리 → 결과 → 실패/검수</b> 전 과정을 보여준다.
-      아래 화면은 MVP에서 실제로 동작할 화면의 와이어프레임이다.</p>
+
+    <h3>3.1 서비스 처리 파이프라인</h3>
+    <p>모든 질문은 아래 파이프라인을 거친다. 핵심은 두 갈래의 출구다 — 근거가 충분하면 출처와 함께
+      답하고(경로 A), 근거가 부족하면 추측하지 않고 담당 부서로 연결한다(경로 B). 어느 경로로 가든
+      시민은 "다음에 무엇을 해야 하는지"를 들고 대화를 마친다.</p>
+    <div class="flow">
+      <span class="step">① 자연어 질문 입력</span><span class="arrow">→</span>
+      <span class="step">② 의도 분류</span><span class="arrow">→</span>
+      <span class="step">③ 지식베이스 검색(RAG)</span><span class="arrow">→</span>
+      <span class="step">④ 신뢰도 판정</span>
+    </div>
+    <div class="flow">
+      <span class="arrow" style="margin-left:8px">↳ 충분</span><span class="arrow">→</span>
+      <span class="step">경로 A — 근거 기반 답변 + 출처·원문 스니펫</span>
+    </div>
+    <div class="flow">
+      <span class="arrow" style="margin-left:8px">↳ 부족</span><span class="arrow">→</span>
+      <span class="step fallback">경로 B — 폴백: 위치 선택 → 담당 부서 연결 + 대화 요약 카드</span>
+    </div>
+    <ul class="small" style="margin-top:6px">
+      <li>② 의도 분류: LLM 프롬프트 내 라우팅으로 전입·기타 유형과 질문의 구체성을 판별한다. 의도가 여러 개로 해석되면 후속 질문(시나리오 ②)으로 전환한다.</li>
+      <li>④ 신뢰도 판정: 검색 결과의 유사도 점수와 근거-답변 일치 검증을 함께 사용하며, 임계값은 골든 QA 채점 결과로 조정한다.</li>
+    </ul>
+    <p>이하 3.2~3.4에서 대표 사용자 김세종의 질문 3가지로 <b>입력 → AI 처리 → 결과 → 실패/검수</b>의
+      전 과정을 화면 단위로 보여준다. 각 시나리오의 화면 3장은 MVP에서 실제로 동작할 화면의
+      와이어프레임이다.</p>
 
     <!-- 시나리오 1 -->
     <div class="scenario">
       <header>시나리오 ① 정상 질문 — 근거를 확인할 수 있는 답변</header>
-      <div class="body">
-        <div class="steps">
-          <ol>
-            <li><span class="stage">입력</span> — "전입신고 하려면 뭐가 필요한가요?"</li>
-            <li><span class="stage">AI 처리</span> — 의도 분류(전입) → 지식베이스에서 근거 문서 검색(RAG) → 근거 기반 답변 생성 → 근거-답변 일치 검증</li>
-            <li><span class="stage">결과</span> — 필요 서류·방법·기한·수수료를 단계 카드로 안내. <b>출처 배지 + 원문 스니펫 펼쳐보기</b>, 신뢰도 표시</li>
-            <li><span class="stage">검수</span> — 골든 QA ①답변 정확성 ②출처 적합성 축으로 채점(5장)</li>
-          </ol>
-        </div>
-        <div class="phone">
-          <div class="bar"></div>
-          <div class="bubble user">전입신고 하려면 뭐가 필요한가요?</div>
-          <div class="bubble bot">
-            <b>전입신고 안내</b> <span class="conf hi">근거 확인됨</span><br/>
-            ① 준비물: 본인 신분증<br/>
-            ② 방법: 주민센터 방문 또는 정부24 온라인<br/>
-            ③ 기한: 이사한 날부터 14일 이내<br/>
-            ④ 수수료: 없음<br/>
-            <span class="src">📄 출처: 전입신고 안내 FAQ 3항 (샘플)</span>
-            <div class="snippet">"전입신고는 새로운 거주지로 이사한 날부터 14일 이내에 신고하여야 하며, 수수료는 부과하지 아니한다…" <u>원문 더보기</u></div>
+      <div class="inner">
+        <p>김세종이 가장 먼저 물을 질문이다. 시스템은 의도를 "전입신고 · 필요 서류"로 분류하고,
+          지식베이스에서 근거 문서를 검색한 뒤, 근거가 충분하므로 경로 A로 답한다. 답변에는 단계별
+          안내 카드와 함께 <b>출처 배지</b>가 붙고, 시민이 배지를 누르면 <b>근거 원문 스니펫</b>이
+          펼쳐져 답변과 원문을 직접 대조할 수 있다. 이 세 번째 화면이 본 제안이 말하는
+          "신뢰 가능한 답변 한 장면"이다.</p>
+        <div class="shots">
+          <div class="shot">
+            <p class="cap"><span class="st">1</span>입력</p>
+            <div class="phone">
+              <div class="bar"></div>
+              <div class="bubble bot">안녕하세요, 세종 민원 안내 AI입니다. 전입신고에 대해 무엇이든 물어보세요.</div>
+              <div class="chips"><span class="chip">필요 서류</span><span class="chip">온라인 신고</span><span class="chip">처리 기간</span></div>
+              <div class="bubble user">전입신고 하려면 뭐가 필요한가요?</div>
+              <div class="inputbar"><span>메시지 입력…</span><span class="send">전송</span></div>
+            </div>
+          </div>
+          <div class="shot">
+            <p class="cap"><span class="st">2</span>결과 — 답변 + 출처</p>
+            <div class="phone">
+              <div class="bar"></div>
+              <div class="bubble user">전입신고 하려면 뭐가 필요한가요?</div>
+              <div class="bubble bot">
+                <b>전입신고 안내</b> <span class="conf hi">근거 확인됨</span><br/>
+                ① 준비물: 본인 신분증<br/>
+                ② 방법: 주민센터 방문 또는 정부24 온라인<br/>
+                ③ 기한: 이사한 날부터 14일 이내<br/>
+                ④ 수수료: 없음<br/>
+                <span class="src">📄 출처: 전입신고 안내 FAQ 3항 (샘플) ▸ 원문 보기</span>
+              </div>
+            </div>
+          </div>
+          <div class="shot">
+            <p class="cap"><span class="st">3</span>근거 확인 — 스니펫 펼침</p>
+            <div class="phone">
+              <div class="bar"></div>
+              <div class="bubble bot">
+                <span class="src">📄 전입신고 안내 FAQ 3항 (샘플)</span>
+                <div class="snippet">"전입신고는 새로운 거주지로 이사한 날부터 <b>14일 이내</b>에 신고하여야 하며, <b>수수료는 부과하지 아니한다</b>. 신고인은 본인 확인을 위한 신분증명서를 지참한다…"</div>
+                답변의 각 항목이 위 원문에 근거합니다.<br/>
+                <span class="small">이 안내는 샘플 데이터 기준이며, 원문 전체는 링크에서 확인할 수 있습니다.</span>
+              </div>
+              <div class="chips"><span class="chip">도움이 됐어요</span><span class="chip">추가 질문</span></div>
+            </div>
           </div>
         </div>
+        <p class="small">검수 연결 — 골든 QA 정상 문항(#1~#8)에서 ①답변 정확성 ②출처 적합성 축으로 채점한다(5장).</p>
       </div>
     </div>
 
     <!-- 시나리오 2 -->
     <div class="scenario s2">
       <header>시나리오 ② 모호한 질문 — 후속 질문으로 좁히기</header>
-      <div class="body">
-        <div class="steps">
-          <ol>
-            <li><span class="stage">입력</span> — "이사했는데 뭐 해야 하나요?" (의도가 여러 개로 해석됨)</li>
-            <li><span class="stage">AI 처리</span> — 의도 분류 결과가 복수(전입신고/확정일자/기타) → 단정하지 않고 <b>후속 질문 생성</b></li>
-            <li><span class="stage">결과</span> — 선택지 버튼으로 조건을 좁힌 뒤, 좁혀진 의도에 대해 시나리오 ①과 동일한 근거 기반 답변</li>
-            <li><span class="stage">검수</span> — 골든 QA 모호 문항: 섣부른 단정 답변이 없는지 채점</li>
-          </ol>
-        </div>
-        <div class="phone">
-          <div class="bar"></div>
-          <div class="bubble user">이사했는데 뭐 해야 하나요?</div>
-          <div class="bubble bot">
-            몇 가지 절차가 있어요. 어떤 것부터 도와드릴까요?
-            <div class="chips">
-              <span class="chip">전입신고 하기</span>
-              <span class="chip">확정일자 받기</span>
-              <span class="chip">자동차 주소 변경</span>
-              <span class="chip">잘 모르겠어요</span>
+      <div class="inner">
+        <p>"이사했는데 뭐 해야 하나요?"는 전입신고·확정일자·자동차 주소 변경 등 여러 의도로 해석될 수
+          있다. 이때 섣불리 하나를 골라 답하면 오답 위험이 커진다. 시스템은 의도 분류 결과가 복수이면
+          단정하지 않고 <b>선택지 버튼</b>으로 조건을 좁힌 뒤, 좁혀진 의도에 대해 시나리오 ①과 동일한
+          근거 기반 답변을 제공한다. "모르면 묻는다"는 폴백 정신의 대화 버전이다.</p>
+        <div class="shots">
+          <div class="shot">
+            <p class="cap"><span class="st">1</span>입력 — 모호한 질문</p>
+            <div class="phone">
+              <div class="bar"></div>
+              <div class="bubble user">이사했는데 뭐 해야 하나요?</div>
+              <div class="bubble bot">이사를 축하드려요! 몇 가지 절차가 있어요. 어떤 것부터 도와드릴까요?</div>
+              <div class="inputbar"><span>메시지 입력…</span><span class="send">전송</span></div>
             </div>
           </div>
-          <div class="bubble user">전입신고 하기</div>
-          <div class="bubble bot">전입신고 안내를 시작할게요. 세대주로 신고하시나요? …</div>
+          <div class="shot">
+            <p class="cap"><span class="st">2</span>후속 질문 — 선택지 제시</p>
+            <div class="phone">
+              <div class="bar"></div>
+              <div class="bubble bot">
+                아래에서 선택하시면 바로 안내해 드릴게요.
+                <div class="chips">
+                  <span class="chip">전입신고 하기</span>
+                  <span class="chip">확정일자 받기</span>
+                  <span class="chip">자동차 주소 변경</span>
+                  <span class="chip">잘 모르겠어요</span>
+                </div>
+              </div>
+              <div class="bubble user">전입신고 하기</div>
+            </div>
+          </div>
+          <div class="shot">
+            <p class="cap"><span class="st">3</span>좁혀진 답변 — 근거와 함께</p>
+            <div class="phone">
+              <div class="bar"></div>
+              <div class="bubble bot">
+                <b>전입신고 안내</b> <span class="conf hi">근거 확인됨</span><br/>
+                신분증을 지참해 주민센터를 방문하시거나, 정부24에서 온라인으로 신고할 수 있어요. 기한은 이사일부터 14일 이내입니다.<br/>
+                <span class="src">📄 출처: 전입신고 안내 FAQ 3항 (샘플)</span>
+              </div>
+              <div class="chips"><span class="chip">온라인 방법 자세히</span><span class="chip">가까운 주민센터</span></div>
+            </div>
+          </div>
         </div>
+        <p class="small">검수 연결 — 골든 QA 모호 문항(#9~#12)에서 섣부른 단정 답변이 없는지, 선택 이후 답변이 정확한지 채점한다(5장).</p>
       </div>
     </div>
 
     <!-- 시나리오 3 -->
     <div class="scenario s3">
       <header>시나리오 ③ 폴백 질문 — 불확실하면 안전하게 넘기기</header>
-      <div class="body">
-        <div class="steps">
-          <ol>
-            <li><span class="stage">입력</span> — "외국인 배우자도 같이 전입신고 되나요?" (지식베이스 범위 밖 심화 사례)</li>
-            <li><span class="stage">AI 처리</span> — 검색 결과의 근거 부족 → 신뢰도 임계값 미만 → <b>답변 생성 중단, 폴백 전환</b></li>
-            <li><span class="stage">결과(실패의 안전한 처리)</span> — 추측 답변 대신 담당 부서 연결.
-              <b>행정동 선택 → 샘플 주민센터 매칭</b>(연락처·운영시간) + 지금까지의 <b>대화 요약 카드</b> 제공</li>
-            <li><span class="stage">검수</span> — 골든 QA ③폴백 적절성 축: 추측성 답변 0건 확인</li>
-          </ol>
+      <div class="inner">
+        <p>"외국인 배우자도 같이 전입신고 되나요?"는 체류 자격 등 개별 조건에 따라 답이 달라지는 심화
+          사례로, 샘플 지식베이스의 안내 범위를 벗어난다. 이때 일반적인 챗봇은 그럴듯한 추측을
+          생성하는데, 행정 안내에서 이는 최악의 실패다. 우리 시스템은 신뢰도 임계값 미달을 감지하면
+          답변 생성을 중단하고 <b>담당 부서 연결</b>로 전환한다. 시민이 행정동을 선택하면 해당
+          주민센터의 연락처와 운영시간을 안내하고(SFR-004 간이 구현), 지금까지의 대화를 정리한
+          <b>문의 요약 카드</b>를 함께 제공해 통화가 처음부터 다시 시작되지 않게 한다. 실패를 숨기는
+          것이 아니라, 실패를 안전하게 처리하는 것 — 이것이 본 제안의 두 번째 축이다.</p>
+        <div class="shots">
+          <div class="shot">
+            <p class="cap"><span class="st">1</span>입력 — 범위 밖 질문</p>
+            <div class="phone">
+              <div class="bar"></div>
+              <div class="bubble user">외국인 배우자도 같이 전입신고 되나요?</div>
+              <div class="bubble bot">확인해 볼게요…</div>
+              <div class="inputbar"><span>메시지 입력…</span><span class="send">전송</span></div>
+            </div>
+          </div>
+          <div class="shot">
+            <p class="cap"><span class="st">2</span>폴백 전환 — 위치 선택</p>
+            <div class="phone">
+              <div class="bar"></div>
+              <div class="bubble bot">
+                이 질문은 확실한 근거를 찾지 못했어요. <span class="conf lo">근거 부족</span><br/>
+                부정확한 안내 대신 <b>담당 부서</b>를 연결해 드릴게요. 거주하실 지역을 선택해 주세요.
+                <div class="chips"><span class="chip">보람동</span><span class="chip">도담동</span><span class="chip">새롬동</span><span class="chip">그 외 ▾</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="shot">
+            <p class="cap"><span class="st">3</span>연결 완료 — 요약 카드</p>
+            <div class="phone">
+              <div class="bar"></div>
+              <div class="bubble user">보람동</div>
+              <div class="bubble bot">
+                <div class="fallback-card">
+                  <b>보람동 주민센터 (샘플)</b><br/>
+                  ☎ 044-000-0000 · 평일 09:00~18:00
+                </div>
+                <div class="fallback-card">
+                  📋 <b>문의 요약 카드</b><br/>
+                  주제: 외국인 배우자 동반 전입 가능 여부<br/>
+                  상황: 내국인 세대주 + 외국인 배우자<br/>
+                  <span class="small">통화 시 이 요약을 보여주시면 설명을 반복하지 않아도 됩니다.</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <p class="small">검수 연결 — 골든 QA 폴백 문항(#13~#15)에서 추측성 답변 없이 폴백했는지, 부서 매칭과 요약 카드가 적절한지 채점한다(5장).</p>
+      </div>
+    </div>
+
+    <h3>3.2 접근성 — 고대비·큰 글씨 모드</h3>
+    <p>동일한 답변 화면에 <b>큰 글씨·고대비 토글</b>이 동작으로 제공된다(QUR-001). 저시력·고령
+      사용자를 위해 배경과 글자의 명도 대비를 높이고 본문 크기를 키운 화면이며, 아래는 시나리오 ①의
+      답변 화면을 기본 모드와 고대비 모드로 비교한 것이다. 행정용어를 일상어로 바꿔 주는 쉬운말 모드는
+      목업으로 시연하고 로드맵(Phase 2)에서 완성하며, 음성 입출력(SFR-008)은 로드맵으로 제시한다.</p>
+    <div class="shots" style="grid-template-columns:repeat(2,1fr);max-width:620px">
+      <div class="shot">
+        <p class="cap"><span class="st">A</span>기본 모드</p>
         <div class="phone">
           <div class="bar"></div>
-          <div class="bubble user">외국인 배우자도 같이 전입신고 되나요?</div>
+          <div class="bubble user">전입신고 수수료 있나요?</div>
           <div class="bubble bot">
-            이 질문은 확실한 근거를 찾지 못했어요. <span class="conf lo">근거 부족</span><br/>
-            부정확한 안내 대신 <b>담당 부서</b>를 연결해 드릴게요. 거주하실 지역을 선택해 주세요.
-            <div class="chips"><span class="chip">보람동</span><span class="chip">도담동</span><span class="chip">새롬동 ▾</span></div>
-            <div class="fallback-card">
-              <b>보람동 주민센터 (샘플)</b><br/>
-              ☎ 044-000-0000 · 평일 09:00~18:00<br/>
-              📋 문의 요약 카드: "외국인 배우자 동반 전입 가능 여부" — 통화 시 이 요약을 활용하세요.
-            </div>
+            전입신고 수수료는 <b>없습니다</b>.<br/>
+            <span class="src">📄 출처: 전입신고 안내 FAQ 3항 (샘플)</span>
+          </div>
+          <div class="chips"><span class="chip">Aa 큰 글씨</span><span class="chip">◐ 고대비</span></div>
+        </div>
+      </div>
+      <div class="shot">
+        <p class="cap"><span class="st">B</span>고대비 + 큰 글씨 모드</p>
+        <div class="phone hc">
+          <div class="bar"></div>
+          <div class="bubble user">전입신고 수수료 있나요?</div>
+          <div class="bubble bot">
+            전입신고 수수료는 <b>없습니다</b>.<br/>
+            <span class="src">📄 출처: 전입신고 안내 FAQ 3항 (샘플)</span>
           </div>
         </div>
       </div>
     </div>
-
-    <h3>보조 가치 — 접근성</h3>
-    <p>위 모든 화면에 <b>큰 글씨·고대비 토글</b>이 동작으로 제공되며(QUR-001), 행정용어를 쉬운 말로 바꿔 쓰는
-      <b>쉬운말 모드는 목업</b>으로 시연 후 로드맵에서 완성한다. 음성 입출력은 로드맵(SFR-008).</p>
   </section>
 
-  <!-- 4. MVP 범위 -->
+  <!-- ============================================================ 4 -->
   <section id="s4">
     <h2><span class="num">4</span> MVP 범위와 제외 범위</h2>
-    <p class="lead">공고문 8항의 "핵심 절반(5) 동작 MVP + 10까지의 로드맵" 기준에 따라,
-      4주 내 <b>반드시 동작</b> / <b>샘플·목업</b> / <b>로드맵</b> 3단계로 구분한다.</p>
+
+    <h3>4.1 범위 구분 기준</h3>
+    <p>공고문 8항은 "제시된 요구사항은 완성형('10')이며, 실습 기간에는 핵심 절반('5')을 동작 MVP로
+      구현하고 '10'까지의 로드맵을 제시한다"고 명시한다. 이에 따라 전체 요구사항을 세 단계로 구분한다.</p>
+    <ul>
+      <li><span class="tag run">동작</span> — 4주 안에 <b>실제로 동작</b>하는 상태로 시연한다. 데모에서 입력부터 결과까지 실제 코드가 실행된다.</li>
+      <li><span class="tag mock">샘플·목업</span> — 화면 또는 샘플 산출물로 <b>모습을 보여주되</b>, 동작 구현은 로드맵으로 미룬다. 목업임을 화면에 명시한다.</li>
+      <li><span class="tag road">로드맵</span> — 이번 기간에 구현하지 않는다. 제외 사유와 이후 계획을 명시한다.</li>
+    </ul>
+    <p>도메인 범위는 <b>전입신고 1개</b>로 한정한다. RAG의 답변 품질은 데이터의 양이 아니라 정제 품질에서
+      나오므로, 한 도메인을 깊게 완성하는 것이 여러 도메인을 얕게 펼치는 것보다 "정확히 동작하는" 데모에
+      유리하다. 챗경북의 실패(2.3)가 이 판단의 근거다.</p>
+
+    <h3>4.2 동작 범위 — 4주 내 실제 구현</h3>
     <div class="tw">
       <table>
-        <thead><tr><th class="c">구분</th><th>범위</th></tr></thead>
+        <thead><tr><th>ID</th><th>요구사항명</th><th>MVP 구현 내용</th></tr></thead>
         <tbody>
-          <tr>
-            <td class="c"><span class="tag run">동작</span></td>
-            <td>
-              <b>전입신고 도메인</b>에서 end-to-end 동작:<br/>
-              <span class="id">SFR-001</span> 근거 기반 질의응답 + 출처·원문 스니펫 표기 ·
-              <span class="id">SFR-002</span> 의도 분류(LLM 라우팅) ·
-              <span class="id">SFR-003</span> 절차·서류 단계 카드 ·
-              <span class="id">SFR-005</span> 모호 질문 후속질문(선택지 버튼) ·
-              <span class="id">SFR-006</span> 폴백 + 대화 요약 카드 ·
-              <span class="id">SFR-004</span> <b>위치 선택 + 샘플 주민센터 매칭</b>(간이 구현) ·
-              <span class="id">DAR-001</span><span class="id">DAR-002</span><span class="id">DAR-003</span> 샘플 지식베이스·기관 데이터·비식별 로그 ·
-              <span class="id">SER-001</span><span class="id">SER-002</span><span class="id">SER-003</span> ·
-              <span class="id">QUR-001</span>(큰 글씨·고대비 토글) ·
-              <span class="id">QUR-002</span> 골든 QA 채점 ·
-              <span class="id">COR-001</span><span class="id">COR-002</span> ·
-              <span class="id">PER-001</span> 응답시간 측정·보고
-            </td>
-          </tr>
-          <tr>
-            <td class="c"><span class="tag mock">샘플·목업</span></td>
-            <td>쉬운말 자동 변환 모드(화면 목업) · 골든 QA 점수 대시보드(채점은 실제 수행, 대시보드 UI는 목업) · 지도 시각화(정적 화면 예시)</td>
-          </tr>
-          <tr>
-            <td class="c"><span class="tag road">로드맵</span></td>
-            <td>
-              <span class="id">SFR-007</span> 신청 상태 조회(선택) ·
-              <span class="id">SFR-008</span> 다국어·음성(선택) ·
-              <span class="id">SIR-001</span> 공공데이터 실연계(RFP상 가상) ·
-              <span class="id">SIR-002</span> 실지도 API(간이 매칭으로 요구 목적 충족 후 고도화) ·
-              <span class="id">PER-002</span> 동시 100명 부하 검증(가상 기준 — 확장 아키텍처안으로 대체) ·
-              타 도메인 확장(세금·복지·인허가)
-            </td>
-          </tr>
+          <tr><td><span class="id">SFR-001</span></td><td>자연어 질의응답</td><td>전입신고 도메인 RAG 질의응답. 답변마다 출처 배지와 원문 스니펫 펼쳐보기 제공</td></tr>
+          <tr><td><span class="id">SFR-002</span></td><td>민원 의도 분류</td><td>LLM 프롬프트 내 라우팅으로 의도·구체성 판별. 별도 분류 모델 없이 구현</td></tr>
+          <tr><td><span class="id">SFR-003</span></td><td>절차·서류 안내</td><td>필요 서류/방법/기한/수수료를 단계 카드 형식으로 구조화하여 표시</td></tr>
+          <tr><td><span class="id">SFR-004</span></td><td>기관·담당 연결 (간이)</td><td>행정동 선택 → 샘플 주민센터(연락처·운영시간) 매칭. 실지도 대신 위치 선택 방식</td></tr>
+          <tr><td><span class="id">SFR-005</span></td><td>대화형 후속질문</td><td>의도가 복수로 해석되면 선택지 버튼으로 조건을 좁힌 뒤 답변</td></tr>
+          <tr><td><span class="id">SFR-006</span></td><td>폴백 처리</td><td>신뢰도 임계값 미달 시 답변 중단 → 담당 부서 연결 + 대화 요약 카드 생성</td></tr>
+          <tr><td><span class="id">DAR-001</span></td><td>행정 지식베이스</td><td>전입신고 샘플 문서 구축 → 검수 → 청킹 → 벡터화 → Vector DB 저장</td></tr>
+          <tr><td><span class="id">DAR-002</span></td><td>기관 정보</td><td>행정동별 샘플 주민센터 데이터(폴백 연결용)</td></tr>
+          <tr><td><span class="id">DAR-003</span></td><td>대화 로그</td><td>질의·응답 로그를 비식별 형태로 저장</td></tr>
+          <tr><td><span class="id">PER-001</span></td><td>응답시간</td><td>골든 QA 실행 시 평균 응답시간을 실측하여 결과 보고에 포함</td></tr>
+          <tr><td><span class="id">SER-001</span></td><td>개인정보 최소수집</td><td>대화 입력 단계에서 개인정보를 요구하지 않는 설계</td></tr>
+          <tr><td><span class="id">SER-002</span></td><td>비식별화</td><td>저장 로그에 식별 정보 미포함 — 필드 정의로 강제</td></tr>
+          <tr><td><span class="id">SER-003</span></td><td>환각 방지</td><td>출처 없는 단정 답변 0건 원칙. 근거 부족 시 폴백으로 전환</td></tr>
+          <tr><td><span class="id">QUR-001</span></td><td>접근성 (부분)</td><td>큰 글씨·고대비 토글 동작 구현 (쉬운말 모드는 목업 — 4.3)</td></tr>
+          <tr><td><span class="id">QUR-002</span></td><td>정확성 점검</td><td>골든 QA 15문항 3축 세부 기준 채점 — 5장에 방법 명시</td></tr>
+          <tr><td><span class="id">COR-001</span></td><td>근거 기반</td><td>파이프라인 전체가 "근거 충분 → 답변 / 부족 → 폴백" 원칙으로 동작</td></tr>
+          <tr><td><span class="id">COR-002</span></td><td>모바일 우선</td><td>모바일 우선 반응형 웹으로 구현, 데모도 모바일 뷰포트 기준</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>4.3 샘플·목업 범위 — 모습만 시연</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>항목</th><th>보여주는 것</th><th>동작 구현 시점</th></tr></thead>
+        <tbody>
+          <tr><td>쉬운말 자동 변환 모드</td><td>행정용어를 일상어로 바꾼 답변 화면 목업</td><td>Phase 2</td></tr>
+          <tr><td>골든 QA 점수 대시보드</td><td>채점은 실제 수행하되, 결과를 보여주는 대시보드 UI는 목업</td><td>Phase 2</td></tr>
+          <tr><td>지도 시각화</td><td>주민센터 위치의 정적 지도 화면 예시</td><td>Phase 2 (SIR-002)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>4.4 로드맵 범위 — 제외 사유와 함께</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>ID</th><th>요구사항명</th><th>제외 사유</th><th>계획</th></tr></thead>
+        <tbody>
+          <tr><td><span class="id">SFR-007</span></td><td>신청 상태 조회</td><td>공고문상 선택 요구. 접수 시스템 연계가 전제되어 실습 범위 밖</td><td>Phase 3 설계안 제시</td></tr>
+          <tr><td><span class="id">SFR-008</span></td><td>다국어·음성</td><td>공고문상 선택 요구. 접근성 로드맵과 함께 단계 도입이 효과적</td><td>음성 Phase 2 · 다국어 Phase 3</td></tr>
+          <tr><td><span class="id">SIR-001</span></td><td>공공데이터 연계</td><td>RFP상 가상 연계로 명시됨. 샘플 데이터로 동일 흐름 재현</td><td>Phase 3 실연계 설계</td></tr>
+          <tr><td><span class="id">SIR-002</span></td><td>지도 API</td><td>SFR-004 간이 매칭으로 "담당 기관 연결" 목적을 먼저 충족</td><td>Phase 2 실지도 고도화</td></tr>
+          <tr><td><span class="id">PER-002</span></td><td>동시 100명</td><td>가상 기준. 부하 시험은 실습 기간·장비 범위 밖</td><td>확장 아키텍처안 제시, Phase 2 부하 검증</td></tr>
         </tbody>
       </table>
     </div>
     <div class="callout warn">
-      <b>필수 요구 처리 원칙</b> — 필수 요구사항은 로드맵으로만 미루지 않는다.
-      SFR-004는 실지도 대신 <b>위치 선택+샘플 매칭</b>으로 MVP에서 동작시키고,
-      PER-001은 골든 QA 실행 시 <b>실측</b>하여 보고한다. 로드맵으로 분류한 항목은 모두 사유를 6장 대응표에 명시했다.
+      <b>필수 요구 처리 원칙</b> — 필수 요구사항은 로드맵으로만 미루지 않는다. SFR-004는 실지도 대신
+      위치 선택+샘플 매칭으로 MVP에서 동작시키고, PER-001은 실측하여 보고한다. 로드맵으로 분류한
+      필수 항목(SIR-001·SIR-002·PER-002)은 각각 대체 방안과 사유를 위 표와 6장 대응표에 명시했다.
     </div>
   </section>
 
-  <!-- 5. 데이터와 AI의 근거 -->
+  <!-- ============================================================ 5 -->
   <section id="s5">
     <h2><span class="num">5</span> 데이터와 AI의 근거</h2>
 
-    <h3>데이터 분류표</h3>
+    <h3>5.1 데이터 분류표</h3>
+    <p>본 MVP가 다루는 데이터를 성격별로 구분하고 출처·기준일·한계를 명시한다. 답변의 신뢰를 주장하는
+      제안인 만큼, 데이터 자체의 한계를 숨기지 않는 것이 원칙이다.</p>
     <div class="tw">
       <table>
         <thead><tr><th>데이터</th><th class="c">구분</th><th>출처</th><th class="c">기준일</th><th>한계</th></tr></thead>
@@ -441,19 +676,37 @@
     </div>
     <p class="small">※ 실제 개인·행정 원본 데이터는 본 실습 범위에서 사용하지 않는다. 실서비스 전환 시 원문 데이터 검수·현행화 계획을 로드맵(Phase 2)에 포함한다.</p>
 
-    <h3>AI 결과의 근거·불확실성·검수 방법</h3>
+    <h3>5.2 지식베이스 구축 절차</h3>
+    <p>챗경북 사례가 보여주듯 지식베이스의 품질이 서비스 신뢰를 결정한다. 우리는 문서를 "모으는" 것이
+      아니라 <b>"검수해서 탑재하는"</b> 절차를 둔다.</p>
+    <ol>
+      <li><b>수집·재구성</b> — 정부24·세종시 공개 안내를 참고해 전입신고 안내 문서를 샘플로 재구성한다. 골든 QA 15문항을 모두 답할 수 있는 범위를 우선 구축한다.</li>
+      <li><b>검수</b> — 데이터·QA 담당(박재현)이 각 문서를 원출처와 대조하고, 문서별 출처·기준일을 메타데이터로 기록한다.</li>
+      <li><b>청킹·벡터화</b> — 검수된 문서를 의미 단위로 분할하고 임베딩하여 Vector DB(Chroma)에 저장한다. 각 청크는 원문 스니펫 표기에 쓰이므로 문서명·항 번호를 보존한다.</li>
+      <li><b>현행화 원칙</b> — 문서 개정 시 기준일을 갱신하고 골든 QA를 재채점한다. 실서비스에서는 이 절차가 연간 유지보수의 핵심이 된다(8장 수익모델과 연결).</li>
+    </ol>
+
+    <h3>5.3 AI 결과의 근거·불확실성·검수</h3>
     <ul>
-      <li><b>근거</b> — 모든 답변은 지식베이스 검색 결과(RAG)에서 생성하며, 출처 문서명과 원문 스니펫을 함께 표기한다(SER-003·COR-001).</li>
-      <li><b>불확실성</b> — 검색 근거가 부족하거나 신뢰도가 임계값 미만이면 답변을 생성하지 않고 폴백한다(시나리오 ③). LLM 응답은 오답 가능성이 있음을 화면에 고지한다.</li>
-      <li><b>사람의 검수</b> — 골든 QA 15문항을 팀이 직접 3축 채점하고, 지식베이스 문서는 원출처 대조로 검수한 뒤 탑재한다.</li>
+      <li><b>근거</b> — 모든 답변은 지식베이스 검색 결과(RAG)에서 생성한다. 답변에는 근거 문서명과 원문
+        스니펫을 함께 표기하여 시민이 직접 대조할 수 있게 한다(SFR-001 · SER-003 · COR-001).</li>
+      <li><b>불확실성</b> — LLM 답변에는 오답 가능성이 있으며, 이를 화면에 고지한다. 검색 근거가 부족하거나
+        신뢰도가 임계값 미만이면 답변을 생성하지 않고 폴백한다(시나리오 ③). 임계값은 골든 QA 채점 결과를
+        보며 조정한다 — 과잉 폴백(정상 질문까지 넘김)과 과소 폴백(추측 답변 생성) 사이의 균형점을 데이터로 찾는다.</li>
+      <li><b>사람의 검수</b> — 지식베이스 문서는 탑재 전 원출처 대조 검수를 거치고, 골든 QA 15문항은 팀이
+        직접 세부 기준으로 채점한다. 자동화가 사람의 판단을 대체하는 것이 아니라, 사람의 판단을 모든 빌드에
+        반복 적용할 수 있게 만드는 구조다.</li>
     </ul>
     <div class="callout">
       <b>수치 사용 원칙</b> — "자동 응대 ○%", "정확도 ○%" 같은 수치는 <b>측정 결과가 있을 때만</b> 사용한다.
-      본 제안서는 목표 수치 대신 아래의 <b>측정 방법</b>을 제시하고, 3주차 MVP에서 실측값을 보고한다.
+      본 제안서는 목표 수치 대신 측정 방법(골든 QA 15문항 × 세부 기준 채점)을 제시하고, 3주차 MVP에서
+      실측값을 보고한다.
     </div>
 
-    <h3>골든 QA 평가셋 — 15문항</h3>
-    <p class="lead">전입신고 도메인 질문 15개(정상 8 · 모호 4 · 폴백 3)를 고정 평가셋으로 두고, 모든 빌드에서 동일하게 채점한다.</p>
+    <h3>5.4 골든 QA 평가셋 — 15문항</h3>
+    <p>전입신고 도메인 질문 15개(정상 8 · 모호 4 · 폴백 3)를 고정 평가셋으로 두고 모든 빌드에서 동일하게
+      채점한다. 문항은 대표 사용자 흐름 3종과 1:1로 대응한다 — 정상 문항은 시나리오 ①, 모호 문항은
+      시나리오 ②, 폴백 문항은 시나리오 ③의 품질을 각각 검증한다.</p>
     <div class="tw">
       <table>
         <thead><tr><th class="c">#</th><th class="c">유형</th><th>질문</th><th>기대 동작 (골든 기준)</th></tr></thead>
@@ -477,35 +730,84 @@
       </table>
     </div>
 
-    <h3>채점 기준 — 3축</h3>
+    <h3>5.5 답변 예시 — 유형별 목표 출력</h3>
+    <p>아래는 골든 QA 대표 문항 3개(유형별 1개)의 답변 예시다. MVP API의 응답 스키마
+      (<code>status / message / source_title / source_snippet / options</code>)에 맞춘
+      <b>설계 목표 출력</b>이며, 3주차 구현 후 실제 시스템 응답으로 교체해 최종 보고에 수록한다.</p>
+
+    <div class="qa-ex">
+      <header>예시 1 · 정상 문항 #1 — "전입신고 하려면 뭐가 필요한가요?"</header>
+      <div class="body">
+        <div class="field"><span class="k">status</span><span class="v">success — 근거 충분, 경로 A(답변)</span></div>
+        <div class="field"><span class="k">message</span><span class="v">"전입신고를 위해서는 본인 신분증이 필요합니다. 주민센터를 방문하시거나 정부24에서 온라인으로 신고하실 수 있어요. 기한은 이사한 날부터 14일 이내이며, 수수료는 없습니다."</span></div>
+        <div class="field"><span class="k">source_title</span><span class="v">전입신고 안내 FAQ 3항 (샘플)</span></div>
+        <div class="field"><span class="k">source_snippet</span><span class="v">"전입신고는 새로운 거주지로 이사한 날부터 14일 이내에 신고하여야 하며, 수수료는 부과하지 아니한다…"</span></div>
+        <div class="field"><span class="k">채점 포인트</span><span class="v">A축 — 서류·방법·기한·수수료 4개 사실 모두 골든 기준과 일치 / B축 — 출처 문서 일치, 스니펫이 답변을 직접 지지</span></div>
+      </div>
+    </div>
+
+    <div class="qa-ex">
+      <header>예시 2 · 모호 문항 #9 — "이사했는데 뭐 해야 하나요?"</header>
+      <div class="body">
+        <div class="field"><span class="k">status</span><span class="v">clarify — 의도 복수 해석, 후속 질문 전환</span></div>
+        <div class="field"><span class="k">message</span><span class="v">"이사를 축하드려요! 몇 가지 절차가 있어요. 어떤 것부터 도와드릴까요?"</span></div>
+        <div class="field"><span class="k">options</span><span class="v">["전입신고 하기", "확정일자 받기", "자동차 주소 변경", "잘 모르겠어요"]</span></div>
+        <div class="field"><span class="k">채점 포인트</span><span class="v">A축 — 특정 절차를 단정한 답변이 없어야 함 / C축 — 선택 이후 흐름이 해당 절차의 정확한 안내로 이어져야 함</span></div>
+      </div>
+    </div>
+
+    <div class="qa-ex">
+      <header>예시 3 · 폴백 문항 #13 — "외국인 배우자도 같이 전입신고 되나요?"</header>
+      <div class="body">
+        <div class="field"><span class="k">status</span><span class="v">fallback — 근거 부족, 경로 B(안전한 연결)</span></div>
+        <div class="field"><span class="k">message</span><span class="v">"이 질문은 확실한 근거를 찾지 못했어요. 부정확한 안내 대신 담당 부서를 연결해 드릴게요. 거주하실 지역을 선택해 주세요."</span></div>
+        <div class="field"><span class="k">options</span><span class="v">["보람동", "도담동", "새롬동", …] → 선택 시 주민센터 연락처·운영시간 + 문의 요약 카드</span></div>
+        <div class="field"><span class="k">채점 포인트</span><span class="v">C축 — 체류 자격 등을 추측한 답변이 한 문장도 없어야 함, 부서 매칭 정확, 요약 카드에 대화 맥락 반영</span></div>
+      </div>
+    </div>
+    <p class="small">※ 위 예시는 설계 목표 출력이며, 실측 응답으로 교체될 때 문구는 달라질 수 있으나 status 분기와 출처 표기 구조는 동일하게 유지된다.</p>
+
+    <h3>5.6 채점 기준 — 3축 9개 세부 기준</h3>
+    <p>3축을 각 3개의 세부 기준으로 나누어 총 9개 항목으로 채점한다. 각 세부 기준은
+      <b>충족(2점) / 부분 충족(1점) / 미충족(0점)</b>으로 판정하며, 문항 통과 조건은 "해당 문항에
+      적용되는 모든 세부 기준이 2점"이다. 부분 점수는 개선 우선순위 파악에 사용한다.</p>
     <div class="tw">
       <table>
-        <thead><tr><th>축</th><th>통과 기준</th><th>실패 예</th></tr></thead>
+        <thead><tr><th class="c">축</th><th class="c">코드</th><th>세부 기준</th><th>충족(2점) 조건</th><th>실패(0점) 예</th></tr></thead>
         <tbody>
-          <tr><td><b>① 답변 정확성</b></td><td>골든 기준의 핵심 사실(서류·기한·수수료 등)과 일치, 누락·오류 없음</td><td>"7일 이내"로 잘못 안내, 필요 서류 누락</td></tr>
-          <tr><td><b>② 출처 적합성</b></td><td>표기한 출처가 실제 근거 문서와 일치하고, 스니펫이 답변 내용을 지지함</td><td>답과 무관한 문서 인용, 출처 없는 단정</td></tr>
-          <tr><td><b>③ 폴백 적절성</b></td><td>폴백해야 할 질문에서 추측성 답변 없이 폴백 / 정상 질문에서 과잉 폴백 없음</td><td>#13에 추측성 답변, #1에 불필요한 폴백</td></tr>
+          <tr><td class="c" rowspan="3"><b>A<br/>답변<br/>정확성</b></td><td class="c">A-1</td><td>핵심 사실 일치</td><td>서류·기한·수수료·방법 등 골든 기준의 핵심 사실과 모두 일치</td><td>"7일 이내"로 잘못 안내</td></tr>
+          <tr><td class="c">A-2</td><td>누락 없음</td><td>골든 기준이 요구하는 항목이 답변에 모두 포함</td><td>온라인 신고 방법 누락</td></tr>
+          <tr><td class="c">A-3</td><td>오해 소지 없음</td><td>불필요하거나 오해를 부를 수 있는 부가 정보 없음</td><td>확인되지 않은 예외 조건 언급</td></tr>
+          <tr><td class="c" rowspan="3"><b>B<br/>출처<br/>적합성</b></td><td class="c">B-1</td><td>출처 문서 일치</td><td>표기된 출처가 실제 근거로 사용된 문서와 일치</td><td>답과 무관한 문서 인용</td></tr>
+          <tr><td class="c">B-2</td><td>스니펫 지지</td><td>표시된 원문 스니펫이 답변 내용을 직접 뒷받침</td><td>스니펫과 답변 내용 불일치</td></tr>
+          <tr><td class="c">B-3</td><td>표기 완전성</td><td>문서명·항 번호 등 출처 표기 형식이 완전</td><td>출처 없는 단정 문장 존재</td></tr>
+          <tr><td class="c" rowspan="3"><b>C<br/>폴백<br/>적절성</b></td><td class="c">C-1</td><td>트리거 정확성</td><td>폴백해야 할 질문(#13~15)에서 폴백이 발동</td><td>#13에 추측성 답변 생성</td></tr>
+          <tr><td class="c">C-2</td><td>과잉 폴백 없음</td><td>정상 질문(#1~8)에서 불필요한 폴백 미발동</td><td>#1에 담당 부서 연결로 회피</td></tr>
+          <tr><td class="c">C-3</td><td>폴백 품질</td><td>부서 매칭이 정확하고 대화 요약 카드가 맥락을 반영</td><td>엉뚱한 부서 안내, 빈 요약 카드</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="small">※ 각 문항은 해당되는 축을 모두 통과해야 "통과"로 판정. 채점 결과는 문항×축 매트릭스로 기록해 빌드마다 비교한다.</p>
+    <p class="small">※ 적용 범위 — A·B축은 답변을 생성하는 문항(#1~12)에, C-1·C-3은 폴백 문항(#13~15)에,
+      C-2는 정상 문항(#1~8)에 적용한다. 채점 결과는 문항×세부 기준 매트릭스로 기록해 빌드 간 회귀 비교에 사용한다.</p>
   </section>
 
-  <!-- 6. RFP 요구사항 대응표 -->
+  <!-- ============================================================ 6 -->
   <section id="s6">
     <h2><span class="num">6</span> RFP 요구사항 대응표</h2>
-    <p class="lead">요구사항 ID별 제안 기능 · 구현 구분(<span class="tag run">동작</span> <span class="tag mock">목업</span> <span class="tag road">로드맵</span>) · 검증 방법.</p>
+    <p class="lead">요구사항 22건 전체를 ID별로 제안 기능 · 구현 구분(<span class="tag run">동작</span>
+      <span class="tag mock">목업</span> <span class="tag road">로드맵</span>) · 검증 방법과 연결한다.
+      검증 방법은 모두 5장의 골든 QA 또는 3장의 시나리오 시연과 대응된다.</p>
     <div class="tw">
       <table>
         <thead><tr><th>ID</th><th>제안 기능</th><th class="c">구현</th><th>검증 방법</th></tr></thead>
         <tbody>
-          <tr><td><span class="id">SFR-001</span></td><td>RAG 질의응답 + 출처·원문 스니펫</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA 정상 8문항(①②축) + 시나리오① 시연</td></tr>
+          <tr><td><span class="id">SFR-001</span></td><td>RAG 질의응답 + 출처·원문 스니펫</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA 정상 8문항(A·B축) + 시나리오① 시연</td></tr>
           <tr><td><span class="id">SFR-002</span></td><td>의도 분류(LLM 라우팅)</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA 전 문항의 분류 결과 확인</td></tr>
           <tr><td><span class="id">SFR-003</span></td><td>절차·서류 단계 카드 UI</td><td class="c"><span class="tag run">동작</span></td><td>시나리오① 카드 렌더링 시연</td></tr>
           <tr><td><span class="id">SFR-004</span></td><td>위치 선택 + 샘플 주민센터 매칭(간이)</td><td class="c"><span class="tag run">동작</span></td><td>시나리오③ 행정동 선택→매칭 시연</td></tr>
           <tr><td><span class="id">SFR-005</span></td><td>모호 질문 후속질문(선택지 버튼)</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA 모호 4문항 + 시나리오② 시연</td></tr>
-          <tr><td><span class="id">SFR-006</span></td><td>신뢰도 기반 폴백 + 대화 요약 카드</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA 폴백 3문항(③축) + 시나리오③ 시연</td></tr>
-          <tr><td><span class="id">SFR-007</span></td><td>신청 상태 조회 <em>(선택 요구)</em></td><td class="c"><span class="tag road">로드맵</span></td><td>— (선택 요구, Phase 2 설계안 제시)</td></tr>
+          <tr><td><span class="id">SFR-006</span></td><td>신뢰도 기반 폴백 + 대화 요약 카드</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA 폴백 3문항(C축) + 시나리오③ 시연</td></tr>
+          <tr><td><span class="id">SFR-007</span></td><td>신청 상태 조회 <em>(선택 요구)</em></td><td class="c"><span class="tag road">로드맵</span></td><td>— (선택 요구, Phase 3 설계안 제시)</td></tr>
           <tr><td><span class="id">SFR-008</span></td><td>다국어·음성 <em>(선택 요구)</em></td><td class="c"><span class="tag road">로드맵</span></td><td>— (선택 요구, 접근성 로드맵과 연계)</td></tr>
           <tr><td><span class="id">DAR-001</span></td><td>전입 도메인 샘플 지식베이스</td><td class="c"><span class="tag run">동작</span></td><td>문서 목록·출처 대조표 제출(5장)</td></tr>
           <tr><td><span class="id">DAR-002</span></td><td>샘플 주민센터·부서 데이터</td><td class="c"><span class="tag run">동작</span></td><td>폴백 매칭 조회 시연</td></tr>
@@ -516,22 +818,51 @@
           <tr><td><span class="id">PER-002</span></td><td>동시 100명 처리</td><td class="c"><span class="tag road">로드맵</span></td><td>— (가상 기준. 확장 아키텍처안으로 대응, 부하시험은 Phase 2)</td></tr>
           <tr><td><span class="id">SER-001</span></td><td>개인정보 최소수집</td><td class="c"><span class="tag run">동작</span></td><td>입력 단계에 개인정보 요구 없음 — 화면·코드 검토</td></tr>
           <tr><td><span class="id">SER-002</span></td><td>로그 비식별화</td><td class="c"><span class="tag run">동작</span></td><td>저장 필드 정의서 + 로그 샘플 검사</td></tr>
-          <tr><td><span class="id">SER-003</span></td><td>환각 방지·출처 표기</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA ②축 — 출처 없는 단정 답변 0건 확인</td></tr>
+          <tr><td><span class="id">SER-003</span></td><td>환각 방지·출처 표기</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA B축 — 출처 없는 단정 답변 0건 확인</td></tr>
           <tr><td><span class="id">QUR-001</span></td><td>접근성 — 큰 글씨·고대비 토글(동작), 쉬운말 모드(목업)</td><td class="c"><span class="tag run">동작</span>+<span class="tag mock">목업</span></td><td>토글 시연 + 쉬운말 목업 화면 제시</td></tr>
-          <tr><td><span class="id">QUR-002</span></td><td>정확성 점검 — 골든 QA 15문항 3축 채점</td><td class="c"><span class="tag run">동작</span></td><td>채점 매트릭스 리포트 제출</td></tr>
-          <tr><td><span class="id">COR-001</span></td><td>근거 기반·불확실 시 폴백</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA ②③축 통과</td></tr>
+          <tr><td><span class="id">QUR-002</span></td><td>정확성 점검 — 골든 QA 15문항 채점</td><td class="c"><span class="tag run">동작</span></td><td>문항×세부 기준 매트릭스 리포트 제출</td></tr>
+          <tr><td><span class="id">COR-001</span></td><td>근거 기반·불확실 시 폴백</td><td class="c"><span class="tag run">동작</span></td><td>골든 QA B·C축 통과</td></tr>
           <tr><td><span class="id">COR-002</span></td><td>모바일 우선 반응형</td><td class="c"><span class="tag run">동작</span></td><td>모바일 뷰포트 시연</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="small">※ 필수 요구 중 로드맵 처리는 SIR-001(RFP상 가상)·SIR-002(간이 매칭으로 목적 충족)·PER-002(가상 기준) 3건이며, 각각 대체 방안과 사유를 명시했다.</p>
+    <p class="small">※ 필수 요구 중 로드맵 처리는 SIR-001(RFP상 가상)·SIR-002(간이 매칭으로 목적 충족)·PER-002(가상 기준) 3건이며, 각각 대체 방안과 사유를 명시했다(4.4).</p>
   </section>
 
-  <!-- 7. 구현·검증 계획 -->
+  <!-- ============================================================ 7 -->
   <section id="s7">
     <h2><span class="num">7</span> 구현 · 검증 계획</h2>
 
-    <h3>팀 구성</h3>
+    <h3>7.1 시스템 구성</h3>
+    <div class="flow">
+      <span class="step">모바일 우선 반응형 Frontend (React)</span><span class="arrow">→</span>
+      <span class="step">Backend API (FastAPI)</span><span class="arrow">→</span>
+      <span class="step">LLM (Upstage Solar)</span>
+      <span class="arrow">+</span>
+      <span class="step">Vector DB (Chroma)</span>
+      <span class="arrow">+</span>
+      <span class="step">기관 정보 저장소</span>
+    </div>
+    <p>Frontend는 채팅 UI·출처 스니펫 UX·접근성 토글을 담당하고, Backend는 의도 분류→검색→신뢰도
+      판정→답변/폴백의 파이프라인과 로그 비식별 저장을 담당한다. 응답은 <code>status(success /
+      clarify / fallback)</code> 분기를 가진 단일 스키마로 통일하여, 세 가지 시나리오가 하나의
+      API로 처리되도록 설계한다.</p>
+
+    <h3>7.2 기술 스택</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>계층</th><th>기술</th><th>선정 사유</th></tr></thead>
+        <tbody>
+          <tr><td>개발 도구</td><td><b>Kiro AI</b></td><td>멘토측 제공</td></tr>
+          <tr><td>Frontend</td><td>React</td><td>모바일 우선 반응형, 접근성 컴포넌트 구성 용이</td></tr>
+          <tr><td>Backend</td><td>Python (FastAPI)</td><td>AI 라이브러리 호환, 비동기 처리, 자동 API 문서화</td></tr>
+          <tr><td>LLM</td><td><b>Upstage Solar</b> (국산 LLM)</td><td>한국어·행정 언어 강점, 공공 부문 국산 LLM 선호, 근거 기반 답변 생성</td></tr>
+          <tr><td>Vector DB / RAG</td><td>Chroma + LangChain</td><td>소규모 코퍼스에 적합한 경량 구성, 유사도 검색</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>7.3 팀 구성</h3>
     <div class="tw">
       <table>
         <thead><tr><th>역할</th><th>담당</th><th>주요 업무</th></tr></thead>
@@ -545,21 +876,7 @@
       </table>
     </div>
 
-    <h3>기술 스택</h3>
-    <div class="tw">
-      <table>
-        <thead><tr><th>계층</th><th>기술</th><th>선정 사유</th></tr></thead>
-        <tbody>
-          <tr><td>개발 도구</td><td><b>Kiro AI</b></td><td>멘토측 제공</td></tr>
-          <tr><td>Frontend</td><td>React</td><td>모바일 우선 반응형, 접근성 컴포넌트</td></tr>
-          <tr><td>Backend</td><td>Python (FastAPI)</td><td>AI 라이브러리 호환, 비동기 처리</td></tr>
-          <tr><td>LLM</td><td><b>Upstage Solar</b> (국산 LLM)</td><td>한국어·행정 언어 강점, 공공 부문 국산 LLM 선호, 근거 기반 답변 생성</td></tr>
-          <tr><td>Vector DB / RAG</td><td>Chroma + LangChain</td><td>소규모 코퍼스에 적합, 유사도 검색</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3>주차별 일정</h3>
+    <h3>7.4 주차별 일정</h3>
     <div class="tw">
       <table>
         <thead><tr><th class="c">주차</th><th>기간</th><th>작업</th><th>산출물</th></tr></thead>
@@ -575,18 +892,31 @@
       </table>
     </div>
 
-    <h3>테스트 방법과 성공/실패 판정</h3>
+    <h3>7.5 리스크 관리</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>리스크</th><th>영향</th><th>대응</th></tr></thead>
+        <tbody>
+          <tr><td>LLM 응답 품질 변동</td><td>같은 질문에 다른 품질의 답변</td><td>프롬프트 버전 고정, 골든 QA 회귀 채점으로 변동 감지</td></tr>
+          <tr><td>지식베이스 구축 지연</td><td>답변 가능 범위 축소</td><td>골든 QA 15문항을 커버하는 문서부터 우선 구축</td></tr>
+          <tr><td>개발 기간 부족(실질 5일)</td><td>일부 기능 미완성</td><td>시나리오① → ③ → ② 순의 우선순위로 개발, 완성된 것만 시연</td></tr>
+          <tr><td>LLM API 장애</td><td>데모 중단</td><td>폴백 안내 화면 준비, 시연용 녹화 백업</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>7.6 테스트 방법과 성공/실패 판정</h3>
     <ul>
-      <li><b>자동 채점</b> — 골든 QA 15문항 일괄 실행 스크립트 → 문항×3축 매트릭스 기록, 평균 응답시간 동시 측정</li>
-      <li><b>수동 시연</b> — 대표 시나리오 3종(정상·모호·폴백)을 모바일 뷰포트에서 end-to-end 시연</li>
-      <li><b>데이터 검수</b> — 지식베이스 전 문서의 원출처 대조표 작성</li>
+      <li><b>자동 채점</b> — 골든 QA 15문항 일괄 실행 스크립트로 문항×세부 기준 매트릭스를 기록하고, 평균 응답시간을 동시에 측정한다.</li>
+      <li><b>수동 시연</b> — 대표 시나리오 3종(정상·모호·폴백)을 모바일 뷰포트에서 end-to-end로 시연한다.</li>
+      <li><b>데이터 검수</b> — 지식베이스 전 문서의 원출처 대조표를 작성한다.</li>
     </ul>
     <div class="tw">
       <table>
         <thead><tr><th>지표</th><th>성공 기준</th><th>실패 시 조치</th></tr></thead>
         <tbody>
-          <tr><td>골든 QA 통과율</td><td><b>15문항 중 13문항 이상</b> 3축 모두 통과</td><td>실패 문항의 축별 원인 분석 → 지식베이스 보강 또는 임계값 조정 후 재채점</td></tr>
-          <tr><td>출처 없는 단정 답변</td><td><b>0건</b></td><td>해당 케이스 폴백 전환, 프롬프트 수정</td></tr>
+          <tr><td>골든 QA 통과율</td><td><b>15문항 중 13문항 이상</b> 적용 세부 기준 전부 충족(2점)</td><td>실패 문항의 세부 기준별 원인 분석 → 지식베이스 보강 또는 임계값 조정 후 재채점</td></tr>
+          <tr><td>출처 없는 단정 답변</td><td><b>0건</b> (B-3 기준)</td><td>해당 케이스 폴백 전환, 프롬프트 수정</td></tr>
           <tr><td>시나리오 3종 시연</td><td>중단 없이 end-to-end 완주</td><td>결함 수정 후 재시연</td></tr>
           <tr><td>평균 응답시간</td><td>실측값 보고 (목표 3초 이내)</td><td>초과 시 원인·개선안을 결과 보고에 포함</td></tr>
         </tbody>
@@ -594,37 +924,58 @@
     </div>
   </section>
 
-  <!-- 8. 기대 효과 · 수익모델 · 로드맵 -->
+  <!-- ============================================================ 8 -->
   <section id="s8">
     <h2><span class="num">8</span> 기대 효과 · 수익모델 · 확장 로드맵</h2>
 
-    <h3>기대 효과 <span class="small">(수치는 측정 후 보고 원칙)</span></h3>
+    <h3>8.1 기대 효과 — 이해관계자별</h3>
+    <p>본 사업의 효과는 시민, 민원 담당 인력, 행정기관의 세 이해관계자 관점에서 나누어 설명한다.
+      수치는 측정 후 보고 원칙(5.3)에 따라, 각 효과에 측정 방법을 함께 명시한다.</p>
+
+    <h4>시민 (김세종) 관점</h4>
+    <p>가장 직접적인 변화는 시간이다. 2.1의 여정에서 김세종은 밤 10시부터 다음 날 오전까지 답을 얻지
+      못했지만, 본 서비스에서는 3분 대화로 필요 서류·방법·기한을 출처와 함께 확인한다. 더 중요한 것은
+      "확인했다"는 감각이다 — 답변 옆의 원문 스니펫은 블로그 정보와 달리 재검색으로 재확인할 필요를
+      없앤다. 안내 범위를 벗어난 질문도 빈손으로 끝나지 않고, 담당 부서 연락처와 문의 요약 카드를 받아
+      다음 행동으로 이어진다.</p>
+    <ul class="small"><li>측정 — 시나리오 3종 완주 시연, 골든 QA A·B축 결과, 폴백 요약 카드 생성 확인</li></ul>
+
+    <h4>민원 담당 인력 관점</h4>
+    <p>단순·반복 문의가 자동 응대로 흡수되면 상담 인력은 판단이 필요한 고난도 민원에 집중할 수 있다.
+      폴백으로 넘어온 문의도 요약 카드와 함께 도착하므로 상담이 "처음부터 설명"이 아니라 "요약 확인 후
+      본론"으로 시작된다. 이는 통화 시간 단축과 상담 품질 향상으로 이어진다.</p>
+    <ul class="small"><li>측정 — 파일럿 운영 로그에서 자동 처리 비율·폴백 비율 산출(운영 후 보고)</li></ul>
+
+    <h4>행정기관 관점</h4>
+    <p>안내 기준이 지식베이스라는 단일 원천으로 일원화되어 창구별 안내 불일치가 구조적으로 줄어든다.
+      조례·지침이 개정되면 지식베이스 한 곳만 갱신하면 되고, 갱신 후 골든 QA 재채점으로 품질이 유지됐는지
+      즉시 확인할 수 있다. 즉 서비스 품질이 담당자의 감이 아니라 <b>반복 가능한 측정</b>으로 관리된다.
+      비식별 대화 로그는 시민이 무엇을 궁금해하는지 보여주는 수요 데이터가 되어, FAQ 개편과 정책 안내
+      우선순위 결정에 활용할 수 있다.</p>
+    <ul class="small"><li>측정 — 빌드별 골든 QA 매트릭스 비교, 비식별 로그 기반 문의 유형 분포 리포트</li></ul>
+
+    <h3>8.2 수익모델 (B2G)</h3>
+    <p>본 서비스의 사업성은 "구축하고 끝"이 아니라 <b>운영에서 반복 수익이 발생하는 구조</b>에 있다.
+      행정 정보는 조례·지침 개정으로 계속 변하므로, 지식베이스 현행화와 품질 검증은 일회성 작업이 아니라
+      구독형 수요다. 골든 QA 리포트는 이 유지보수 계약의 품질 증빙(SLA 역할)이 된다 — "이번 분기
+      개정사항 반영 후 15문항 전부 통과"처럼 발주기관이 검수 가능한 형태로 보고된다.</p>
     <div class="tw">
       <table>
-        <thead><tr><th>구분</th><th>효과</th><th>측정 방법</th></tr></thead>
+        <thead><tr><th>구분</th><th>내용</th><th>수익 성격</th></tr></thead>
         <tbody>
-          <tr><td>시민 접근성</td><td>야간·주말에도 즉시, 근거를 확인하며 안내받음</td><td>서비스 가동 시간(24시간) + 시나리오 시연</td></tr>
-          <tr><td>정보 정확성</td><td>출처 확인 가능한 일관된 안내</td><td>골든 QA 3축 채점 실측 결과로 보고</td></tr>
-          <tr><td>행정 효율</td><td>단순·반복 문의의 자동 응대로 인력 부담 완화</td><td>파일럿 대화 로그 분석으로 자동 처리 비율 산출(운영 후)</td></tr>
-          <tr><td>운영 신뢰</td><td>모든 빌드에서 동일 기준(골든 QA) 품질 관리</td><td>빌드별 채점 매트릭스 비교</td></tr>
+          <tr><td><b>① 초기 구축</b></td><td>플랫폼 구축 + 도메인 지식베이스 구축·검수 + 골든 QA 평가셋 설계</td><td>1회 (도입 시)</td></tr>
+          <tr><td><b>② 연간 운영·유지보수</b></td><td>조례·지침 개정 반영(지식베이스 현행화), 모델·인프라 운영, 정기 골든 QA 품질 리포트, 폴백 로그 기반 지식베이스 보강</td><td>연 단위 반복</td></tr>
+          <tr><td><b>③ 도메인 확장</b></td><td>세금·복지·인허가 등 도메인 추가 구축 — 도메인당 지식베이스+골든 QA 세트</td><td>건별</td></tr>
+          <tr><td><b>④ 확산 라이선스</b></td><td>검증된 도메인 템플릿(지식베이스 스키마+골든 QA 틀+화면 구성)을 타 지자체에 SaaS형 제공</td><td>구독 (Phase 3)</td></tr>
         </tbody>
       </table>
     </div>
+    <p>원가 측면에서는 LLM API 사용료·인프라 비용·지식베이스 운영 인력이 주요 항목인데, 단일 도메인으로
+      시작하므로 문서량과 호출량이 한정되어 <b>원가 예측이 가능</b>하다. 확산 논리는 단순하다 — 전입신고는
+      전국 지자체가 공유하는 절차이므로, 세종에서 검증된 템플릿은 최소한의 지역화(기관 정보·지역 조례)만으로
+      타 지자체에 복제할 수 있다. 도메인 하나의 깊은 완성이 곧 확산 가능한 제품 단위가 된다.</p>
 
-    <h3>수익모델 (B2G)</h3>
-    <div class="tw">
-      <table>
-        <thead><tr><th>구분</th><th>내용</th><th>시기</th></tr></thead>
-        <tbody>
-          <tr><td>초기 구축비</td><td>플랫폼 구축 + 도메인 지식베이스 구축·검수 (1회)</td><td>도입 시</td></tr>
-          <tr><td>연간 운영·유지보수</td><td>조례·지침 개정 반영(지식베이스 현행화), 모델·인프라 운영, 정기 골든 QA 품질 리포트</td><td>연 단위</td></tr>
-          <tr><td>확산 라이선스</td><td>검증된 도메인 템플릿(전입→세금·복지)을 타 지자체에 SaaS형 제공</td><td>Phase 3</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="small">※ 지식베이스 현행화·품질 리포트가 반복 수익의 핵심 — "근거 기반" 설계가 유지보수 사업성과 직결된다.</p>
-
-    <h3>확장 로드맵 ("5" → "10")</h3>
+    <h3>8.3 확장 로드맵 ("5" → "10")</h3>
     <div class="roadmap">
       <div class="phase p1">
         <header>Phase 1 · MVP (2026.07)</header>
@@ -632,27 +983,41 @@
           <li>전입신고 도메인 완성</li>
           <li>근거·출처 UX + 폴백</li>
           <li>골든 QA 검증 체계</li>
-          <li>접근성 토글</li>
+          <li>접근성 토글(큰 글씨·고대비)</li>
         </ul>
       </div>
       <div class="phase p2">
-        <header>Phase 2 · 확장</header>
+        <header>Phase 2 · 확장 (2026 하반기)</header>
         <ul>
-          <li>세금·복지·인허가 도메인</li>
+          <li>세금·복지·인허가 도메인 추가</li>
+          <li>문장별 근거 하이라이트 고도화</li>
           <li>실지도 API·기관 연결 고도화</li>
-          <li>쉬운말 모드 완성 · 음성</li>
+          <li>쉬운말 모드 완성 · 음성 입출력</li>
           <li>부하 검증(동시 100명)</li>
         </ul>
       </div>
       <div class="phase p3">
-        <header>Phase 3 · 고도화</header>
+        <header>Phase 3 · 고도화 (2027)</header>
         <ul>
           <li>신청 상태 조회 · 다국어</li>
           <li>공공데이터 실연계</li>
           <li>타 지자체 확산(SaaS)</li>
+          <li>민원 트렌드 분석 리포트</li>
         </ul>
       </div>
     </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th class="c">Phase</th><th>목표</th><th>주요 범위</th><th>전환(성공) 기준</th></tr></thead>
+        <tbody>
+          <tr><td class="c"><b>1</b></td><td>신뢰 가능한 답변 한 장면의 완성</td><td>전입 도메인 시나리오 3종, 골든 QA 15문항, 접근성 토글</td><td>15문항 중 13문항 이상 통과 + 시나리오 3종 완주 시연</td></tr>
+          <tr><td class="c"><b>2</b></td><td>도메인·접근성·성능 확장</td><td>도메인 3종 추가(도메인당 골든 QA 15문항 확장), 문장별 근거 하이라이트, 실지도, 쉬운말·음성, 부하 검증</td><td>신규 도메인 골든 QA 통과 + 동시 100명 부하 시험 통과</td></tr>
+          <tr><td class="c"><b>3</b></td><td>연계·확산</td><td>상태 조회, 다국어, 공공데이터 실연계, 타 지자체 1곳 파일럿</td><td>실연계 안정 운영 + 파일럿 지자체 골든 QA 통과</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>각 Phase의 전환 기준이 모두 골든 QA로 표현된다는 점이 본 로드맵의 특징이다. 기능이 늘어나도
+      "근거를 확인할 수 있고, 불확실하면 안전하게 넘기는" 원칙이 같은 자로 측정되며 유지된다.</p>
   </section>
 
   <footer class="note">
