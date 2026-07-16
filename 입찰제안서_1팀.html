@@ -133,12 +133,9 @@
   /* Golden QA example boxes */
   .qa-ex{border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden}
   .qa-ex header{background:var(--accent-soft);color:var(--accent-2);font-weight:700;font-size:13.5px;padding:8px 14px}
-  .qa-ex .body{padding:12px 16px;font-size:13.5px}
-  .qa-ex .q{font-weight:700;margin-bottom:8px}
-  .qa-ex .field{display:flex;gap:10px;padding:5px 0;border-bottom:1px dashed var(--line)}
-  .qa-ex .field:last-child{border-bottom:none}
-  .qa-ex .k{flex:0 0 110px;font-size:12px;font-weight:700;color:var(--muted);font-family:Consolas,monospace}
-  .qa-ex .v{flex:1}
+  .qa-ex .body{padding:12px 16px 10px;font-size:13px;max-width:560px}
+  .qa-ex .score{border-top:1px dashed var(--line);margin-top:10px;padding-top:8px;font-size:12.5px;color:var(--muted)}
+  .qa-ex .score b{color:var(--accent-2)}
 
   .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:12px 0}
   .card{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfd}
@@ -311,7 +308,7 @@
     <h4>이사 첫날 밤, 김세종의 여정 (현재 AS-IS)</h4>
     <div class="timeline">
       <div class="row"><span class="t">21:40</span><span>짐 정리 중 "전입신고 해야 하는데"가 떠오른다. 기한이 있다는 말을 들은 것 같아 불안해진다.</span></div>
-      <div class="row"><span class="t">22:00</span><span>포털에 검색한다. 블로그마다 필요 서류가 다르게 적혀 있다. 작성 시점도 제각각이라 어느 것이 지금 기준인지 알 수 없다.</span></div>
+      <div class="row"><span class="t">22:00</span><span>포털에서 검색한다. 블로그마다 필요 서류가 다르게 적혀 있다. 작성 시점도 제각각이라 어느 것이 지금 기준인지 알 수 없다.</span></div>
       <div class="row"><span class="t">22:10</span><span>시청 홈페이지에 들어가 보지만 메뉴가 복잡해 원하는 안내 페이지를 찾지 못한다.</span></div>
       <div class="row"><span class="t">22:20</span><span>콜센터에 전화를 걸어 보니 운영시간 종료 안내만 나온다.</span></div>
       <div class="row"><span class="t">다음날</span><span>결국 반차 사용을 고민하며 출근길에 주민센터로 전화를 건다. 상담원과 김세종 모두의 시간이 소모된다.</span></div>
@@ -386,7 +383,7 @@
       <li>② 의도 분류: LLM 프롬프트 내 라우팅으로 전입·기타 유형과 질문의 구체성을 판별한다. 의도가 여러 개로 해석되면 후속 질문(시나리오 ②)으로 전환한다.</li>
       <li>④ 신뢰도 판정: 검색 결과의 유사도 점수와 근거-답변 일치 검증을 함께 사용하며, 임계값은 골든 QA 채점 결과로 조정한다.</li>
     </ul>
-    <p>이하 3.2~3.4에서 대표 사용자 김세종의 질문 3가지로 <b>입력 → AI 처리 → 결과 → 실패/검수</b>의
+    <p>아래 시나리오 ①~③에서 대표 사용자 김세종의 질문 3가지로 <b>입력 → AI 처리 → 결과 → 실패/검수</b>의
       전 과정을 화면 단위로 보여준다. 각 시나리오의 화면 3장은 MVP에서 실제로 동작할 화면의
       와이어프레임이다.</p>
 
@@ -450,7 +447,7 @@
         <p>"이사했는데 뭐 해야 하나요?"는 전입신고·확정일자·자동차 주소 변경 등 여러 의도로 해석될 수
           있다. 이때 섣불리 하나를 골라 답하면 오답 위험이 커진다. 시스템은 의도 분류 결과가 복수이면
           단정하지 않고 <b>선택지 버튼</b>으로 조건을 좁힌 뒤, 좁혀진 의도에 대해 시나리오 ①과 동일한
-          근거 기반 답변을 제공한다. "모르면 묻는다"는 폴백 정신의 대화 버전이다.</p>
+          근거 기반 답변을 제공한다. "모르면 추측하지 않고 묻는다"는 폴백 원칙을 대화 단계에 적용한 것이다.</p>
         <div class="shots">
           <div class="shot">
             <p class="cap"><span class="st">1</span>입력 — 모호한 질문</p>
@@ -667,7 +664,7 @@
       <table>
         <thead><tr><th>데이터</th><th class="c">구분</th><th>출처</th><th class="c">기준일</th><th>한계</th></tr></thead>
         <tbody>
-          <tr><td>전입신고 FAQ·절차 문서 (지식베이스)</td><td class="c"><b>샘플</b></td><td>정부24·세종시 공개 안내를 참고해 팀이 재구성한 Demo 문서</td><td class="c">2026-07</td><td>실제 조례·고시 원문이 아님. 실서비스 시 원문 검수·현행화 필요</td></tr>
+          <tr><td>전입신고 FAQ·절차 문서 (지식베이스)</td><td class="c"><b>샘플</b></td><td>정부24·세종시 공개 안내를 참고해 팀이 재구성한 데모 문서</td><td class="c">2026-07</td><td>실제 조례·고시 원문이 아님. 실서비스 시 원문 검수·현행화 필요</td></tr>
           <tr><td>주민센터 기관 정보</td><td class="c"><b>샘플</b></td><td>세종시 행정동 명칭 참고, 연락처는 가상</td><td class="c">2026-07</td><td>실제 연락처 아님 — 데모 표기 명시</td></tr>
           <tr><td>참고 원출처(공개)</td><td class="c"><b>공개</b></td><td>정부24 전입신고 안내 페이지, 세종시 홈페이지</td><td class="c">2026-07</td><td>학습·재구성 참고용. 실시간 연동 아님</td></tr>
           <tr><td>대화 로그</td><td class="c"><b>AI 생성·수집</b></td><td>개발·테스트 중 생성되는 질의·응답</td><td class="c">수시</td><td>비식별 저장(SER-002). 품질 개선 용도로만 사용</td></tr>
@@ -731,41 +728,65 @@
     </div>
 
     <h3>5.5 답변 예시 — 유형별 목표 출력</h3>
-    <p>아래는 골든 QA 대표 문항 3개(유형별 1개)의 답변 예시다. MVP API의 응답 스키마
-      (<code>status / message / source_title / source_snippet / options</code>)에 맞춘
-      <b>설계 목표 출력</b>이며, 3주차 구현 후 실제 시스템 응답으로 교체해 최종 보고에 수록한다.</p>
+    <p>아래는 골든 QA 대표 문항 3개(유형별 1개)의 답변 예시로, 시민이 실제로 보게 될
+      대화 화면 형태로 제시한다. 3주차 구현 후 실제 시스템 응답으로 교체해 최종 보고에 수록하는
+      <b>설계 목표 출력</b>이며, 각 예시 하단에 채점 기준(5.6)과의 연결을 표시했다.</p>
 
     <div class="qa-ex">
-      <header>예시 1 · 정상 문항 #1 — "전입신고 하려면 뭐가 필요한가요?"</header>
+      <header>예시 1 · 정상 문항 #1 — 근거 기반 답변</header>
       <div class="body">
-        <div class="field"><span class="k">status</span><span class="v">success — 근거 충분, 경로 A(답변)</span></div>
-        <div class="field"><span class="k">message</span><span class="v">"전입신고를 위해서는 본인 신분증이 필요합니다. 주민센터를 방문하시거나 정부24에서 온라인으로 신고하실 수 있어요. 기한은 이사한 날부터 14일 이내이며, 수수료는 없습니다."</span></div>
-        <div class="field"><span class="k">source_title</span><span class="v">전입신고 안내 FAQ 3항 (샘플)</span></div>
-        <div class="field"><span class="k">source_snippet</span><span class="v">"전입신고는 새로운 거주지로 이사한 날부터 14일 이내에 신고하여야 하며, 수수료는 부과하지 아니한다…"</span></div>
-        <div class="field"><span class="k">채점 포인트</span><span class="v">A축 — 서류·방법·기한·수수료 4개 사실 모두 골든 기준과 일치 / B축 — 출처 문서 일치, 스니펫이 답변을 직접 지지</span></div>
+        <div class="bubble user">전입신고 하려면 뭐가 필요한가요?</div>
+        <div class="bubble bot">
+          전입신고를 위해서는 <b>본인 신분증</b>이 필요합니다. 주민센터를 방문하시거나
+          정부24에서 온라인으로 신고하실 수 있어요. 기한은 이사한 날부터 <b>14일 이내</b>이며,
+          수수료는 없습니다. <span class="conf hi">근거 확인됨</span><br/>
+          <span class="src">📄 출처: 전입신고 안내 FAQ 3항 (샘플)</span>
+          <div class="snippet">"전입신고는 새로운 거주지로 이사한 날부터 14일 이내에 신고하여야 하며, 수수료는 부과하지 아니한다…"</div>
+        </div>
+        <div class="score"><b>채점 연결</b> — A축: 서류·방법·기한·수수료 4개 사실이 골든 기준과 모두 일치 / B축: 출처 문서 일치, 스니펫이 답변을 직접 지지</div>
       </div>
     </div>
 
     <div class="qa-ex">
-      <header>예시 2 · 모호 문항 #9 — "이사했는데 뭐 해야 하나요?"</header>
+      <header>예시 2 · 모호 문항 #9 — 후속 질문으로 좁히기</header>
       <div class="body">
-        <div class="field"><span class="k">status</span><span class="v">clarify — 의도 복수 해석, 후속 질문 전환</span></div>
-        <div class="field"><span class="k">message</span><span class="v">"이사를 축하드려요! 몇 가지 절차가 있어요. 어떤 것부터 도와드릴까요?"</span></div>
-        <div class="field"><span class="k">options</span><span class="v">["전입신고 하기", "확정일자 받기", "자동차 주소 변경", "잘 모르겠어요"]</span></div>
-        <div class="field"><span class="k">채점 포인트</span><span class="v">A축 — 특정 절차를 단정한 답변이 없어야 함 / C축 — 선택 이후 흐름이 해당 절차의 정확한 안내로 이어져야 함</span></div>
+        <div class="bubble user">이사했는데 뭐 해야 하나요?</div>
+        <div class="bubble bot">
+          이사를 축하드려요! 몇 가지 절차가 있어요. 어떤 것부터 도와드릴까요?
+          <div class="chips">
+            <span class="chip">전입신고 하기</span>
+            <span class="chip">확정일자 받기</span>
+            <span class="chip">자동차 주소 변경</span>
+            <span class="chip">잘 모르겠어요</span>
+          </div>
+        </div>
+        <div class="score"><b>채점 연결</b> — A축: 특정 절차를 단정한 답변이 없어야 함 / C축: 선택 이후 흐름이 해당 절차의 정확한 안내로 이어져야 함</div>
       </div>
     </div>
 
     <div class="qa-ex">
-      <header>예시 3 · 폴백 문항 #13 — "외국인 배우자도 같이 전입신고 되나요?"</header>
+      <header>예시 3 · 폴백 문항 #13 — 안전한 담당 부서 연결</header>
       <div class="body">
-        <div class="field"><span class="k">status</span><span class="v">fallback — 근거 부족, 경로 B(안전한 연결)</span></div>
-        <div class="field"><span class="k">message</span><span class="v">"이 질문은 확실한 근거를 찾지 못했어요. 부정확한 안내 대신 담당 부서를 연결해 드릴게요. 거주하실 지역을 선택해 주세요."</span></div>
-        <div class="field"><span class="k">options</span><span class="v">["보람동", "도담동", "새롬동", …] → 선택 시 주민센터 연락처·운영시간 + 문의 요약 카드</span></div>
-        <div class="field"><span class="k">채점 포인트</span><span class="v">C축 — 체류 자격 등을 추측한 답변이 한 문장도 없어야 함, 부서 매칭 정확, 요약 카드에 대화 맥락 반영</span></div>
+        <div class="bubble user">외국인 배우자도 같이 전입신고 되나요?</div>
+        <div class="bubble bot">
+          이 질문은 확실한 근거를 찾지 못했어요. <span class="conf lo">근거 부족</span><br/>
+          부정확한 안내 대신 <b>담당 부서</b>를 연결해 드릴게요. 거주하실 지역을 선택해 주세요.
+          <div class="chips"><span class="chip">보람동</span><span class="chip">도담동</span><span class="chip">새롬동</span><span class="chip">그 외 ▾</span></div>
+        </div>
+        <div class="bubble user">보람동</div>
+        <div class="bubble bot">
+          <div class="fallback-card">
+            <b>보람동 주민센터 (샘플)</b><br/>
+            ☎ 044-000-0000 · 평일 09:00~18:00
+          </div>
+          <div class="fallback-card">
+            📋 <b>문의 요약 카드</b> — 외국인 배우자 동반 전입 가능 여부
+          </div>
+        </div>
+        <div class="score"><b>채점 연결</b> — C축: 체류 자격 등을 추측한 답변이 한 문장도 없어야 함, 부서 매칭 정확, 요약 카드에 대화 맥락 반영</div>
       </div>
     </div>
-    <p class="small">※ 위 예시는 설계 목표 출력이며, 실측 응답으로 교체될 때 문구는 달라질 수 있으나 status 분기와 출처 표기 구조는 동일하게 유지된다.</p>
+    <p class="small">※ 위 예시는 설계 목표 출력이며, 실측 응답으로 교체될 때 문구는 달라질 수 있으나 응답 유형 분기(답변/후속 질문/폴백)와 출처 표기 구조는 동일하게 유지된다.</p>
 
     <h3>5.6 채점 기준 — 3축 9개 세부 기준</h3>
     <p>3축을 각 3개의 세부 기준으로 나누어 총 9개 항목으로 채점한다. 각 세부 기준은
@@ -949,7 +970,7 @@
     <h4>행정기관 관점</h4>
     <p>안내 기준이 지식베이스라는 단일 원천으로 일원화되어 창구별 안내 불일치가 구조적으로 줄어든다.
       조례·지침이 개정되면 지식베이스 한 곳만 갱신하면 되고, 갱신 후 골든 QA 재채점으로 품질이 유지됐는지
-      즉시 확인할 수 있다. 즉 서비스 품질이 담당자의 감이 아니라 <b>반복 가능한 측정</b>으로 관리된다.
+      즉시 확인할 수 있다. 즉 서비스 품질이 담당자의 경험적 직관이 아니라 <b>반복 가능한 측정</b>으로 관리된다.
       비식별 대화 로그는 시민이 무엇을 궁금해하는지 보여주는 수요 데이터가 되어, FAQ 개편과 정책 안내
       우선순위 결정에 활용할 수 있다.</p>
     <ul class="small"><li>측정 — 빌드별 골든 QA 매트릭스 비교, 비식별 로그 기반 문의 유형 분포 리포트</li></ul>
