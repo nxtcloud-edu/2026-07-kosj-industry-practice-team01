@@ -180,8 +180,28 @@ limitations: 세종시 기준, 수수료 정보는 변동 가능   # 한계
 
 ---
 
-## 부록: 브랜치·PR 규칙 (요약)
+## ⑤ GitHub 규칙 — 전원 공통 (AI 코딩 도구 포함 필독)
 
-- 브랜치: `{영역}/{작업명}` — `front/chat-ui`, `back/ask-api`, `ai/rag-pipeline`, `data/knowledge-base`, `qa/golden-qa-set`
-- `main` 직접 push 금지, PR + 다른 역할 1인 리뷰 후 merge, merge된 브랜치는 삭제
+> 사람이든 AI 코딩 도구(Kiro, Claude 등)든 이 저장소에서 작업할 때 아래 규칙을 따른다.
+> **AI에게 작업을 시킬 때는 이 섹션을 컨텍스트로 제공한다.**
+
+### 규칙 1 — main 브랜치에서 바로 수정하지 않는다
+
+- 모든 변경은 작업 브랜치에서 하고 **PR + 다른 역할 1인 리뷰** 후 merge한다. `main` 직접 push 금지.
+- AI 도구에게 코딩을 시킬 때도 **브랜치를 먼저 만들고 시작**한다. AI가 main에서 작업하려 하면 중단시킨다.
+
+### 규칙 2 — 작업 영역이 겹치면 코딩보다 공지가 먼저다
+
+파일 소유권 표 기준으로 내 영역 밖(또는 경계)의 파일을 수정하게 될 때의 순서:
+
+1. **팀 카카오톡에 공지**한다 (무엇을, 왜, 어느 파일).
+2. **이 `contract.md`를 수정**하여 변경 내용(소유권·계약)을 반영하고 **git push** 한다.
+3. 그 **다음에** 코딩을 시작한다.
+
+> 순서가 "코딩 → 공지"가 되면 안 된다. 문서와 공지가 먼저, 코드는 마지막.
+
+### 기본 워크플로
+
+- 브랜치 이름: `{영역}/{작업명}` — `front/chat-ui`, `back/ask-api`, `ai/rag-pipeline`, `data/knowledge-base`, `qa/golden-qa-set`
+- merge된 브랜치는 삭제한다.
 - 매일 작업 시작 전: `git switch main && git pull` → 작업 브랜치에 `git merge main`
