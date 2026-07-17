@@ -131,3 +131,94 @@ body {
   color: var(--muted);
   cursor: default;
 }
+
+/* ── 근거 UX (SFR-001 · SER-003) — 시나리오① 화면 2·3 ─────────────────
+ * 색은 tokens.css 변수만 사용한다(7단계 고대비 토글에서 함께 교체되도록). */
+
+/* 봇 답변 본문 — 단계 안내(①②③④)의 줄바꿈 유지 */
+.bubble.bot .msg-text {
+  white-space: pre-wrap;
+}
+
+/* 신뢰도 배지 — status 파생(근거 확인됨 / 근거 부족) */
+.conf {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 2px 9px;
+  margin-bottom: 6px;
+}
+.conf.hi { background: #e6f4ee; color: var(--ok); }
+.conf.lo { background: #fdeaea; color: var(--danger); }
+
+/* 출처 배지 — 클릭하면 원문 스니펫을 펼친다 */
+.src-wrap { margin-top: 8px; }
+.src-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-2);
+  background: var(--accent-soft);
+  border: 1px solid var(--chip-border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  line-height: 1.4;
+}
+.src-badge:hover:not(:disabled) { background: #dcebef; }
+.src-badge:disabled { cursor: default; }
+.src-toggle { font-weight: 700; opacity: 0.8; white-space: nowrap; }
+
+/* 원문 스니펫 */
+.snippet {
+  border-left: 3px solid var(--accent);
+  background: #fbfdfe;
+  font-size: 13px;
+  color: var(--muted);
+  padding: 8px 10px;
+  margin: 8px 0 2px;
+  border-radius: 0 8px 8px 0;
+  line-height: 1.55;
+}
+.snippet .snippet-note {
+  display: block;
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+/* ── 3단계: 응답 대기 로딩 + 오류 말풍선 ──────────────────────────── */
+
+/* 응답 대기 로딩 (PER-001 기본형 — 체감 속도용, 7단계에서 고도화) */
+.bubble.bot.loading {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  align-self: flex-start;
+  padding: 12px 14px;
+}
+.bubble.bot.loading .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: dot-blink 1.2s infinite ease-in-out;
+}
+.bubble.bot.loading .dot:nth-child(2) { animation-delay: 0.2s; }
+.bubble.bot.loading .dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dot-blink {
+  0%, 80%, 100% { opacity: 0.3; }
+  40% { opacity: 1; }
+}
+
+/* 오류 말풍선 (contract ① 에러 규칙 — HTTP 오류/타임아웃) */
+.bubble.bot.error {
+  background: #fdf3f2;
+  border-color: #efc7c2;
+  color: var(--danger);
+}
