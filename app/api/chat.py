@@ -60,9 +60,57 @@ async def handle_chat(request: ChatRequest):
     )
 
 @router.get("/centers")
-async def get_centers(dong: str):
-    centers = {
-        "보람동": {"name": "보람동 주민센터", "tel": "044-000-0000", "hours": "평일 09:00~18:00"},
-        "도담동": {"name": "도담동 주민센터", "tel": "044-111-1111", "hours": "평일 09:00~18:00"},
+async def get_centers(dong: str, category: Optional[str] = None):
+    # 샘플 주민센터 부서 데이터 (DAR-002)
+    centers_data = {
+        "보람동": {
+            "name": "보람동 행정복지센터",
+            "address": "세종특별자치시 호려울로 42",
+            "departments": {
+                "전입신고": "민원행정담당 (044-301-6711)",
+                "외국인": "민원행정담당 (044-301-6731)",
+                "복지": "맞춤형복지담당 (044-301-6741)"
+            },
+            "hours": "평일 09:00~18:00"
+        },
+        "도담동": {
+            "name": "도담동 행정복지센터",
+            "address": "세종특별자치시 보람로 77",
+            "departments": {
+                "전입신고": "민원행정담당 (044-301-6211)",
+                "외국인": "민원행정담당 (044-301-6231)",
+                "복지": "맞춤형복지담당 (044-301-6241)"
+            },
+            "hours": "평일 09:00~18:00"
+        },
+        "새롬동": {
+            "name": "새롬동 행정복지센터",
+            "address": "세종특별자치시 새롬중앙로 44",
+            "departments": {
+                "전입신고": "민원행정담당 (044-301-6811)",
+                "외국인": "민원행정담당 (044-301-6821)",
+                "복지": "맞춤형복지담당 (044-301-6831)"
+            },
+            "hours": "평일 09:00~18:00"
+        }
     }
-    return centers.get(dong, {"name": f"{dong} 주민센터", "tel": "담당 부서 확인 필요", "hours": "평일 09:00~18:00"})
+
+    center_info = centers_data.get(dong)
+    
+    # 해당 동의 정보가 없는 경우
+    if not center_info:
+        return {"status": "error", "message": f"{dong}의 관할 주민센터 정보를 찾을 수 없습니다."}
+
+    # 카테고리(문의 유형)가 주어지고, 해당 부서가 존재하는 경우 담당 연락처 매칭 (SFR-004)
+    if category and category in center_info["departments"]:
+        return {
+            "status": "success",
+            "center_name": center_info["name"],
+            "address": center_info["address"],
+            "department": category,
+            "contact": center_info["departments"][category],
+            "hours": center_info["hours"]
+        }
+
+    # 카테고리가 없거나 일치하지 않는 경우 센터의 전체 기본 정보 반환
+    return {"status": "success", "center_info": center_info}
