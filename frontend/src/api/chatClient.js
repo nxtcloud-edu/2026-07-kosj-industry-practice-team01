@@ -1,4 +1,4 @@
-import { mockChat } from '../mocks/scenarioMock.js'
+import { mockChat, mockCenter } from '../mocks/scenarioMock.js'
 
 // contract.md ① API 계약 — 프론트 ↔ 백엔드
 // 개발 중에는 상대경로('/api/...')로 호출하고 Vite 프록시가 백엔드(localhost:8000)로 넘긴다(CORS 회피).
@@ -53,6 +53,35 @@ export async function sendChat(userMessage) {
     return normalize(await res.json())
   } catch {
     return ERROR_RESPONSE // 타임아웃(abort) 또는 네트워크 오류
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
+// GET /api/centers?dong={행정동} — 담당 주민센터 조회 (contract ① · SFR-004 간이 구현).
+// 실패 시 null을 반환하고, 호출부(App)가 공통 오류 말풍선을 그린다.
+export async function fetchCenter(dong) {
+  if (USE_MOCK) {
+    await new Promise((r) => setTimeout(r, 300))
+    return mockCenter(dong)
+  }
+
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)
+  try {
+    const res = await fetch(`${BASE_URL}/centers?dong=${encodeURIComponent(dong)}`, {
+      signal: controller.signal,
+    })
+    if (!res.ok) return null
+    const d = await res.json()
+    // contract ① 응답 보정 — 누락 필드는 계약의 기본 문구로 채운다
+    return {
+      name: typeof d?.name === 'string' ? d.name : `${dong} 주민센터`,
+      tel: typeof d?.tel === 'string' ? d.tel : '담당 부서 확인 필요',
+      hours: typeof d?.hours === 'string' ? d.hours : '평일 09:00~18:00',
+    }
+  } catch {
+    return null
   } finally {
     clearTimeout(timer)
   }

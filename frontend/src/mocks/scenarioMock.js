@@ -54,8 +54,26 @@ const SUCCESS = {
   },
 }
 
-// 전입신고 도메인 밖 입력에 대한 기본 안내 (2단계 범위).
-// 시나리오②(clarify)·③(fallback)은 계획서 5·6단계에서 구현하므로 여기서는 반환하지 않는다.
+// 시나리오② — 모호한 질문(골든 QA #9): 단정하지 않고 선택지로 좁힌다 (SFR-005)
+const CLARIFY = {
+  status: 'clarify',
+  message: '몇 가지 절차가 있어요. 어떤 것부터 도와드릴까요?',
+  source_title: null,
+  source_snippet: null,
+  options: ['전입신고 하기', '확정일자 받기', '자동차 주소 변경', '잘 모르겠어요'],
+}
+
+// 시나리오③ — 범위 밖 질문(골든 QA #13): 추측 대신 담당 부서 연결 (SFR-006)
+const FALLBACK = {
+  status: 'fallback',
+  message:
+    '이 질문은 확실한 근거를 찾지 못했어요.\n부정확한 안내 대신 담당 부서를 연결해 드릴게요. 거주하실 지역을 선택해 주세요.',
+  source_title: null,
+  source_snippet: null,
+  options: ['보람동', '도담동', '새롬동'],
+}
+
+// 전입신고 도메인 밖 입력에 대한 기본 안내.
 const GUIDE = {
   status: 'success',
   message: '전입신고에 대해 궁금한 점을 물어보세요.\n예: "전입신고 하려면 뭐가 필요한가요?"',
@@ -64,9 +82,26 @@ const GUIDE = {
   options: null,
 }
 
+// 행정동 → 샘플 주민센터 (GET /api/centers 목업 · DAR-002 샘플 데이터)
+const CENTERS = {
+  보람동: { name: '보람동 주민센터 (샘플)', tel: '044-000-0000', hours: '평일 09:00~18:00' },
+  도담동: { name: '도담동 주민센터 (샘플)', tel: '044-111-1111', hours: '평일 09:00~18:00' },
+  새롬동: { name: '새롬동 주민센터 (샘플)', tel: '044-222-2222', hours: '평일 09:00~18:00' },
+}
+
+export function mockCenter(dong) {
+  return (
+    CENTERS[dong] || { name: `${dong} 주민센터`, tel: '담당 부서 확인 필요', hours: '평일 09:00~18:00' }
+  )
+}
+
 // 사용자 질문 → contract.md ① 형태의 목업 응답.
+// 분기 키워드는 백엔드 스텁(app/api/chat.py)과 동일하게 유지한다.
 export function mockChat(userMessage) {
   const m = (userMessage || '').replace(/\s/g, '')
+
+  if (m.includes('이사') && m.includes('뭐해야')) return CLARIFY
+  if (m.includes('외국인') && m.includes('배우자')) return FALLBACK
 
   const isJeonip = m.includes('전입신고') || (m.includes('전입') && m.includes('신고'))
   if (isJeonip) {
