@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ChatWindow from './components/ChatWindow.jsx'
 import InputBar from './components/InputBar.jsx'
+import A11yToggle from './components/A11yToggle.jsx'
+import EasyModeMock from './components/EasyModeMock.jsx'
 import { sendChat, fetchCenter } from './api/chatClient.js'
 
 // 시나리오① 화면 1 — 첫 인사 + 빠른 질문 칩 (입찰제안서 3장 시나리오①)
@@ -31,6 +33,23 @@ export default function App() {
   const [messages, setMessages] = useState([WELCOME])
   const [draft, setDraft] = useState('')
   const [pending, setPending] = useState(false)
+
+  // QUR-001 접근성 — html 루트 속성을 바꿔 tokens.css의 변수 세트를 교체한다
+  const [largeText, setLargeText] = useState(false)
+  const [highContrast, setHighContrast] = useState(false)
+  const [easyOpen, setEasyOpen] = useState(false)
+
+  useEffect(() => {
+    const root = document.documentElement
+    if (largeText) root.setAttribute('data-fontsize', 'lg')
+    else root.removeAttribute('data-fontsize')
+  }, [largeText])
+
+  useEffect(() => {
+    const root = document.documentElement
+    if (highContrast) root.setAttribute('data-theme', 'hc')
+    else root.removeAttribute('data-theme')
+  }, [highContrast])
 
   const append = (msg) => setMessages((prev) => [...prev, msg])
 
@@ -103,8 +122,17 @@ export default function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>세종 민원 안내 AI</h1>
-        <p>근거를 확인할 수 있고, 불확실하면 안전하게 넘기는 전입신고 안내</p>
+        <div className="titles">
+          <h1>세종 민원 안내 AI</h1>
+          <p>근거를 확인할 수 있고, 불확실하면 안전하게 넘기는 전입신고 안내</p>
+        </div>
+        <A11yToggle
+          largeText={largeText}
+          onToggleLargeText={() => setLargeText((v) => !v)}
+          highContrast={highContrast}
+          onToggleHighContrast={() => setHighContrast((v) => !v)}
+          onOpenEasyMode={() => setEasyOpen(true)}
+        />
       </header>
 
       <ChatWindow messages={messages} onOption={handleOption} pending={pending}>
@@ -127,6 +155,8 @@ export default function App() {
       </ChatWindow>
 
       <InputBar draft={draft} onDraftChange={setDraft} onSend={handleSend} disabled={pending} />
+
+      {easyOpen && <EasyModeMock onClose={() => setEasyOpen(false)} />}
     </div>
   )
 }

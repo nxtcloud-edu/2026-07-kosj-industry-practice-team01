@@ -1,6 +1,6 @@
 /* 디자인 토큰 — 입찰제안서 화면 팔레트를 그대로 사용 (신뢰형 청록 계열)
  * 모든 색·크기는 CSS 변수로만 참조한다.
- * 이유: QUR-001 큰 글씨·고대비 토글(7단계)이 변수 교체 방식으로 동작하기 때문. */
+ * 이유: QUR-001 큰 글씨·고대비 토글이 변수 세트 교체 방식으로 동작하기 때문. */
 :root {
   --accent: #1f6f8b;
   --accent-2: #12495c;
@@ -17,11 +17,41 @@
 
   --fs-base: 15px;      /* 큰 글씨 모드에서 확대 */
   --radius-bubble: 12px;
+
+  /* 컴포넌트 토큰 — 고대비 모드에서 통째로 교체된다 */
+  --header-bg: var(--accent-2);
+  --bubble-user-bg: var(--accent);
+  --bubble-user-ink: #ffffff;
+  --chip-ink: var(--accent-2);
+  --btn-ink: #ffffff;
+  --src-bg: var(--accent-soft);
+  --src-ink: var(--accent-2);
+  --src-border: var(--chip-border);
+  --snippet-bg: #fbfdfe;
 }
 
-/* ── 7단계(QUR-001)에서 활성화 예정 ──────────────────────────
-:root[data-theme='hc'] {          고대비 모드 (제안서 3.2 화면 B)
-  --bg: #101418; --card: #1c2530; --ink: #ffffff; ...
+/* QUR-001 큰 글씨 모드 — 본문 글자 확대 (A11yToggle이 html에 data-fontsize를 부여) */
+:root[data-fontsize='lg'] {
+  --fs-base: 18px;
 }
-:root[data-fontsize='lg'] { --fs-base: 18px; }   큰 글씨 모드
-──────────────────────────────────────────────────────────── */
+
+/* QUR-001 고대비 모드 — 입찰제안서 3.2 화면 B(다크 배경 + 노랑 강조) */
+:root[data-theme='hc'] {
+  --bg: #101418;
+  --card: #1c2530;
+  --ink: #ffffff;
+  --muted: #c3cdd6;
+  --line: #3a4652;
+  --accent: #ffd43b;          /* 강조·포커스·스니펫 경계 */
+  --accent-soft: #26313d;
+
+  --header-bg: #000000;
+  --bubble-user-bg: #ffd43b;
+  --bubble-user-ink: #101418;
+  --chip-ink: #ffd43b;
+  --btn-ink: #101418;
+  --src-bg: #0c3b2e;
+  --src-ink: #7dffc4;
+  --src-border: #1f8b5f;
+  --snippet-bg: #151b22;
+}
