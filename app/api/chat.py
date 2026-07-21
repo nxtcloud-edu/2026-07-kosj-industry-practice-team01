@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Optional, List
-from app.database import insert_log # 추가: 로그 삽입 함수 임포트
+from app.database import insert_log
 from app.rag.pipeline import answer
 
 router = APIRouter()
@@ -18,9 +18,20 @@ class ChatResponse(BaseModel):
 
 @router.post("/chat", response_model=ChatResponse)
 async def handle_chat(request: ChatRequest):
+    # 1. RAG 파이프라인 실행 (의도 분류, 검색, 답변 생성 자동 처리)
     result = answer(request.user_message)
-    insert_log(request.user_message, result.status, result.message, result.source_title)
+    
+    # 2. DB에 대화 로그 저장
+    insert_log(
+        request.user_message, 
+        result.status, 
+        result.message, 
+        result.source_title
+    )
+    
+    # 3. 프론트엔드 규격에 맞춰 응답 반환
     return ChatResponse(**result.model_dump())
+
 
 @router.get("/centers")
 async def get_centers(dong: str, category: Optional[str] = None):
