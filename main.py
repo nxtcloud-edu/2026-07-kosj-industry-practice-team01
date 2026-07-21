@@ -1,8 +1,14 @@
 import time
 from fastapi import FastAPI, Request
 from app.api import chat  # 작성한 chat 라우터 임포트
+from app.database import init_db
 
 app = FastAPI(title="시민 민원 통합 응대 플랫폼 API")
+
+
+@app.on_event("startup")
+async def startup():
+    init_db()
 
 # 응답시간 측정 미들웨어 (PER-001)
 @app.middleware("http")
