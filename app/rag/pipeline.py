@@ -6,7 +6,7 @@ from typing import List, Optional
 from app.rag.prompts import GROUNDED_ANSWER_PROMPT_VERSION, ROUTER_PROMPT_VERSION
 
 
-DOCS_DIR = Path(__file__).resolve().parents[2] / "data" / "docs"
+DOCS_DIR = Path(__file__).resolve().parents[2] / "docs" / "kb"
 FALLBACK_OPTIONS = ["보람동", "도담동", "새롬동"]
 CLARIFY_OPTIONS = ["전입신고 하기", "확정일자 받기", "자동차 주소 변경", "잘 모르겠어요"]
 MIN_SCORE = 2.0
