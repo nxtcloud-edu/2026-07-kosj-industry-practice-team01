@@ -2,3 +2,8 @@ venv/
 __pycache__/
 # runtime data
 *.db
+
+# API key and Environment
+.env
+.env.*
+*.key
