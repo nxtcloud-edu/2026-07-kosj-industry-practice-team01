@@ -1,8 +1,21 @@
+"""RAG 파이프라인 — 이중 모드.
+
+- 의미 경로(유키): UPSTAGE_API_KEY가 있고 임베딩 인덱스가 준비되면,
+    router(하드룰→유사도 게이트→LLM 라우터) 판정 후 근거 기반 생성 + (옵션)충실성 검증.
+    표현이 달라도 의미로 검색하므로 패러프레이즈에 강하고, 모든 실패는 fallback(fail-safe)로 수렴.
+- 결정형 경로(무키): 기존 키워드 라우팅/검색/템플릿. 오프라인·골든 QA에서 결정적으로 동작.
+
+두 경로 모두 answer() 반환 계약({status,message,source_title,source_snippet,options})과
+(RagResult, RagTrace) 형태를 동일하게 유지한다. 프론트/골든 QA는 변경 없이 동작한다.
+"""
+
+import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
 
+from app.rag import llm, retriever, router
 from app.rag.prompts import GROUNDED_ANSWER_PROMPT_VERSION, ROUTER_PROMPT_VERSION
 
 
@@ -10,6 +23,12 @@ DOCS_DIR = Path(__file__).resolve().parents[2] / "docs" / "kb"
 FALLBACK_OPTIONS = ["보람동", "도담동", "새롬동"]
 CLARIFY_OPTIONS = ["전입신고 하기", "확정일자 받기", "자동차 주소 변경", "잘 모르겠어요"]
 MIN_SCORE = 2.0
+
+_FALLBACK_MSG = (
+    "이 질문은 지식베이스에서 확실한 근거를 찾지 못했어요.\n"
+    "부정확한 안내 대신 담당 부서를 연결해 드릴게요. 거주하실 지역을 선택해 주세요."
+)
+_CLARIFY_MSG = "몇 가지 절차가 있어요. 어떤 것부터 도와드릴까요?"
 
 
 @dataclass(frozen=True)
@@ -39,6 +58,9 @@ class RagTrace:
     threshold: float = MIN_SCORE
     source_filename: Optional[str] = None
     prompt_versions: dict = None
+    decided_by: str = ""
+    similarity: float = 0.0
+    confidence: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -95,12 +117,119 @@ AMBIGUOUS_PATTERNS = [
 ]
 
 
+def _sim_threshold() -> float:
+    try:
+        return float(os.environ.get("RAG_SIM_THRESHOLD", 0.35))
+    except ValueError:
+        return 0.35
+
+
+def _faithfulness_on() -> bool:
+    return os.environ.get("RAG_FAITHFULNESS_CHECK", "").lower() in ("1", "true", "yes", "on")
+
+
 def answer(question: str) -> RagResult:
-    result, _trace = diagnose(question)
+    result, _trace_obj = diagnose(question)
     return result
 
 
 def diagnose(question: str) -> tuple[RagResult, RagTrace]:
+    """의미 경로 우선, 불가/예외 시 결정형 경로로 강등."""
+    if llm.is_enabled():
+        try:
+            if retriever.index_ready():
+                return _diagnose_semantic(question)
+        except Exception:
+            pass  # 의미 경로 실패 → 결정형으로 안전 강등
+    return _diagnose_deterministic(question)
+
+
+# ────────────────────────────────────────────────────────────────────────
+# 의미 경로 (유키)
+# ────────────────────────────────────────────────────────────────────────
+def _diagnose_semantic(question: str) -> tuple[RagResult, RagTrace]:
+    cleaned = _clean(question)
+    thr = _sim_threshold()
+    if not cleaned:
+        return (
+            _fallback("질문 내용을 확인하지 못했어요. 궁금한 점을 다시 입력해 주세요."),
+            _trace("fallback", "empty_question", decided_by="input"),
+        )
+
+    decision = router.route(question)
+
+    if decision.route == "clarify":
+        # 선택지는 검색 근거에서 LLM이 생성한 것을 사용, 없으면 기본 선택지로 폴백
+        options = decision.options or CLARIFY_OPTIONS
+        return (
+            RagResult(status="clarify", message=_CLARIFY_MSG, options=options),
+            _trace(
+                "clarify", decision.reason, intent="clarify_scope",
+                score=decision.similarity, threshold=thr,
+                decided_by=decision.decided_by, similarity=decision.similarity,
+                confidence=decision.confidence,
+            ),
+        )
+
+    if decision.route == "fallback":
+        return (
+            _fallback(_FALLBACK_MSG),
+            _trace(
+                "fallback", decision.reason, intent="human_handoff",
+                score=decision.similarity, threshold=thr,
+                decided_by=decision.decided_by, similarity=decision.similarity,
+                confidence=decision.confidence,
+            ),
+        )
+
+    # success 후보 → 근거 기반 생성
+    top = decision.top
+    message = llm.generate_grounded_answer(question, decision.context)
+    if not message:
+        # 생성 기권([답변불가])/실패 → 폴백(안전)
+        return (
+            _fallback(_FALLBACK_MSG),
+            _trace(
+                "fallback", "generation_abstained", intent="human_handoff",
+                score=decision.similarity, threshold=thr, decided_by="generation",
+                similarity=decision.similarity, confidence=decision.confidence,
+            ),
+        )
+
+    # (옵션) 사후 충실성 검증 — 근거 밖 환각이면 폴백
+    if _faithfulness_on():
+        supported = llm.verify_faithfulness(message, decision.context)
+        if supported is False:
+            return (
+                _fallback(_FALLBACK_MSG),
+                _trace(
+                    "fallback", "faithfulness_failed", intent="human_handoff",
+                    score=decision.similarity, threshold=thr, decided_by="faithfulness",
+                    similarity=decision.similarity, confidence=decision.confidence,
+                ),
+            )
+
+    return (
+        RagResult(
+            status="success",
+            message=message,
+            source_title=(top.chunk.title if top else None),
+            source_snippet=(_snippet(cleaned, top.chunk.body) if top else None),
+        ),
+        _trace(
+            "success", decision.reason, intent="grounded",
+            score=decision.similarity, threshold=thr,
+            source_filename=(top.chunk.filename if top else None),
+            decided_by=decision.decided_by, similarity=decision.similarity,
+            confidence=decision.confidence,
+        ),
+    )
+
+
+# ────────────────────────────────────────────────────────────────────────
+# 결정형 경로 (무키) — 기존 동작 유지 (골든 QA 회귀 방지)
+# ────────────────────────────────────────────────────────────────────────
+def _diagnose_deterministic(question: str) -> tuple[RagResult, RagTrace]:
     try:
         cleaned = _clean(question)
         intent = _classify_intent(cleaned)
@@ -112,10 +241,7 @@ def diagnose(question: str) -> tuple[RagResult, RagTrace]:
 
         if _needs_fallback(cleaned):
             return (
-                _fallback(
-                    "이 질문은 지식베이스에서 확실한 근거를 찾지 못했어요.\n"
-                    "부정확한 안내 대신 담당 부서를 연결해 드릴게요. 거주하실 지역을 선택해 주세요."
-                ),
+                _fallback(_FALLBACK_MSG),
                 _trace("fallback", "fallback_term_matched", intent=intent),
             )
 
@@ -123,7 +249,7 @@ def diagnose(question: str) -> tuple[RagResult, RagTrace]:
             return (
                 RagResult(
                     status="clarify",
-                    message="몇 가지 절차가 있어요. 어떤 것부터 도와드릴까요?",
+                    message=_CLARIFY_MSG,
                     options=CLARIFY_OPTIONS,
                 ),
                 _trace("clarify", "ambiguous_question", intent=intent),
@@ -144,17 +270,14 @@ def diagnose(question: str) -> tuple[RagResult, RagTrace]:
         score, doc = ranked[0]
         if score < MIN_SCORE:
             return (
-                _fallback(
-                    "이 질문은 전입신고 지식베이스의 근거가 충분하지 않아요.\n"
-                    "부정확한 안내 대신 담당 부서를 연결해 드릴게요. 거주하실 지역을 선택해 주세요."
-                ),
+                _fallback(_FALLBACK_MSG),
                 _trace("fallback", "retrieval_score_below_threshold", intent=intent, score=score),
             )
 
         return (
             RagResult(
                 status="success",
-                message=_compose_answer(cleaned, doc),
+                message=_generate_answer(question, cleaned, doc),
                 source_title=doc.title,
                 source_snippet=_snippet(cleaned, doc.body),
             ),
@@ -250,6 +373,18 @@ def _score(cleaned: str, doc: KnowledgeDoc) -> float:
     return score
 
 
+def _generate_answer(question: str, cleaned: str, doc: KnowledgeDoc) -> str:
+    """검색된 근거 문서로 답변을 만든다(결정형 경로).
+
+    키가 있으면 Solar로 근거 기반 답변을 생성하고, 없거나 실패하면 결정형 템플릿으로 폴백한다.
+    출처는 호출부가 검색 문서에서 채우므로 '출처 없는 success'는 발생하지 않는다.
+    """
+    llm_answer = llm.generate_grounded_answer(question, doc.body)
+    if llm_answer:
+        return llm_answer
+    return _compose_answer(cleaned, doc)
+
+
 def _compose_answer(cleaned: str, doc: KnowledgeDoc) -> str:
     if doc.filename == "전입신고-02.md":
         if "대리" in cleaned:
@@ -320,14 +455,22 @@ def _trace(
     reason: str,
     intent: str = "unknown",
     score: float = 0.0,
+    threshold: float = MIN_SCORE,
     source_filename: Optional[str] = None,
+    decided_by: str = "",
+    similarity: float = 0.0,
+    confidence: float = 0.0,
 ) -> RagTrace:
     return RagTrace(
         route=route,
         reason=reason,
         intent=intent,
         score=score,
+        threshold=threshold,
         source_filename=source_filename,
+        decided_by=decided_by,
+        similarity=similarity,
+        confidence=confidence,
         prompt_versions={
             "router": ROUTER_PROMPT_VERSION,
             "grounded_answer": GROUNDED_ANSWER_PROMPT_VERSION,
