@@ -82,6 +82,22 @@ def embed_query(text: str) -> Optional[List[float]]:
 
 
 def embed_passages(texts: List[str]) -> Optional[List[List[float]]]:
-    """여러 문서를 한 번에 임베딩한다(embedding-passage). 실패 시 None."""
+    """여러 문서를 임베딩한다(embedding-passage). 문서 수가 많아도 안전하도록 배치로 나눠 호출한다.
+    어느 배치라도 실패하면 None을 반환한다(→ retriever가 키워드 검색으로 폴백)."""
     model = os.environ.get("UPSTAGE_EMBED_PASSAGE_MODEL", _DEFAULT_PASSAGE_MODEL)
-    return _embed(list(texts), model)
+    items = list(texts)
+    if not items:
+        return None
+    try:
+        batch = int(os.environ.get("UPSTAGE_EMBED_BATCH", 16))
+    except ValueError:
+        batch = 16
+    batch = max(1, batch)
+
+    vectors: List[List[float]] = []
+    for start in range(0, len(items), batch):
+        part = _embed(items[start:start + batch], model)
+        if part is None:
+            return None
+        vectors.extend(part)
+    return vectors
