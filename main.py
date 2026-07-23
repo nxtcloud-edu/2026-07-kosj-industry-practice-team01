@@ -1,4 +1,8 @@
 import time
+from dotenv import load_dotenv
+
+load_dotenv()  # .env의 UPSTAGE_API_KEY 등을 환경변수로 로드 (LLM 활성화). 없으면 결정형 폴백.
+
 from fastapi import FastAPI, Request
 from app.api import chat  # 작성한 chat 라우터 임포트
 from app.database import init_db
