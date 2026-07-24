@@ -86,6 +86,7 @@ QUESTION_KEYWORDS = {
     "period": {"처리", "기간", "얼마나", "당일", "즉시"},
     "fee": {"수수료", "비용", "돈", "무료"},
     "deadline": {"언제까지", "기한", "14일", "며칠"},
+    "hours": {"주말", "평일", "휴일", "공휴일", "운영시간", "영업시간", "24시간"},
 }
 
 DOC_WEIGHTS = {
@@ -95,6 +96,7 @@ DOC_WEIGHTS = {
     "전입신고-04.md": {"period": 5, "fee": 4},
     "전입신고-05.md": {},
     "전입신고-06.md": {},
+    "전입신고-09.md": {"hours": 5},
 }
 
 FALLBACK_TERMS = {
@@ -311,6 +313,8 @@ def _classify_intent(cleaned: str) -> str:
         return "human_handoff"
     if _needs_clarify(cleaned):
         return "clarify_scope"
+    if any(term in cleaned for term in QUESTION_KEYWORDS["hours"]):
+        return "operating_hours"
     if any(term in cleaned for term in QUESTION_KEYWORDS["household"]):
         return "household_confirmation"
     if any(term in cleaned for term in QUESTION_KEYWORDS["online"]):
