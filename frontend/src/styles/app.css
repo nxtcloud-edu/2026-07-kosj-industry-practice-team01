@@ -343,3 +343,296 @@ body {
   font-family: inherit;
   cursor: pointer;
 }
+
+/* ── 탭 내비게이션 + 뷰 컨테이너 (홈·챗봇·정보 조회) ─────────────────
+ * 색은 tokens.css 변수만 사용한다(고대비 토글에서 함께 교체되도록). */
+.tabnav {
+  flex: 0 0 auto;
+  display: flex;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+.tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 4px;
+  cursor: pointer;
+  border-bottom: 2.5px solid transparent;
+}
+.tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 700;
+}
+.tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* 활성 뷰가 채우는 영역 — 챗봇은 자체 컬럼(입력바 고정), 홈·정보는 스크롤 */
+.view {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.chatview {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.scroll-view {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px 14px 24px;
+}
+
+/* ── 홈 ─────────────────────────────────────────────────────────── */
+.hero {
+  background: var(--accent-soft);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px 16px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+.hero h2 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  color: var(--accent);
+}
+.hero p {
+  margin: 0 0 14px;
+  font-size: 0.92em;
+  color: var(--muted);
+}
+.cta {
+  border: none;
+  border-radius: 22px;
+  background: var(--accent);
+  color: var(--btn-ink);
+  font-weight: 700;
+  font-size: 14px;
+  font-family: inherit;
+  padding: 10px 22px;
+  cursor: pointer;
+}
+
+.home-block {
+  margin-bottom: 20px;
+}
+.home-block h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  color: var(--ink);
+}
+.block-note {
+  margin: -4px 0 10px;
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
+.ask-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ask-card {
+  text-align: left;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.92em;
+  font-family: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  line-height: 1.4;
+}
+.ask-card:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.how-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.how-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  background: var(--card);
+  padding: 8px 12px;
+}
+.how-list b {
+  font-size: 0.92em;
+  color: var(--ink);
+}
+.how-list span {
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
+/* ── 정보 조회 ──────────────────────────────────────────────────── */
+.topic-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.topic-card {
+  text-align: left;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.topic-card:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.topic-card b {
+  font-size: 0.9em;
+  color: var(--accent);
+}
+.topic-card span {
+  font-size: 0.8em;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.dong-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.center-inline {
+  margin-top: 12px;
+}
+
+/* ── 답변 준비 중 표시 — 진행 단계를 쉬운 말로 (점 + 상태 문구) ──────── */
+.bubble.bot.thinking {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  align-self: flex-start;
+  padding: 10px 14px;
+}
+.thinking-dots {
+  display: inline-flex;
+  gap: 5px;
+  flex: 0 0 auto;
+}
+.thinking-dots .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: dot-blink 1.2s infinite ease-in-out;
+}
+.thinking-dots .dot:nth-child(2) { animation-delay: 0.2s; }
+.thinking-dots .dot:nth-child(3) { animation-delay: 0.4s; }
+.thinking-text {
+  font-size: 0.9em;
+  color: var(--muted);
+}
+/* 접근성 — 움직임 최소화 설정 시 깜빡임 정지 */
+@media (prefers-reduced-motion: reduce) {
+  .thinking-dots .dot { animation: none; opacity: 0.55; }
+}
+
+/* ── SFR-003: 단계 카드(절차·서류 등 여러 항목 답변) ────────────────── */
+.answer-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--snippet-bg);
+  padding: 9px 11px;
+  margin: 2px 0;
+}
+.answer-card-title {
+  margin: 0 0 7px;
+  font-size: 0.82em;
+  font-weight: 700;
+  color: var(--accent);
+}
+.answer-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.answer-steps li {
+  position: relative;
+  padding-left: 16px;
+  line-height: 1.55;
+}
+.answer-steps li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ── QUR-001: 웹접근성 보강 ─────────────────────────────────────────
+ * 키보드 포커스 가시화 + 본문 건너뛰기 링크 + 움직임 최소화 설정 존중. */
+:where(button, a, input, [role='tab']):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -48px;
+  z-index: 20;
+  background: var(--accent);
+  color: var(--btn-ink);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skip-link:focus { top: 8px; }
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ── COR-002: 모바일 우선 유지 + 넓은 화면 대응(반응형) ──────────────── */
+@media (min-width: 700px) {
+  .app {
+    max-width: 680px;
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
+  .scroll-view { padding: 20px 20px 28px; }
+  .ask-grid { display: grid; grid-template-columns: 1fr 1fr; }
+}
